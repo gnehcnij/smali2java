@@ -3,23 +3,23 @@ package com.litecoding.smali2java.expression;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.litecoding.smali2java.entity.CodeEntity;
-import com.litecoding.smali2java.entity.FieldRef;
-import com.litecoding.smali2java.entity.Instruction;
-import com.litecoding.smali2java.entity.OpcodeData;
-import com.litecoding.smali2java.entity.Variable;
+import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
+import com.litecoding.smali2java.entity.smali.FieldRef;
+import com.litecoding.smali2java.entity.smali.Instruction;
+import com.litecoding.smali2java.entity.smali.OpcodeData;
+import com.litecoding.smali2java.entity.smali.Variable;
 
 import dalvik.bytecode.Opcodes;
 
 public class ExpressionChainBuilder
 {
-	public static ExpressionChain buildExpressionChain(List<CodeEntity> commands)
+	public static ExpressionChain buildExpressionChain(List<SmaliCodeEntity> commands)
 	{
 		ExpressionChain chain = new ExpressionChain();
 		Expression currExpr = null;
 		VariableContext context = new VariableContext();
 		
-		for(CodeEntity command : commands)
+		for(SmaliCodeEntity command : commands)
 		{
 			if(command instanceof Instruction)
 			{

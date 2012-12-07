@@ -1,4 +1,4 @@
-package com.litecoding.smali2java.entity;
+package com.litecoding.smali2java.entity.smali;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -303,6 +303,71 @@ public class OpcodeData
 	public int getType()
 	{
 		return type;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		
+		switch(type) {
+		case TYPE_UNUSED: {
+			builder.append("type: UNUSED ");
+			break;
+		}
+		case TYPE_OTHER: {
+			builder.append("type: OTHER ");
+			break;
+		}
+		case TYPE_MOVE: {
+			builder.append("type: MOVE ");
+			break;
+		}
+		case TYPE_RETURN: {
+			builder.append("type: RETURN ");
+			break;
+		}
+		case TYPE_CONST: {
+			builder.append("type: CONST ");
+			break;
+		}
+		case TYPE_NEW: {
+			builder.append("type: NEW ");
+			break;
+		}
+		case TYPE_GOTO: {
+			builder.append("type: GOTO ");
+			break;
+		}
+		case TYPE_CMP: {
+			builder.append("type: CMP ");
+			break;
+		}
+		case TYPE_CONDITION: {
+			builder.append("type: CONDITION ");
+			break;
+		}
+		case TYPE_GET: {
+			builder.append("type: GET ");
+			break;
+		}
+		case TYPE_PUT: {
+			builder.append("type: PUT ");
+			break;
+		}
+		case TYPE_INVOKE: {
+			builder.append("type: INVOKE ");
+			break;
+		}
+		case TYPE_MATH: {
+			builder.append("type: MATH ");
+			break;
+		}
+		default: {
+			builder.append("type: [UNKNOWN] ");
+		}
+		}
+		builder.append(name);
+		return builder.toString();
 	}
 
 	public static OpcodeData getOpcodeData(String name)

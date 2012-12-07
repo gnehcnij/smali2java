@@ -1,4 +1,4 @@
-package com.litecoding.smali2java.entity;
+package com.litecoding.smali2java.entity.smali;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class EntityFactory
 		return retVal;
 	}	
 	
-	public static Instruction createInstruction(String name, List<CodeEntity> args)
+	public static Instruction createInstruction(String name, List<SmaliCodeEntity> args)
 	{
 		Instruction retVal = new Instruction();
 		retVal.setName(name);

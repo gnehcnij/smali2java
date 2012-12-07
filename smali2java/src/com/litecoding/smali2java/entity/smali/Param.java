@@ -1,4 +1,4 @@
-package com.litecoding.smali2java.entity;
+package com.litecoding.smali2java.entity.smali;
 
 /**
  * SmaliMethod parameter class
@@ -44,5 +44,16 @@ public class Param
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		if(name != null && !name.isEmpty()) {
+			builder.append(name);
+			builder.append(":");
+		}
+		builder.append(type);
+		return builder.toString();
 	}
 }

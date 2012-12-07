@@ -1,4 +1,4 @@
-package com.litecoding.smali2java.entity;
+package com.litecoding.smali2java.entity.smali;
 
 import java.util.LinkedList;
 import java.util.List;

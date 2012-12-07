@@ -2,9 +2,9 @@ package com.litecoding.smali2java.renderer;
 
 import java.util.List;
 
-import com.litecoding.smali2java.entity.Param;
-import com.litecoding.smali2java.entity.SmaliEntity;
-import com.litecoding.smali2java.entity.SmaliMethod;
+import com.litecoding.smali2java.entity.smali.Param;
+import com.litecoding.smali2java.entity.smali.SmaliEntity;
+import com.litecoding.smali2java.entity.smali.SmaliMethod;
 import com.litecoding.smali2java.expression.ConstExpression;
 import com.litecoding.smali2java.expression.Expression;
 import com.litecoding.smali2java.expression.ExpressionChain;

@@ -1,6 +1,6 @@
-package com.litecoding.smali2java.entity;
+package com.litecoding.smali2java.entity.smali;
 
-public class Variable extends CodeEntity
+public class Variable extends SmaliCodeEntity
 {
 	protected boolean isParameter = false;
 	protected int id = 0;
@@ -37,5 +37,8 @@ public class Variable extends CodeEntity
 		this.id = id;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return name;
+	}
 }

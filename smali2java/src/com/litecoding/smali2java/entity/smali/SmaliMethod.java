@@ -1,4 +1,4 @@
-package com.litecoding.smali2java.entity;
+package com.litecoding.smali2java.entity.smali;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -10,7 +10,7 @@ public class SmaliMethod extends SmaliEntity
 	protected List<Param> params = new LinkedList<Param>(); 
 	protected String returnType = "";
 	protected int locals = 0;
-	protected List<CodeEntity> commands = new LinkedList<CodeEntity>();
+	protected List<SmaliCodeEntity> commands = new LinkedList<SmaliCodeEntity>();
 	
 	
 	public String getName()
@@ -63,12 +63,12 @@ public class SmaliMethod extends SmaliEntity
 		this.locals = locals;
 	}
 	
-	public List<CodeEntity> getCommands()
+	public List<SmaliCodeEntity> getCommands()
 	{
 		return commands;
 	}
 	
-	public void addCommand(CodeEntity command)
+	public void addCommand(SmaliCodeEntity command)
 	{
 		this.commands.add(command);
 	}

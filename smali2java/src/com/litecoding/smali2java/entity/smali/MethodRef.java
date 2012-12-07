@@ -1,9 +1,9 @@
-package com.litecoding.smali2java.entity;
+package com.litecoding.smali2java.entity.smali;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class MethodRef extends CodeEntity
+public class MethodRef extends SmaliCodeEntity
 {
 	protected String className = "";	
 	protected boolean isConstructor = false;
@@ -48,5 +48,27 @@ public class MethodRef extends CodeEntity
 	public void setReturnType(String returnType)
 	{
 		this.returnType = returnType;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(className);
+		builder.append(" -> ");
+		
+		if(isConstructor) {
+			builder.append("(constructor) ");
+		}
+		
+		builder.append(name);
+		
+		builder.append(" ( ");
+		for(Param param : params) {
+			builder.append(param.toString());
+			builder.append(" ");
+		}
+		builder.append("):");
+		builder.append(returnType);
+		return builder.toString();
 	}
 }

@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.litecoding.smali2java.entity.CodeEntity;
-import com.litecoding.smali2java.entity.Param;
-import com.litecoding.smali2java.entity.SmaliClass;
-import com.litecoding.smali2java.entity.SmaliField;
-import com.litecoding.smali2java.entity.SmaliMethod;
+import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
+import com.litecoding.smali2java.entity.smali.Param;
+import com.litecoding.smali2java.entity.smali.SmaliClass;
+import com.litecoding.smali2java.entity.smali.SmaliField;
+import com.litecoding.smali2java.entity.smali.SmaliMethod;
 import com.litecoding.smali2java.parser.*;
 
 public class SmaliClassBuilder extends BasicSmaliBuilder
@@ -272,7 +272,7 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 			}
 			else if(innerRule instanceof Rule_cmdAny)
 			{
-				currentMethod.addCommand((CodeEntity)innerRule.accept(this));
+				currentMethod.addCommand((SmaliCodeEntity)innerRule.accept(this));
 			}
 		}
 		

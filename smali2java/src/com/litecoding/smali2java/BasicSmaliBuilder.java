@@ -3,16 +3,16 @@ package com.litecoding.smali2java;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.litecoding.smali2java.entity.CodeEntity;
-import com.litecoding.smali2java.entity.EntityFactory;
-import com.litecoding.smali2java.entity.Label;
-import com.litecoding.smali2java.entity.MethodRef;
-import com.litecoding.smali2java.entity.Param;
-import com.litecoding.smali2java.entity.SmaliClass;
-import com.litecoding.smali2java.entity.SmaliMethod;
-import com.litecoding.smali2java.entity.Value;
-import com.litecoding.smali2java.entity.Variable;
-import com.litecoding.smali2java.entity.VariableGroup;
+import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
+import com.litecoding.smali2java.entity.smali.EntityFactory;
+import com.litecoding.smali2java.entity.smali.Label;
+import com.litecoding.smali2java.entity.smali.MethodRef;
+import com.litecoding.smali2java.entity.smali.Param;
+import com.litecoding.smali2java.entity.smali.SmaliClass;
+import com.litecoding.smali2java.entity.smali.SmaliMethod;
+import com.litecoding.smali2java.entity.smali.Value;
+import com.litecoding.smali2java.entity.smali.Variable;
+import com.litecoding.smali2java.entity.smali.VariableGroup;
 import com.litecoding.smali2java.parser.Rule;
 import com.litecoding.smali2java.parser.Rule_accessMode;
 import com.litecoding.smali2java.parser.Rule_boolValue;
@@ -507,7 +507,7 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 			if(innerRule instanceof Rule_smaliVar ||
 			   innerRule instanceof Rule_smaliParam)
 			{
-				group.addArgument((CodeEntity)innerRule.accept(this));
+				group.addArgument((SmaliCodeEntity)innerRule.accept(this));
 			}
 		}
 		return group;
@@ -515,7 +515,7 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 
 	private Object generateCmdFromRules(ArrayList<Rule> rules)
 	{
-		CodeEntity command = null;
+		SmaliCodeEntity command = null;
 		
 		boolean cmdDetermined = false;
 		for(Rule innerRule : rules)
@@ -550,7 +550,7 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 					innerRule instanceof Rule_smaliFieldRef ||
 					innerRule instanceof Rule_smaliMethodRef)
 			{
-				command.getArguments().add((CodeEntity)innerRule.accept(this));
+				command.getArguments().add((SmaliCodeEntity)innerRule.accept(this));
 			}
 			else if(innerRule instanceof Rule_intValue ||
 					innerRule instanceof Rule_strValue)

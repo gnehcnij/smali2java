@@ -2,10 +2,10 @@ package com.litecoding.smali2java.renderer;
 
 import java.util.List;
 
-import com.litecoding.smali2java.entity.SmaliClass;
-import com.litecoding.smali2java.entity.SmaliEntity;
-import com.litecoding.smali2java.entity.SmaliField;
-import com.litecoding.smali2java.entity.SmaliMethod;
+import com.litecoding.smali2java.entity.smali.SmaliClass;
+import com.litecoding.smali2java.entity.smali.SmaliEntity;
+import com.litecoding.smali2java.entity.smali.SmaliField;
+import com.litecoding.smali2java.entity.smali.SmaliMethod;
 
 /**
  * 

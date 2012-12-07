@@ -1,4 +1,4 @@
-package com.litecoding.smali2java.entity;
+package com.litecoding.smali2java.entity.smali;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,12 +9,12 @@ import java.util.List;
  * @author Dmitry S. Vorobiev
  *
  */
-public abstract class CodeEntity
+public abstract class SmaliCodeEntity
 {
 	protected String name = "";
-	protected List<CodeEntity> arguments = new LinkedList<CodeEntity>();
+	protected List<SmaliCodeEntity> arguments = new LinkedList<SmaliCodeEntity>();
 
-	protected CodeEntity()
+	protected SmaliCodeEntity()
 	{
 		
 	}
@@ -29,12 +29,12 @@ public abstract class CodeEntity
 		this.name = name;
 	}
 
-	public List<CodeEntity> getArguments()
+	public List<SmaliCodeEntity> getArguments()
 	{
 		return arguments;
 	}
 
-	public void addArgument(CodeEntity argument)
+	public void addArgument(SmaliCodeEntity argument)
 	{
 		this.arguments.add(argument);
 	}
