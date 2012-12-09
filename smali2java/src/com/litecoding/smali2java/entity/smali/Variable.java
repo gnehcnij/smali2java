@@ -4,6 +4,8 @@ public class Variable extends SmaliCodeEntity
 {
 	protected boolean isParameter = false;
 	protected int id = 0;
+	protected boolean isDestination = false;
+	protected String type = null;
 		
 	@Override
 	public void setName(String name)
@@ -35,6 +37,26 @@ public class Variable extends SmaliCodeEntity
 	public void setId(int id)
 	{
 		this.id = id;
+	}
+	
+	public boolean isDestination()
+	{
+		return isDestination;
+	}
+	
+	public void setDestination(boolean isDestination)
+	{
+		this.isDestination = isDestination;
+	}
+	
+	public String getType()
+	{
+		return type;
+	}
+	
+	public void setType(String type)
+	{
+		this.type = type;
 	}
 	
 	@Override

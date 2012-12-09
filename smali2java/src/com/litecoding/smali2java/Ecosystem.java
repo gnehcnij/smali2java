@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.litecoding.smali2java.entity.smali.SmaliClass;
+import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
 import com.litecoding.smali2java.parser.Parser;
 import com.litecoding.smali2java.parser.Rule;

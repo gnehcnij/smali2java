@@ -11,6 +11,7 @@ import com.litecoding.smali2java.entity.smali.Label;
 import com.litecoding.smali2java.entity.smali.OpcodeData;
 import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
+import com.litecoding.smali2java.entity.smali.Variable;
 
 /**
  * This class converts smali entities to java entities
@@ -30,6 +31,16 @@ public class SmaliRenderer {
 		 * List of blocks that redirect execution flow to this block. 
 		 */
 		public final List<Block> referencedBy = new LinkedList<Block>();
+		
+		/**
+		 * List of variables read and written by this block
+		 */
+		public final List<String> usedVariables = new LinkedList<String>();
+		
+		/**
+		 * List of variables written by this block
+		 */
+		public final List<String> modifiedVariables = new LinkedList<String>();
 		
 		public boolean isRootBlock = false;
 		
@@ -104,6 +115,14 @@ public class SmaliRenderer {
 				}
 				builder.append("\n");
 			}
+			
+			builder.append("used variables: ");
+			builder.append(usedVariables.toString());
+			builder.append("\n");
+			
+			builder.append("modified variables: ");
+			builder.append(modifiedVariables.toString());
+			builder.append("\n");
 			
 			if(smaliLabel != null) {
 				builder.append("smali label: ");
@@ -185,6 +204,15 @@ public class SmaliRenderer {
 					block.internalNextLabelIfTrue = 
 							(Label) instruction.getArguments().get(instruction.getArguments().size() - 1);
 					
+					//register variables in block
+					int count = instruction.getArguments().size();
+					for(int i = 0; i < count - 1; i++) {
+						Variable currVar = (Variable) instruction.getArguments().get(i);
+						if(!currVar.isParameter() && !block.usedVariables.contains(currVar.getName())) {
+							block.usedVariables.add(currVar.getName());
+						}
+					}
+					
 					//register block in labeled & all
 					if(block.smaliLabel != null)
 						labeledBlocks.put(block.smaliLabel.getName(), block);
@@ -201,6 +229,15 @@ public class SmaliRenderer {
 					block.internalIsEmpty = false;
 					block.isEndsByReturn = true;
 					block.returnInstruction = instruction;
+					
+					//register variables in block
+					int count = instruction.getArguments().size();
+					for(int i = 0; i < count; i++) {
+						Variable currVar = (Variable) instruction.getArguments().get(i);
+						if(!currVar.isParameter() && !block.usedVariables.contains(currVar.getName())) {
+							block.usedVariables.add(currVar.getName());
+						}
+					}
 					
 					//register block in labeled & all
 					if(block.smaliLabel != null)
@@ -258,7 +295,7 @@ public class SmaliRenderer {
 				currBlock.nextBlockIfFalse.referencedBy.add(currBlock);
 		}
 		
-		labeledBlocks.clear();
+		allBlocks.clear();
 		labeledBlocks.clear();
 		return rootBlock;
 	}
@@ -270,9 +307,10 @@ public class SmaliRenderer {
 		
 		while(!scheduled.isEmpty()) {
 			Block currBlock = scheduled.remove(0);
-			System.out.println(currBlock);
-			
-			printed.add(currBlock);
+			if(!printed.contains(currBlock)) {
+				System.out.println(currBlock);
+				printed.add(currBlock);
+			}
 			
 			if(currBlock.nextBlockIfTrue != null && !printed.contains(currBlock.nextBlockIfTrue))
 				scheduled.add(currBlock.nextBlockIfTrue);
