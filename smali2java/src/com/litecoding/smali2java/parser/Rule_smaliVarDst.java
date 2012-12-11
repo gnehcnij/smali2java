@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
- * Rule_HTAB.java
+ * Rule_smaliVarDst.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_HTAB extends Rule
+final public class Rule_smaliVarDst extends Rule
 {
-  private Rule_HTAB(String spelling, ArrayList<Rule> rules)
+  private Rule_smaliVarDst(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_HTAB extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_HTAB parse(ParserContext context)
+  public static Rule_smaliVarDst parse(ParserContext context)
   {
-    context.push("HTAB");
+    context.push("smaliVarDst");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -46,7 +46,7 @@ final public class Rule_HTAB extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_NumericValue.parse(context, "%x09", "[\\x09]", 1);
+            rule = Rule_smaliVar.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -64,13 +64,13 @@ final public class Rule_HTAB extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_HTAB(context.text.substring(s0, context.index), e0);
+      rule = new Rule_smaliVarDst(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("HTAB", parsed);
+    context.pop("smaliVarDst", parsed);
 
-    return (Rule_HTAB)rule;
+    return (Rule_smaliVarDst)rule;
   }
 }
 

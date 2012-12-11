@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Thu Dec 06 08:37:20 MUT 2012
+ * Produced : Tue Dec 11 13:05:34 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -197,6 +197,8 @@ public class Parser
     else if (rulename.equalsIgnoreCase("label")) rule = Rule_label.parse(context);
     else if (rulename.equalsIgnoreCase("smaliParam")) rule = Rule_smaliParam.parse(context);
     else if (rulename.equalsIgnoreCase("smaliVar")) rule = Rule_smaliVar.parse(context);
+    else if (rulename.equalsIgnoreCase("smaliVarDst")) rule = Rule_smaliVarDst.parse(context);
+    else if (rulename.equalsIgnoreCase("smaliVarInit")) rule = Rule_smaliVarInit.parse(context);
     else if (rulename.equalsIgnoreCase("smaliVarGroup")) rule = Rule_smaliVarGroup.parse(context);
     else if (rulename.equalsIgnoreCase("endDirective")) rule = Rule_endDirective.parse(context);
     else if (rulename.equalsIgnoreCase("classDirective")) rule = Rule_classDirective.parse(context);
@@ -209,6 +211,7 @@ public class Parser
     else if (rulename.equalsIgnoreCase("registersDirective")) rule = Rule_registersDirective.parse(context);
     else if (rulename.equalsIgnoreCase("localDirective")) rule = Rule_localDirective.parse(context);
     else if (rulename.equalsIgnoreCase("smali")) rule = Rule_smali.parse(context);
+    else if (rulename.equalsIgnoreCase("todoStubLine")) rule = Rule_todoStubLine.parse(context);
     else if (rulename.equalsIgnoreCase("classHeader")) rule = Rule_classHeader.parse(context);
     else if (rulename.equalsIgnoreCase("classDirectiveHeader")) rule = Rule_classDirectiveHeader.parse(context);
     else if (rulename.equalsIgnoreCase("superDirectiveHeader")) rule = Rule_superDirectiveHeader.parse(context);

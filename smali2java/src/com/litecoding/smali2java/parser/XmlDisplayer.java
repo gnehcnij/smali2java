@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Thu Dec 06 08:37:20 MUT 2012
+ * Produced : Tue Dec 11 13:05:34 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -460,6 +460,30 @@ public class XmlDisplayer implements Visitor
     return null;
   }
 
+  public Object visit(Rule_smaliVarDst rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<smaliVarDst>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</smaliVarDst>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_smaliVarInit rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<smaliVarInit>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</smaliVarInit>");
+    terminal = false;
+    return null;
+  }
+
   public Object visit(Rule_smaliVarGroup rule)
   {
     if (!terminal) System.out.println();
@@ -600,6 +624,18 @@ public class XmlDisplayer implements Visitor
     visitRules(rule.rules);
     if (!terminal) System.out.println();
     System.out.print("</smali>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_todoStubLine rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<todoStubLine>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</todoStubLine>");
     terminal = false;
     return null;
   }

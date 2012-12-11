@@ -13,78 +13,19 @@ import com.litecoding.smali2java.entity.smali.SmaliMethod;
 import com.litecoding.smali2java.entity.smali.Value;
 import com.litecoding.smali2java.entity.smali.Variable;
 import com.litecoding.smali2java.entity.smali.VariableGroup;
-import com.litecoding.smali2java.parser.Rule;
-import com.litecoding.smali2java.parser.Rule_accessMode;
-import com.litecoding.smali2java.parser.Rule_boolValue;
-import com.litecoding.smali2java.parser.Rule_classConstructorName;
-import com.litecoding.smali2java.parser.Rule_classDirective;
-import com.litecoding.smali2java.parser.Rule_classMethodProto;
-import com.litecoding.smali2java.parser.Rule_className;
-import com.litecoding.smali2java.parser.Rule_cmdAny;
-import com.litecoding.smali2java.parser.Rule_cmdConst4;
-import com.litecoding.smali2java.parser.Rule_cmdConstString;
-import com.litecoding.smali2java.parser.Rule_cmdGoto;
-import com.litecoding.smali2java.parser.Rule_cmdIfEq;
-import com.litecoding.smali2java.parser.Rule_cmdIfEqz;
-import com.litecoding.smali2java.parser.Rule_cmdIfNe;
-import com.litecoding.smali2java.parser.Rule_cmdIfNez;
-import com.litecoding.smali2java.parser.Rule_cmdIget;
-import com.litecoding.smali2java.parser.Rule_cmdIgetObject;
-import com.litecoding.smali2java.parser.Rule_cmdIgetWide;
-import com.litecoding.smali2java.parser.Rule_cmdInvokeDirect;
-import com.litecoding.smali2java.parser.Rule_cmdInvokeStatic;
-import com.litecoding.smali2java.parser.Rule_cmdInvokeVirtual;
-import com.litecoding.smali2java.parser.Rule_cmdIput;
-import com.litecoding.smali2java.parser.Rule_cmdIputObject;
-import com.litecoding.smali2java.parser.Rule_cmdIputWide;
-import com.litecoding.smali2java.parser.Rule_cmdLabel;
-import com.litecoding.smali2java.parser.Rule_cmdMove;
-import com.litecoding.smali2java.parser.Rule_cmdMoveResultObject;
-import com.litecoding.smali2java.parser.Rule_cmdNewInstance;
-import com.litecoding.smali2java.parser.Rule_cmdNop;
-import com.litecoding.smali2java.parser.Rule_cmdReturn;
-import com.litecoding.smali2java.parser.Rule_cmdReturnObject;
-import com.litecoding.smali2java.parser.Rule_cmdReturnVoid;
-import com.litecoding.smali2java.parser.Rule_cmdReturnWide;
-import com.litecoding.smali2java.parser.Rule_cmdSputObject;
-import com.litecoding.smali2java.parser.Rule_comment;
-import com.litecoding.smali2java.parser.Rule_commentSequence;
-import com.litecoding.smali2java.parser.Rule_emptyLine;
-import com.litecoding.smali2java.parser.Rule_endDirective;
-import com.litecoding.smali2java.parser.Rule_endMethodDirective;
-import com.litecoding.smali2java.parser.Rule_escSymbol;
-import com.litecoding.smali2java.parser.Rule_fieldDirective;
-import com.litecoding.smali2java.parser.Rule_fileName;
-import com.litecoding.smali2java.parser.Rule_fmtSeparator;
-import com.litecoding.smali2java.parser.Rule_implementsDirective;
-import com.litecoding.smali2java.parser.Rule_intDecValue;
-import com.litecoding.smali2java.parser.Rule_intHexValue;
-import com.litecoding.smali2java.parser.Rule_intValue;
-import com.litecoding.smali2java.parser.Rule_label;
-import com.litecoding.smali2java.parser.Rule_localDirective;
-import com.litecoding.smali2java.parser.Rule_methodDirective;
-import com.litecoding.smali2java.parser.Rule_qualifier;
-import com.litecoding.smali2java.parser.Rule_registersDirective;
-import com.litecoding.smali2java.parser.Rule_skipLine;
-import com.litecoding.smali2java.parser.Rule_smaliConstructorName;
-import com.litecoding.smali2java.parser.Rule_smaliFieldRef;
-import com.litecoding.smali2java.parser.Rule_smaliMethodRef;
-import com.litecoding.smali2java.parser.Rule_smaliParam;
-import com.litecoding.smali2java.parser.Rule_smaliVar;
-import com.litecoding.smali2java.parser.Rule_smaliVarGroup;
-import com.litecoding.smali2java.parser.Rule_sourceDirective;
-import com.litecoding.smali2java.parser.Rule_strValue;
-import com.litecoding.smali2java.parser.Rule_superDirective;
-import com.litecoding.smali2java.parser.Rule_type;
-import com.litecoding.smali2java.parser.Rule_value;
-import com.litecoding.smali2java.parser.Terminal_StringValue;
-
+import com.litecoding.smali2java.parser.*;
 
 public abstract class BasicSmaliBuilder extends BasicTextBuilder
 {
 	protected SmaliClass smaliClass = null;
 	protected SmaliMethod currentMethod = null;
 
+	@Override
+	public Object visit(Rule_todoStubLine rule)
+	{
+		return rule.spelling;
+	}
+	
 	@Override
 	public Object visit(Rule_fmtSeparator rule)
 	{
@@ -446,6 +387,24 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}
 	
 	@Override
+	public Object visit(Rule_smaliVarDst rule)
+	{		
+		Variable var = new Variable();
+		var.setName(rule.spelling);
+		var.setDestination(true);
+		return var;
+	}
+	
+	@Override
+	public Object visit(Rule_smaliVarInit rule)
+	{		
+		Variable var = new Variable();
+		var.setName(rule.spelling);
+		var.setInit(true);
+		return var;
+	}
+	
+	@Override
 	public Object visit(Rule_smaliFieldRef rule)
 	{		
 		String className = "";
@@ -545,6 +504,8 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 				}				
 			}
 			else if(innerRule instanceof Rule_smaliVar ||
+					innerRule instanceof Rule_smaliVarDst ||
+					innerRule instanceof Rule_smaliVarInit ||
 					innerRule instanceof Rule_smaliParam ||
 					innerRule instanceof Rule_smaliVarGroup ||
 					innerRule instanceof Rule_smaliFieldRef ||
@@ -558,7 +519,9 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 				Value innerValue = new Value();
 				innerValue.setName(innerRule.spelling);
 				command.getArguments().add(innerValue);
-			}			
+			} else if(innerRule instanceof Rule_todoStubLine) {
+				System.err.println("Warning: " + command.getName() + " is not fully supported");
+			}
 		}
 		return command;
 	}

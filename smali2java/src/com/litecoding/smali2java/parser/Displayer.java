@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Thu Dec 06 08:37:20 MUT 2012
+ * Produced : Tue Dec 11 13:05:34 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -200,6 +200,16 @@ public class Displayer implements Visitor
     return visitRules(rule.rules);
   }
 
+  public Object visit(Rule_smaliVarDst rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_smaliVarInit rule)
+  {
+    return visitRules(rule.rules);
+  }
+
   public Object visit(Rule_smaliVarGroup rule)
   {
     return visitRules(rule.rules);
@@ -256,6 +266,11 @@ public class Displayer implements Visitor
   }
 
   public Object visit(Rule_smali rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_todoStubLine rule)
   {
     return visitRules(rule.rules);
   }

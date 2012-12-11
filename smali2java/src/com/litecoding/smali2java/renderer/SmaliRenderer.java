@@ -12,6 +12,7 @@ import com.litecoding.smali2java.entity.smali.OpcodeData;
 import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
 import com.litecoding.smali2java.entity.smali.Variable;
+import com.litecoding.smali2java.entity.smali.VariableGroup;
 
 /**
  * This class converts smali entities to java entities
@@ -33,14 +34,19 @@ public class SmaliRenderer {
 		public final List<Block> referencedBy = new LinkedList<Block>();
 		
 		/**
-		 * List of variables read and written by this block
+		 * List of variables read by this block
 		 */
-		public final List<String> usedVariables = new LinkedList<String>();
+		public final List<String> readVars = new LinkedList<String>();
 		
 		/**
 		 * List of variables written by this block
 		 */
-		public final List<String> modifiedVariables = new LinkedList<String>();
+		public final List<String> modifiedVars = new LinkedList<String>();
+		
+		/**
+		 * List of variables initialized by this block (const* instuctions)
+		 */
+		public final List<String> initializedVars = new LinkedList<String>();
 		
 		public boolean isRootBlock = false;
 		
@@ -116,12 +122,16 @@ public class SmaliRenderer {
 				builder.append("\n");
 			}
 			
-			builder.append("used variables: ");
-			builder.append(usedVariables.toString());
+			builder.append("read variables: ");
+			builder.append(readVars.toString());
 			builder.append("\n");
 			
 			builder.append("modified variables: ");
-			builder.append(modifiedVariables.toString());
+			builder.append(modifiedVars.toString());
+			builder.append("\n");
+			
+			builder.append("(re)initialized variables: ");
+			builder.append(initializedVars.toString());
 			builder.append("\n");
 			
 			if(smaliLabel != null) {
@@ -205,13 +215,10 @@ public class SmaliRenderer {
 							(Label) instruction.getArguments().get(instruction.getArguments().size() - 1);
 					
 					//register variables in block
-					int count = instruction.getArguments().size();
-					for(int i = 0; i < count - 1; i++) {
-						Variable currVar = (Variable) instruction.getArguments().get(i);
-						if(!currVar.isParameter() && !block.usedVariables.contains(currVar.getName())) {
-							block.usedVariables.add(currVar.getName());
-						}
-					}
+					registerVariables(instruction.getArguments(), 
+							block.readVars, 
+							block.modifiedVars,
+							block.initializedVars);
 					
 					//register block in labeled & all
 					if(block.smaliLabel != null)
@@ -231,13 +238,10 @@ public class SmaliRenderer {
 					block.returnInstruction = instruction;
 					
 					//register variables in block
-					int count = instruction.getArguments().size();
-					for(int i = 0; i < count; i++) {
-						Variable currVar = (Variable) instruction.getArguments().get(i);
-						if(!currVar.isParameter() && !block.usedVariables.contains(currVar.getName())) {
-							block.usedVariables.add(currVar.getName());
-						}
-					}
+					registerVariables(instruction.getArguments(), 
+							block.readVars, 
+							block.modifiedVars,
+							block.initializedVars);
 					
 					//register block in labeled & all
 					if(block.smaliLabel != null)
@@ -250,6 +254,13 @@ public class SmaliRenderer {
 				default: {
 					block.internalIsEmpty = false;
 					block.instructions.add(instruction);
+					
+					//register variables in block
+					registerVariables(instruction.getArguments(), 
+							block.readVars, 
+							block.modifiedVars,
+							block.initializedVars);
+					
 					break mainLoop;
 				}
 				}
@@ -317,6 +328,32 @@ public class SmaliRenderer {
 			
 			if(currBlock.nextBlockIfFalse != null && !printed.contains(currBlock.nextBlockIfFalse))
 				scheduled.add(currBlock.nextBlockIfFalse);
+		}
+	}
+	
+	private static void registerVariables(List<SmaliCodeEntity> entities, 
+			List<String> readVars, 
+			List<String> modifiedVars, 
+			List<String> initializedVars) {
+		for(SmaliCodeEntity entity : entities) {
+			if(!(entity instanceof Variable) && 
+					!(entity instanceof VariableGroup))
+				continue;
+			
+			if(entity instanceof VariableGroup) {
+				registerVariables(entity.getArguments(), 
+						readVars, modifiedVars, initializedVars);
+				continue;
+			}
+			
+			Variable currVar = (Variable) entity;
+			if(!currVar.isParameter() && !readVars.contains(currVar.getName())) {
+				readVars.add(currVar.getName());
+				if(currVar.isDestination() && !modifiedVars.contains(currVar.getName()))
+					modifiedVars.add(currVar.getName());
+				else if(currVar.isInit() && !initializedVars.contains(currVar.getName()))
+					initializedVars.add(currVar.getName());
+			}
 		}
 	}
 }
