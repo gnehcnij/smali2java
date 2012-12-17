@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Tue Dec 11 13:05:34 MUT 2012
+ * Produced : Fri Dec 14 17:07:28 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -468,18 +468,6 @@ public class XmlDisplayer implements Visitor
     visitRules(rule.rules);
     if (!terminal) System.out.println();
     System.out.print("</smaliVarDst>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_smaliVarInit rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<smaliVarInit>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</smaliVarInit>");
     terminal = false;
     return null;
   }

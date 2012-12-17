@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Tue Dec 11 13:05:34 MUT 2012
+ * Produced : Fri Dec 14 17:07:28 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -101,7 +101,7 @@ final public class Rule_cmdConstString extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_smaliVarInit.parse(context);
+            rule = Rule_smaliVarDst.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);

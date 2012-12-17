@@ -394,16 +394,7 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 		var.setDestination(true);
 		return var;
 	}
-	
-	@Override
-	public Object visit(Rule_smaliVarInit rule)
-	{		
-		Variable var = new Variable();
-		var.setName(rule.spelling);
-		var.setInit(true);
-		return var;
-	}
-	
+		
 	@Override
 	public Object visit(Rule_smaliFieldRef rule)
 	{		
@@ -505,7 +496,6 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 			}
 			else if(innerRule instanceof Rule_smaliVar ||
 					innerRule instanceof Rule_smaliVarDst ||
-					innerRule instanceof Rule_smaliVarInit ||
 					innerRule instanceof Rule_smaliParam ||
 					innerRule instanceof Rule_smaliVarGroup ||
 					innerRule instanceof Rule_smaliFieldRef ||

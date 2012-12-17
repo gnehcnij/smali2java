@@ -1,5 +1,6 @@
 package com.litecoding.smali2java.renderer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,10 +10,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.litecoding.smali2java.entity.smali.Instruction;
 import com.litecoding.smali2java.entity.smali.Label;
 import com.litecoding.smali2java.entity.smali.OpcodeData;
+import com.litecoding.smali2java.entity.smali.Param;
 import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
+import com.litecoding.smali2java.entity.smali.SmaliEntity;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
 import com.litecoding.smali2java.entity.smali.Variable;
-import com.litecoding.smali2java.entity.smali.VariableGroup;
+import com.litecoding.smali2java.renderer.RegisterTimeline.RegisterInfo;
 
 /**
  * This class converts smali entities to java entities
@@ -34,20 +37,10 @@ public class SmaliRenderer {
 		public final List<Block> referencedBy = new LinkedList<Block>();
 		
 		/**
-		 * List of variables read by this block
+		 * Timeline for method registers used in the current block
 		 */
-		public final List<String> readVars = new LinkedList<String>();
-		
-		/**
-		 * List of variables written by this block
-		 */
-		public final List<String> modifiedVars = new LinkedList<String>();
-		
-		/**
-		 * List of variables initialized by this block (const* instuctions)
-		 */
-		public final List<String> initializedVars = new LinkedList<String>();
-		
+		public final RegisterTimeline registerTimeline = new RegisterTimeline();
+				
 		public boolean isRootBlock = false;
 		
 		/**
@@ -121,19 +114,7 @@ public class SmaliRenderer {
 				}
 				builder.append("\n");
 			}
-			
-			builder.append("read variables: ");
-			builder.append(readVars.toString());
-			builder.append("\n");
-			
-			builder.append("modified variables: ");
-			builder.append(modifiedVars.toString());
-			builder.append("\n");
-			
-			builder.append("(re)initialized variables: ");
-			builder.append(initializedVars.toString());
-			builder.append("\n");
-			
+						
 			if(smaliLabel != null) {
 				builder.append("smali label: ");
 				builder.append(smaliLabel.getName());
@@ -144,6 +125,13 @@ public class SmaliRenderer {
 			for(Instruction instruction : instructions) {
 				builder.append("    ");
 				builder.append(instruction.toString());
+				builder.append("\n");
+			}
+			
+			builder.append("register timeline: \n");
+			for(List<RegisterInfo> info : registerTimeline.getTimeline()) {
+				builder.append("    ");
+				builder.append(info.toString());
 				builder.append("\n");
 			}
 			
@@ -213,13 +201,7 @@ public class SmaliRenderer {
 					block.condition = instruction;
 					block.internalNextLabelIfTrue = 
 							(Label) instruction.getArguments().get(instruction.getArguments().size() - 1);
-					
-					//register variables in block
-					registerVariables(instruction.getArguments(), 
-							block.readVars, 
-							block.modifiedVars,
-							block.initializedVars);
-					
+										
 					//register block in labeled & all
 					if(block.smaliLabel != null)
 						labeledBlocks.put(block.smaliLabel.getName(), block);
@@ -237,12 +219,6 @@ public class SmaliRenderer {
 					block.isEndsByReturn = true;
 					block.returnInstruction = instruction;
 					
-					//register variables in block
-					registerVariables(instruction.getArguments(), 
-							block.readVars, 
-							block.modifiedVars,
-							block.initializedVars);
-					
 					//register block in labeled & all
 					if(block.smaliLabel != null)
 						labeledBlocks.put(block.smaliLabel.getName(), block);
@@ -254,12 +230,6 @@ public class SmaliRenderer {
 				default: {
 					block.internalIsEmpty = false;
 					block.instructions.add(instruction);
-					
-					//register variables in block
-					registerVariables(instruction.getArguments(), 
-							block.readVars, 
-							block.modifiedVars,
-							block.initializedVars);
 					
 					break mainLoop;
 				}
@@ -306,6 +276,11 @@ public class SmaliRenderer {
 				currBlock.nextBlockIfFalse.referencedBy.add(currBlock);
 		}
 		
+		//build timeline
+		for(Block currBlock : allBlocks) {
+			buildTimeline(currBlock, smaliMethod);
+		}
+		
 		allBlocks.clear();
 		labeledBlocks.clear();
 		return rootBlock;
@@ -330,29 +305,87 @@ public class SmaliRenderer {
 				scheduled.add(currBlock.nextBlockIfFalse);
 		}
 	}
-	
-	private static void registerVariables(List<SmaliCodeEntity> entities, 
-			List<String> readVars, 
-			List<String> modifiedVars, 
-			List<String> initializedVars) {
-		for(SmaliCodeEntity entity : entities) {
-			if(!(entity instanceof Variable) && 
-					!(entity instanceof VariableGroup))
-				continue;
+		
+	private static void buildTimeline(Block block, SmaliMethod method) {
+		//get all of this to local vars (shortcuts)
+		List<Param> params = method.getParams();
+		boolean isMethodStatic = method.isFlagSet(SmaliEntity.ABSTRACT);
+		int localsCount = method.getLocals();
+		RegisterTimeline timeline = block.registerTimeline;
+		
+		int linesCount = block.instructions.size() + 1;
+		
+		ArrayList<Instruction> lines = new ArrayList<Instruction>(linesCount);
+		lines.addAll(block.instructions);
+		
+		//add last line that can change registers
+		if(block.isEndsByCondition) {
+			lines.add(block.condition);
+		} else if(block.isEndsByReturn) {
+			lines.add(block.returnInstruction);
+		} else {
+			linesCount--;
+			lines.trimToSize();
+		}
+		
+		//initialize timeline if needed
+		if(!timeline.isInitialized()) {
+			timeline.init(localsCount, 
+					params, 
+					isMethodStatic, 
+					linesCount);
+		}
+		
+		//map params for the root block
+		if(block.isRootBlock) {
+			List<RegisterInfo> slice = timeline.getSlice(0);
 			
-			if(entity instanceof VariableGroup) {
-				registerVariables(entity.getArguments(), 
-						readVars, modifiedVars, initializedVars);
-				continue;
+			int delta = 0;
+			if(!isMethodStatic) {
+				slice.get(localsCount).type = "this";
+				delta = 1;
 			}
 			
-			Variable currVar = (Variable) entity;
-			if(!currVar.isParameter() && !readVars.contains(currVar.getName())) {
-				readVars.add(currVar.getName());
-				if(currVar.isDestination() && !modifiedVars.contains(currVar.getName()))
-					modifiedVars.add(currVar.getName());
-				else if(currVar.isInit() && !initializedVars.contains(currVar.getName()))
-					initializedVars.add(currVar.getName());
+			for(int i = 0; i < params.size() ; i++) {
+				Param param = params.get(i);
+				if("J".equals(param.getType()) || "D".equals(param.getType())) {
+					RegisterInfo info = slice.get(localsCount + delta + i); 
+					info.isUsedAs64bitRegister = true;
+					info.isUsedAs64bitMasterRegister = true;
+					info.type = param.getType();
+					
+					delta++;
+					info = slice.get(localsCount + delta + i); 
+					info.isUsedAs64bitRegister = true;
+					info.isUsedAs64bitMasterRegister = false;
+					info.type = param.getType();
+				} else {
+					RegisterInfo info = slice.get(localsCount + delta + i);
+					info.type = param.getType();
+				}
+			}
+		}
+		
+		//processing all instructions
+		Instruction instruction = null;
+		List<RegisterInfo> currSlice = null;
+		List<RegisterInfo> prevSlice = null;
+		for(int i = 0; i < linesCount; i++) {
+			instruction = lines.get(i);
+			prevSlice = currSlice;
+			currSlice = timeline.getSlice(i);
+			
+			for(SmaliCodeEntity entity : instruction.getArguments()) {
+				if(entity instanceof Variable) {
+					Variable var = (Variable) entity;
+					if(!var.isParameter())
+						if(var.isDestination()) {
+							currSlice.get(var.getId()).isWritten = true;
+						} else {
+							currSlice.get(var.getId()).isRead = true;
+						}
+						
+				}
 			}
 		}
 	}

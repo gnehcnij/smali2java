@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Tue Dec 11 13:05:34 MUT 2012
+ * Produced : Fri Dec 14 17:07:28 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -198,7 +198,6 @@ public class Parser
     else if (rulename.equalsIgnoreCase("smaliParam")) rule = Rule_smaliParam.parse(context);
     else if (rulename.equalsIgnoreCase("smaliVar")) rule = Rule_smaliVar.parse(context);
     else if (rulename.equalsIgnoreCase("smaliVarDst")) rule = Rule_smaliVarDst.parse(context);
-    else if (rulename.equalsIgnoreCase("smaliVarInit")) rule = Rule_smaliVarInit.parse(context);
     else if (rulename.equalsIgnoreCase("smaliVarGroup")) rule = Rule_smaliVarGroup.parse(context);
     else if (rulename.equalsIgnoreCase("endDirective")) rule = Rule_endDirective.parse(context);
     else if (rulename.equalsIgnoreCase("classDirective")) rule = Rule_classDirective.parse(context);

@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Tue Dec 11 13:05:34 MUT 2012
+ * Produced : Fri Dec 14 17:07:28 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -50,7 +50,6 @@ public interface Visitor
   public Object visit(Rule_smaliParam rule);
   public Object visit(Rule_smaliVar rule);
   public Object visit(Rule_smaliVarDst rule);
-  public Object visit(Rule_smaliVarInit rule);
   public Object visit(Rule_smaliVarGroup rule);
   public Object visit(Rule_endDirective rule);
   public Object visit(Rule_classDirective rule);

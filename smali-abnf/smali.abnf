@@ -1,3 +1,14 @@
+#####################
+# Smali ABNF grammar
+# Author: Dmitry Vorobiev
+# Naming conventions:
+# dirXXX - smali directives .XXX
+# classXXX - class entity (field, method etc)
+# methodXXX - method entitiy (directive lines)
+# codeXXX - piece of code
+# cmdXXX - smali command with parameters and optional comment
+#####################
+
 #####BASIC RULES#####
 HTAB = %x09;
 CR = %x0d;
@@ -39,8 +50,12 @@ label = COLON qualifier;
 smaliParam = "p" intDecValue;
 smaliVar   = "v" intDecValue;
 smaliVarDst = smaliVar;
-smaliVarInit = smaliVar;
 smaliVarGroup = "{" *fmtSeparator (smaliParam / smaliVar) *fmtSeparator *(COMMA *fmtSeparator (smaliParam / smaliVar) *fmtSeparator) "}";
+
+#####NEW COMMON RULES#####
+codeRegisterP = "p" intDecValue;
+codeRegisterV = "v" intDecValue;
+codeRegisterGroup = "{" *fmtSeparator (codeRegisterP / codeRegisterV) *fmtSeparator *(COMMA *fmtSeparator (codeRegisterP / codeRegisterV) *fmtSeparator) "}";
 
 #####SMALI DIRECTIVE RULE#####
 endDirective = ".end";
@@ -54,6 +69,18 @@ endMethodDirective = endDirective *fmtSeparator "method";
 registersDirective = ".registers";
 localDirective = ".local";
 
+#####NEW DIRECTIVE RULES#####
+dirClass = ".class";
+dirEnd = ".end";
+dirEndMethod = dirEnd *fmtSeparator "method";
+dirImplements = ".implements";
+dirField = ".field";
+dirLocal = ".local";
+dirMethod = ".method";
+dirRegisters = ".registers";
+dirSuper = ".super";
+dirSource = ".source";
+
 #####SMALI GENERAL RULES#####
 smali = classHeader *(classField / skipLine) *(classMethod / skipLine);
 todoStubLine = *(VCHAR / fmtSeparator);
@@ -61,12 +88,24 @@ todoStubLine = *(VCHAR / fmtSeparator);
 #####SMALI HEADER RULES#####
 classHeader = classDirectiveHeader superDirectiveHeader [sourceDirectiveHeader] *implementsDirectiveHeader;
 classDirectiveHeader = *fmtSeparator classDirective *fmtSeparator *(accessMode *fmtSeparator) *fmtSeparator className *fmtSeparator CRLF;
-
 superDirectiveHeader = *fmtSeparator superDirective *fmtSeparator className *fmtSeparator CRLF;
-
 sourceDirectiveHeader = *fmtSeparator sourceDirective *fmtSeparator fileName *fmtSeparator CRLF;
-
 implementsDirectiveHeader = *fmtSeparator implementsDirective *fmtSeparator className *fmtSeparator CRLF;
+
+#class directive statements
+classClass = *fmtSeparator dirClass *fmtSeparator *(accessMode *fmtSeparator) *fmtSeparator className *fmtSeparator CRLF;
+classSuper = *fmtSeparator dirSuper *fmtSeparator className *fmtSeparator CRLF;
+classSource = *fmtSeparator dirSource *fmtSeparator fileName *fmtSeparator CRLF;
+classImplements = *fmtSeparator dirImplements *fmtSeparator className *fmtSeparator CRLF;
+
+#method directive statements
+methodLocals = *fmtSeparator ".locals" 1*fmtSeparator intValue *fmtSeparator CRLF;
+methodParam = *fmtSeparator ".parameter" [1*fmtSeparator strValue *fmtSeparator] *fmtSeparator CRLF;
+methodPrologue = *fmtSeparator ".prologue" *fmtSeparator CRLF;
+methodLine = *fmtSeparator ".line" 1*fmtSeparator intValue *fmtSeparator CRLF;
+methodRegisters = *fmtSeparator ".registers" 1*fmtSeparator intValue *fmtSeparator CRLF;
+methodLocal = *fmtSeparator ".local" 1*fmtSeparator todoStubLine CRLF;
+
 
 #####SMALI FIELD RULES#####
 classField = *fmtSeparator fieldDirective 1*fmtSeparator *(accessMode 1*fmtSeparator) qualifier COLON type *fmtSeparator [EQ *fmtSeparator value] *fmtSeparator CRLF;
@@ -115,8 +154,8 @@ cmdAny =/ cmdReturnVoid;
 cmdAny =/ cmdReturnWide;
 cmdAny =/ cmdSputObject;
 
-cmdConst4           = *fmtSeparator "const/4" 1*fmtSeparator smaliVarInit *fmtSeparator COMMA *fmtSeparator intValue *fmtSeparator [commentSequence] CRLF;
-cmdConstString      = *fmtSeparator "const-string" 1*fmtSeparator smaliVarInit *fmtSeparator COMMA *fmtSeparator strValue *fmtSeparator [commentSequence] CRLF;
+cmdConst4           = *fmtSeparator "const/4" 1*fmtSeparator smaliVarDst *fmtSeparator COMMA *fmtSeparator intValue *fmtSeparator [commentSequence] CRLF;
+cmdConstString      = *fmtSeparator "const-string" 1*fmtSeparator smaliVarDst *fmtSeparator COMMA *fmtSeparator strValue *fmtSeparator [commentSequence] CRLF;
 cmdGoto             = *fmtSeparator "goto" 1*fmtSeparator label *fmtSeparator [commentSequence] CRLF;
 cmdIfEq             = *fmtSeparator "if-eq" 1*fmtSeparator (smaliVar / smaliParam) *fmtSeparator COMMA *fmtSeparator (smaliVar / smaliParam) *fmtSeparator COMMA *fmtSeparator label *fmtSeparator [commentSequence] CRLF;
 cmdIfEqz            = *fmtSeparator "if-eqz" 1*fmtSeparator (smaliVar / smaliParam) *fmtSeparator COMMA *fmtSeparator label *fmtSeparator [commentSequence] CRLF;
@@ -128,7 +167,7 @@ cmdIgetWide         = *fmtSeparator "iget-wide" 1*fmtSeparator todoStubLine *fmt
 cmdInvokeDirect     = *fmtSeparator "invoke-direct" 1*fmtSeparator smaliVarGroup *fmtSeparator COMMA *fmtSeparator smaliMethodRef *fmtSeparator [commentSequence] CRLF;
 cmdInvokeStatic     = *fmtSeparator "invoke-static" 1*fmtSeparator smaliVarGroup *fmtSeparator COMMA *fmtSeparator smaliMethodRef *fmtSeparator [commentSequence] CRLF;
 cmdInvokeVirtual    = *fmtSeparator "invoke-virtual" 1*fmtSeparator smaliVarGroup *fmtSeparator COMMA *fmtSeparator smaliMethodRef *fmtSeparator [commentSequence] CRLF;
-cmdIput             = *fmtSeparator "iput" 1*fmtSeparator todoStubLine *fmtSeparator [commentSequence] CRLF;
+cmdIput             = *fmtSeparator "iput" 1*fmtSeparator (smaliVar / smaliParam) *fmtSeparator COMMA *fmtSeparator (smaliVar / smaliParam) *fmtSeparator COMMA *fmtSeparator smaliFieldRef *fmtSeparator [commentSequence] CRLF;
 cmdIputObject       = *fmtSeparator "iput-object" 1*fmtSeparator todoStubLine *fmtSeparator [commentSequence] CRLF;
 cmdIputWide         = *fmtSeparator "iput-wide" 1*fmtSeparator todoStubLine *fmtSeparator [commentSequence] CRLF;
 cmdLabel            = *fmtSeparator label *fmtSeparator [commentSequence] CRLF;
