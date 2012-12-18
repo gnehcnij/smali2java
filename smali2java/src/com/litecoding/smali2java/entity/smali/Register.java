@@ -4,6 +4,13 @@ public class Register extends SmaliCodeEntity
 {
 	protected boolean isParameter = false;
 	protected int id = 0;
+	
+	/**
+	 * Id of vXX register, where pYY register was mapped.
+	 * Used when isParameter == true only.
+	 * Read more: {@link http://code.google.com/p/smali/wiki/Registers}
+	 */
+	protected int mappedId = 0;
 	protected boolean isDestination = false;
 	protected String type = null;
 		
@@ -39,6 +46,16 @@ public class Register extends SmaliCodeEntity
 		this.id = id;
 	}
 	
+	public int getMappedId()
+	{
+		return mappedId;
+	}
+	
+	public void setMappedId(int mappedId)
+	{
+		this.mappedId = mappedId;
+	}
+		
 	public boolean isDestination()
 	{
 		return isDestination;
@@ -57,6 +74,13 @@ public class Register extends SmaliCodeEntity
 	public void setType(String type)
 	{
 		this.type = type;
+	}
+	
+	public void mapRegister(SmaliMethod method) {
+		if(!isParameter)
+			return;
+		
+		mappedId = method.mapParameterToRegister(id);
 	}
 	
 	@Override

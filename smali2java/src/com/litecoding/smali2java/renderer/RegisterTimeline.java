@@ -31,6 +31,7 @@ public class RegisterTimeline {
 		if(isInitialized)
 			return;
 		
+		//TODO: refactor this due to parameter mapping ability in SmaliMethod
 		this.localRegisters = localRegisters;
 		this.params = 0;
 		this.isMethodStatic = isMethodStatic;

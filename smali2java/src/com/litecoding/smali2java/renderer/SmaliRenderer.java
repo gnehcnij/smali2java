@@ -11,6 +11,7 @@ import com.litecoding.smali2java.entity.smali.Instruction;
 import com.litecoding.smali2java.entity.smali.Label;
 import com.litecoding.smali2java.entity.smali.OpcodeData;
 import com.litecoding.smali2java.entity.smali.Param;
+import com.litecoding.smali2java.entity.smali.RegisterGroup;
 import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
 import com.litecoding.smali2java.entity.smali.SmaliEntity;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
@@ -378,14 +379,34 @@ public class SmaliRenderer {
 			for(SmaliCodeEntity entity : instruction.getArguments()) {
 				if(entity instanceof Register) {
 					Register var = (Register) entity;
-					if(!var.isParameter())
+					if(var.isParameter()) {
+						currSlice.get(var.getMappedId()).isRead = true;
+					} else {
 						if(var.isDestination()) {
 							currSlice.get(var.getId()).isWritten = true;
 						} else {
 							currSlice.get(var.getId()).isRead = true;
 						}
-						
+					}
+				} else if(entity instanceof RegisterGroup) {
+					for(SmaliCodeEntity subEntity : entity.getArguments()) {
+						Register var = (Register) subEntity;
+						if(var.isParameter())
+							currSlice.get(var.getMappedId()).isRead = true;
+						else
+							currSlice.get(var.getId()).isRead = true;
+					}
 				}
+			}
+			
+			if(prevSlice == null)
+				continue;
+			
+			//copy type of register in previous slice if it wasn't modified
+			for(int j = 0; j < currSlice.size(); j++) {
+				RegisterInfo registerInfo = currSlice.get(j);
+				if(registerInfo.isRead && !registerInfo.isWritten)
+					registerInfo.type = prevSlice.get(j).type;
 			}
 		}
 	}

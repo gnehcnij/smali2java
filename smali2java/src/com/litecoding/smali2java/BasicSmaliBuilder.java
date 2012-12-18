@@ -379,6 +379,8 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	{
 		Register var = new Register();
 		var.setName(rule.spelling);
+		//map parameter register
+		var.mapRegister(currentMethod);
 		return var;
 	}
 
@@ -394,6 +396,8 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	public Object visit(Rule_codeRegister rule) {
 		Register var = new Register();
 		var.setName(rule.spelling);
+		//map parameter register
+		var.mapRegister(currentMethod);
 		return var;
 	}
 	

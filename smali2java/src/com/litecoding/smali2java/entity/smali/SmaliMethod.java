@@ -1,5 +1,6 @@
 package com.litecoding.smali2java.entity.smali;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class SmaliMethod extends SmaliEntity
 	protected int locals = 0;
 	protected List<SmaliCodeEntity> commands = new LinkedList<SmaliCodeEntity>();
 	
+	protected ArrayList<Integer> registerMapping = new ArrayList<Integer>();
 	
 	public String getName()
 	{
@@ -71,5 +73,29 @@ public class SmaliMethod extends SmaliEntity
 	public void addCommand(SmaliCodeEntity command)
 	{
 		this.commands.add(command);
+	}
+	
+	public int mapParameterToRegister(int paramId) {
+		return registerMapping.get(paramId);
+	}
+	
+	public void buildRegisterMapping() {
+		registerMapping.clear();
+		int currIdx = this.locals;
+		
+		if(!isFlagSet(STATIC)) {
+			registerMapping.add(currIdx);
+			currIdx++;
+		}
+		
+		for(Param param : params) {
+			registerMapping.add(currIdx);
+			if("J".equals(param.getType()) ||
+					"D".equals(param.getType())) {
+				currIdx += 2;
+			} else {
+				currIdx++;
+			}
+		}
 	}
 }

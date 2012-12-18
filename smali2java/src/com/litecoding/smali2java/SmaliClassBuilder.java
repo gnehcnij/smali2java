@@ -204,6 +204,9 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 		}
 		
 		smaliClass.addMethod(currentMethod);
+		
+		//always build register mapping here because of probably missing .locals or .registers
+		currentMethod.buildRegisterMapping();
 		return rule.spelling;
 	}
 
@@ -264,6 +267,8 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 				currParamNumber++;
 			} else if(innerRule instanceof Rule_methodLocals) { 
 				currentMethod.setLocals((Integer)innerRule.accept(this));
+				//rebuild register mapping
+				currentMethod.buildRegisterMapping();
 			} else if(innerRule instanceof Rule_cmdAny) {
 				currentMethod.addCommand((SmaliCodeEntity)innerRule.accept(this));
 			} else if(innerRule instanceof Rule_label) {
