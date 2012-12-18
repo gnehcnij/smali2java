@@ -405,7 +405,7 @@ public class SmaliRenderer {
 			//copy type of register in previous slice if it wasn't modified
 			for(int j = 0; j < currSlice.size(); j++) {
 				RegisterInfo registerInfo = currSlice.get(j);
-				if(registerInfo.isRead && !registerInfo.isWritten)
+				if(!registerInfo.isWritten)
 					registerInfo.type = prevSlice.get(j).type;
 			}
 		}
