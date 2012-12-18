@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -46,7 +46,7 @@ final public class Rule_classHeader extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_classDirectiveHeader.parse(context);
+            rule = Rule_classClass.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -61,7 +61,7 @@ final public class Rule_classHeader extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_superDirectiveHeader.parse(context);
+            rule = Rule_classSuper.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -91,7 +91,7 @@ final public class Rule_classHeader extends Rule
                   int c2 = 0;
                   for (int i2 = 0; i2 < 1 && f2; i2++)
                   {
-                    rule = Rule_sourceDirectiveHeader.parse(context);
+                    rule = Rule_classSource.parse(context);
                     if ((f2 = rule != null))
                     {
                       e2.add(rule);
@@ -118,7 +118,7 @@ final public class Rule_classHeader extends Rule
           int c1 = 0;
           while (f1)
           {
-            rule = Rule_implementsDirectiveHeader.parse(context);
+            rule = Rule_classImplements.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);

@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_methodLineParam.java
+ * Rule_methodParam.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_methodLineParam extends Rule
+final public class Rule_methodParam extends Rule
 {
-  private Rule_methodLineParam(String spelling, ArrayList<Rule> rules)
+  private Rule_methodParam(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_methodLineParam extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_methodLineParam parse(ParserContext context)
+  public static Rule_methodParam parse(ParserContext context)
   {
-    context.push("methodLineParam");
+    context.push("methodParam");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -192,13 +192,13 @@ final public class Rule_methodLineParam extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_methodLineParam(context.text.substring(s0, context.index), e0);
+      rule = new Rule_methodParam(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("methodLineParam", parsed);
+    context.pop("methodParam", parsed);
 
-    return (Rule_methodLineParam)rule;
+    return (Rule_methodParam)rule;
   }
 }
 

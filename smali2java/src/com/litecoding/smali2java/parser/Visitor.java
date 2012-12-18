@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -46,39 +46,41 @@ public interface Visitor
   public Object visit(Rule_intValue rule);
   public Object visit(Rule_strValue rule);
   public Object visit(Rule_value rule);
-  public Object visit(Rule_label rule);
-  public Object visit(Rule_smaliParam rule);
-  public Object visit(Rule_smaliVar rule);
-  public Object visit(Rule_smaliVarDst rule);
-  public Object visit(Rule_smaliVarGroup rule);
-  public Object visit(Rule_endDirective rule);
-  public Object visit(Rule_classDirective rule);
-  public Object visit(Rule_superDirective rule);
-  public Object visit(Rule_sourceDirective rule);
-  public Object visit(Rule_implementsDirective rule);
-  public Object visit(Rule_fieldDirective rule);
-  public Object visit(Rule_methodDirective rule);
-  public Object visit(Rule_endMethodDirective rule);
-  public Object visit(Rule_registersDirective rule);
-  public Object visit(Rule_localDirective rule);
+  public Object visit(Rule_codeLabel rule);
+  public Object visit(Rule_codeRegisterP rule);
+  public Object visit(Rule_codeRegisterV rule);
+  public Object visit(Rule_codeRegisterVDst rule);
+  public Object visit(Rule_codeRegister rule);
+  public Object visit(Rule_codeRegisterGroup rule);
+  public Object visit(Rule_dirClass rule);
+  public Object visit(Rule_dirEnd rule);
+  public Object visit(Rule_dirEndMethod rule);
+  public Object visit(Rule_dirImplements rule);
+  public Object visit(Rule_dirField rule);
+  public Object visit(Rule_dirLocal rule);
+  public Object visit(Rule_dirMethod rule);
+  public Object visit(Rule_dirRegisters rule);
+  public Object visit(Rule_dirSuper rule);
+  public Object visit(Rule_dirSource rule);
   public Object visit(Rule_smali rule);
   public Object visit(Rule_todoStubLine rule);
   public Object visit(Rule_classHeader rule);
-  public Object visit(Rule_classDirectiveHeader rule);
-  public Object visit(Rule_superDirectiveHeader rule);
-  public Object visit(Rule_sourceDirectiveHeader rule);
-  public Object visit(Rule_implementsDirectiveHeader rule);
+  public Object visit(Rule_classClass rule);
+  public Object visit(Rule_classSuper rule);
+  public Object visit(Rule_classSource rule);
+  public Object visit(Rule_classImplements rule);
+  public Object visit(Rule_methodLocals rule);
+  public Object visit(Rule_methodParam rule);
+  public Object visit(Rule_methodPrologue rule);
+  public Object visit(Rule_methodLine rule);
+  public Object visit(Rule_methodRegisters rule);
+  public Object visit(Rule_methodLocal rule);
   public Object visit(Rule_classField rule);
   public Object visit(Rule_classMethod rule);
   public Object visit(Rule_classConstructorName rule);
   public Object visit(Rule_classMethodProto rule);
   public Object visit(Rule_methodBody rule);
-  public Object visit(Rule_methodLineLocals rule);
-  public Object visit(Rule_methodLineParam rule);
-  public Object visit(Rule_methodLinePrologue rule);
-  public Object visit(Rule_methodLineNumber rule);
-  public Object visit(Rule_methodLineRegisters rule);
-  public Object visit(Rule_methodLineLocal rule);
+  public Object visit(Rule_label rule);
   public Object visit(Rule_smaliConstructorName rule);
   public Object visit(Rule_smaliFieldRef rule);
   public Object visit(Rule_smaliMethodRef rule);
@@ -99,7 +101,6 @@ public interface Visitor
   public Object visit(Rule_cmdIput rule);
   public Object visit(Rule_cmdIputObject rule);
   public Object visit(Rule_cmdIputWide rule);
-  public Object visit(Rule_cmdLabel rule);
   public Object visit(Rule_cmdMove rule);
   public Object visit(Rule_cmdMoveResultObject rule);
   public Object visit(Rule_cmdNewInstance rule);

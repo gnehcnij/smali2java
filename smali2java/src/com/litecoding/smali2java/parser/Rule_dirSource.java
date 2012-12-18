@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_implementsDirective.java
+ * Rule_dirSource.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_implementsDirective extends Rule
+final public class Rule_dirSource extends Rule
 {
-  private Rule_implementsDirective(String spelling, ArrayList<Rule> rules)
+  private Rule_dirSource(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_implementsDirective extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_implementsDirective parse(ParserContext context)
+  public static Rule_dirSource parse(ParserContext context)
   {
-    context.push("implementsDirective");
+    context.push("dirSource");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -46,7 +46,7 @@ final public class Rule_implementsDirective extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_StringValue.parse(context, ".implements");
+            rule = Terminal_StringValue.parse(context, ".source");
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -64,13 +64,13 @@ final public class Rule_implementsDirective extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_implementsDirective(context.text.substring(s0, context.index), e0);
+      rule = new Rule_dirSource(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("implementsDirective", parsed);
+    context.pop("dirSource", parsed);
 
-    return (Rule_implementsDirective)rule;
+    return (Rule_dirSource)rule;
   }
 }
 

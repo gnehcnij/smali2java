@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_sourceDirective.java
+ * Rule_dirLocal.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_sourceDirective extends Rule
+final public class Rule_dirLocal extends Rule
 {
-  private Rule_sourceDirective(String spelling, ArrayList<Rule> rules)
+  private Rule_dirLocal(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_sourceDirective extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_sourceDirective parse(ParserContext context)
+  public static Rule_dirLocal parse(ParserContext context)
   {
-    context.push("sourceDirective");
+    context.push("dirLocal");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -46,7 +46,7 @@ final public class Rule_sourceDirective extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_StringValue.parse(context, ".source");
+            rule = Terminal_StringValue.parse(context, ".local");
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -64,13 +64,13 @@ final public class Rule_sourceDirective extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_sourceDirective(context.text.substring(s0, context.index), e0);
+      rule = new Rule_dirLocal(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("sourceDirective", parsed);
+    context.pop("dirLocal", parsed);
 
-    return (Rule_sourceDirective)rule;
+    return (Rule_dirLocal)rule;
   }
 }
 

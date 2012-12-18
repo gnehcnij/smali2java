@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_smaliVar.java
+ * Rule_dirRegisters.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_smaliVar extends Rule
+final public class Rule_dirRegisters extends Rule
 {
-  private Rule_smaliVar(String spelling, ArrayList<Rule> rules)
+  private Rule_dirRegisters(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_smaliVar extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_smaliVar parse(ParserContext context)
+  public static Rule_dirRegisters parse(ParserContext context)
   {
-    context.push("smaliVar");
+    context.push("dirRegisters");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -46,22 +46,7 @@ final public class Rule_smaliVar extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_StringValue.parse(context, "v");
-            if ((f1 = rule != null))
-            {
-              e1.add(rule);
-              c1++;
-            }
-          }
-          parsed = c1 == 1;
-        }
-        if (parsed)
-        {
-          boolean f1 = true;
-          int c1 = 0;
-          for (int i1 = 0; i1 < 1 && f1; i1++)
-          {
-            rule = Rule_intDecValue.parse(context);
+            rule = Terminal_StringValue.parse(context, ".registers");
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -79,13 +64,13 @@ final public class Rule_smaliVar extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_smaliVar(context.text.substring(s0, context.index), e0);
+      rule = new Rule_dirRegisters(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("smaliVar", parsed);
+    context.pop("dirRegisters", parsed);
 
-    return (Rule_smaliVar)rule;
+    return (Rule_dirRegisters)rule;
   }
 }
 

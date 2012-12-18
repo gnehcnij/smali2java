@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_sourceDirectiveHeader.java
+ * Rule_classImplements.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_sourceDirectiveHeader extends Rule
+final public class Rule_classImplements extends Rule
 {
-  private Rule_sourceDirectiveHeader(String spelling, ArrayList<Rule> rules)
+  private Rule_classImplements(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_sourceDirectiveHeader extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_sourceDirectiveHeader parse(ParserContext context)
+  public static Rule_classImplements parse(ParserContext context)
   {
-    context.push("sourceDirectiveHeader");
+    context.push("classImplements");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -62,7 +62,7 @@ final public class Rule_sourceDirectiveHeader extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_sourceDirective.parse(context);
+            rule = Rule_dirImplements.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -93,7 +93,7 @@ final public class Rule_sourceDirectiveHeader extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_fileName.parse(context);
+            rule = Rule_className.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -142,13 +142,13 @@ final public class Rule_sourceDirectiveHeader extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_sourceDirectiveHeader(context.text.substring(s0, context.index), e0);
+      rule = new Rule_classImplements(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("sourceDirectiveHeader", parsed);
+    context.pop("classImplements", parsed);
 
-    return (Rule_sourceDirectiveHeader)rule;
+    return (Rule_classImplements)rule;
   }
 }
 

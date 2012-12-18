@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_registersDirective.java
+ * Rule_codeRegisterV.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_registersDirective extends Rule
+final public class Rule_codeRegisterV extends Rule
 {
-  private Rule_registersDirective(String spelling, ArrayList<Rule> rules)
+  private Rule_codeRegisterV(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_registersDirective extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_registersDirective parse(ParserContext context)
+  public static Rule_codeRegisterV parse(ParserContext context)
   {
-    context.push("registersDirective");
+    context.push("codeRegisterV");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -46,7 +46,22 @@ final public class Rule_registersDirective extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_StringValue.parse(context, ".registers");
+            rule = Terminal_StringValue.parse(context, "v");
+            if ((f1 = rule != null))
+            {
+              e1.add(rule);
+              c1++;
+            }
+          }
+          parsed = c1 == 1;
+        }
+        if (parsed)
+        {
+          boolean f1 = true;
+          int c1 = 0;
+          for (int i1 = 0; i1 < 1 && f1; i1++)
+          {
+            rule = Rule_intDecValue.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -64,13 +79,13 @@ final public class Rule_registersDirective extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_registersDirective(context.text.substring(s0, context.index), e0);
+      rule = new Rule_codeRegisterV(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("registersDirective", parsed);
+    context.pop("codeRegisterV", parsed);
 
-    return (Rule_registersDirective)rule;
+    return (Rule_codeRegisterV)rule;
   }
 }
 

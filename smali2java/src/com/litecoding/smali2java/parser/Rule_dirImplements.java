@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_fieldDirective.java
+ * Rule_dirImplements.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_fieldDirective extends Rule
+final public class Rule_dirImplements extends Rule
 {
-  private Rule_fieldDirective(String spelling, ArrayList<Rule> rules)
+  private Rule_dirImplements(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_fieldDirective extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_fieldDirective parse(ParserContext context)
+  public static Rule_dirImplements parse(ParserContext context)
   {
-    context.push("fieldDirective");
+    context.push("dirImplements");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -46,7 +46,7 @@ final public class Rule_fieldDirective extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_StringValue.parse(context, ".field");
+            rule = Terminal_StringValue.parse(context, ".implements");
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -64,13 +64,13 @@ final public class Rule_fieldDirective extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_fieldDirective(context.text.substring(s0, context.index), e0);
+      rule = new Rule_dirImplements(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("fieldDirective", parsed);
+    context.pop("dirImplements", parsed);
 
-    return (Rule_fieldDirective)rule;
+    return (Rule_dirImplements)rule;
   }
 }
 

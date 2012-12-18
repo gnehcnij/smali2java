@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_smaliParam.java
+ * Rule_codeLabel.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_smaliParam extends Rule
+final public class Rule_codeLabel extends Rule
 {
-  private Rule_smaliParam(String spelling, ArrayList<Rule> rules)
+  private Rule_codeLabel(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_smaliParam extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_smaliParam parse(ParserContext context)
+  public static Rule_codeLabel parse(ParserContext context)
   {
-    context.push("smaliParam");
+    context.push("codeLabel");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -46,7 +46,7 @@ final public class Rule_smaliParam extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_StringValue.parse(context, "p");
+            rule = Rule_COLON.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -61,7 +61,7 @@ final public class Rule_smaliParam extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_intDecValue.parse(context);
+            rule = Rule_qualifier.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -79,13 +79,13 @@ final public class Rule_smaliParam extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_smaliParam(context.text.substring(s0, context.index), e0);
+      rule = new Rule_codeLabel(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("smaliParam", parsed);
+    context.pop("codeLabel", parsed);
 
-    return (Rule_smaliParam)rule;
+    return (Rule_codeLabel)rule;
   }
 }
 

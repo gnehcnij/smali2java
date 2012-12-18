@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
- * Rule_comment.java
+ * Rule_codeRegisterVDst.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_comment extends Rule
+final public class Rule_codeRegisterVDst extends Rule
 {
-  private Rule_comment(String spelling, ArrayList<Rule> rules)
+  private Rule_codeRegisterVDst(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_comment extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_comment parse(ParserContext context)
+  public static Rule_codeRegisterVDst parse(ParserContext context)
   {
-    context.push("comment");
+    context.push("codeRegisterVDst");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -43,41 +43,10 @@ final public class Rule_comment extends Rule
         if (parsed)
         {
           boolean f1 = true;
-          @SuppressWarnings("unused")
-          int c1 = 0;
-          while (f1)
-          {
-            rule = Rule_fmtSeparator.parse(context);
-            if ((f1 = rule != null))
-            {
-              e1.add(rule);
-              c1++;
-            }
-          }
-          parsed = true;
-        }
-        if (parsed)
-        {
-          boolean f1 = true;
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_commentSequence.parse(context);
-            if ((f1 = rule != null))
-            {
-              e1.add(rule);
-              c1++;
-            }
-          }
-          parsed = c1 == 1;
-        }
-        if (parsed)
-        {
-          boolean f1 = true;
-          int c1 = 0;
-          for (int i1 = 0; i1 < 1 && f1; i1++)
-          {
-            rule = Rule_CRLF.parse(context);
+            rule = Rule_codeRegisterV.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -95,13 +64,13 @@ final public class Rule_comment extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_comment(context.text.substring(s0, context.index), e0);
+      rule = new Rule_codeRegisterVDst(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("comment", parsed);
+    context.pop("codeRegisterVDst", parsed);
 
-    return (Rule_comment)rule;
+    return (Rule_codeRegisterVDst)rule;
   }
 }
 

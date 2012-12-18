@@ -11,8 +11,8 @@ import com.litecoding.smali2java.entity.smali.Param;
 import com.litecoding.smali2java.entity.smali.SmaliClass;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
 import com.litecoding.smali2java.entity.smali.Value;
-import com.litecoding.smali2java.entity.smali.Variable;
-import com.litecoding.smali2java.entity.smali.VariableGroup;
+import com.litecoding.smali2java.entity.smali.Register;
+import com.litecoding.smali2java.entity.smali.RegisterGroup;
 import com.litecoding.smali2java.parser.*;
 
 public abstract class BasicSmaliBuilder extends BasicTextBuilder
@@ -81,37 +81,37 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}
 	
 	@Override
-	public Object visit(Rule_classDirective rule)
+	public Object visit(Rule_dirClass rule)
 	{
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_superDirective rule)
+	public Object visit(Rule_dirSuper rule)
 	{
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_sourceDirective rule)
+	public Object visit(Rule_dirSource rule)
 	{
 		return rule.spelling;
 	}
 
 	@Override
-	public Object visit(Rule_implementsDirective rule)
+	public Object visit(Rule_dirImplements rule)
 	{
 		return rule.spelling;
 	}
 
 	@Override
-	public Object visit(Rule_fieldDirective rule)
+	public Object visit(Rule_dirField rule)
 	{
 		return rule.spelling;
 	}
 
 	@Override
-	public Object visit(Rule_methodDirective rule)
+	public Object visit(Rule_dirMethod rule)
 	{
 		return rule.spelling;
 	}	
@@ -160,25 +160,25 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}
 
 	@Override
-	public Object visit(Rule_endDirective rule)
+	public Object visit(Rule_dirEnd rule)
 	{
 		return rule.spelling;
 	}
 
 	@Override
-	public Object visit(Rule_endMethodDirective rule)
+	public Object visit(Rule_dirEndMethod rule)
 	{
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_registersDirective rule)
+	public Object visit(Rule_dirRegisters rule)
 	{
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_localDirective rule)
+	public Object visit(Rule_dirLocal rule)
 	{
 		return rule.spelling;
 	}
@@ -293,15 +293,19 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}
 
 	@Override
-	public Object visit(Rule_label rule)
+	public Object visit(Rule_codeLabel rule)
 	{
 		return generateCmdFromRules(rule.rules);
 	}
 
 	@Override
-	public Object visit(Rule_cmdLabel rule)
+	public Object visit(Rule_label rule)
 	{
-		return generateCmdFromRules(rule.rules);
+		for(Rule innerRule : rule.rules) {
+			if(innerRule instanceof Rule_codeLabel)
+				return EntityFactory.createLabel(innerRule.rules.get(1).spelling);
+		}
+		return null;
 	}
 
 	@Override
@@ -371,25 +375,32 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}
 
 	@Override
-	public Object visit(Rule_smaliParam rule)
+	public Object visit(Rule_codeRegisterP rule)
 	{
-		Variable var = new Variable();
+		Register var = new Register();
 		var.setName(rule.spelling);
 		return var;
 	}
 
 	@Override
-	public Object visit(Rule_smaliVar rule)
+	public Object visit(Rule_codeRegisterV rule)
 	{		
-		Variable var = new Variable();
+		Register var = new Register();
 		var.setName(rule.spelling);
 		return var;
 	}
 	
 	@Override
-	public Object visit(Rule_smaliVarDst rule)
+	public Object visit(Rule_codeRegister rule) {
+		Register var = new Register();
+		var.setName(rule.spelling);
+		return var;
+	}
+	
+	@Override
+	public Object visit(Rule_codeRegisterVDst rule)
 	{		
-		Variable var = new Variable();
+		Register var = new Register();
 		var.setName(rule.spelling);
 		var.setDestination(true);
 		return var;
@@ -449,13 +460,13 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}	
 	
 	@Override
-	public Object visit(Rule_smaliVarGroup rule)
+	public Object visit(Rule_codeRegisterGroup rule)
 	{
-		VariableGroup group = new VariableGroup();
+		RegisterGroup group = new RegisterGroup();
 		for(Rule innerRule : rule.rules)
 		{
-			if(innerRule instanceof Rule_smaliVar ||
-			   innerRule instanceof Rule_smaliParam)
+			if(innerRule instanceof Rule_codeRegisterV ||
+			   innerRule instanceof Rule_codeRegisterP)
 			{
 				group.addArgument((SmaliCodeEntity)innerRule.accept(this));
 			}
@@ -463,49 +474,32 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 		return group;
 	}	
 
-	private Object generateCmdFromRules(ArrayList<Rule> rules)
-	{
+	private Object generateCmdFromRules(ArrayList<Rule> rules) {
 		SmaliCodeEntity command = null;
 		
 		boolean cmdDetermined = false;
-		for(Rule innerRule : rules)
-		{
+		for(Rule innerRule : rules) {
 			if(innerRule instanceof Rule_fmtSeparator)
 				continue;
 			
-			if(innerRule instanceof Rule_label)
-			{
-				if(!cmdDetermined)
-				{
-					cmdDetermined = true;
-					command = EntityFactory.createLabel(innerRule.rules.get(1).spelling);
-				}
-				else
-				{
+			if(innerRule instanceof Rule_codeLabel) {
 					Label innerLabel = EntityFactory.createLabel(innerRule.rules.get(1).spelling);
 					command.addArgument(innerLabel);
-				}
-			}
-			else if(innerRule instanceof Terminal_StringValue)
-			{
-				if(!cmdDetermined)
-				{
+			} else if(innerRule instanceof Terminal_StringValue) {
+				if(!cmdDetermined) {
 					cmdDetermined = true;
 					command = EntityFactory.createInstruction(innerRule.spelling, null);
 				}				
-			}
-			else if(innerRule instanceof Rule_smaliVar ||
-					innerRule instanceof Rule_smaliVarDst ||
-					innerRule instanceof Rule_smaliParam ||
-					innerRule instanceof Rule_smaliVarGroup ||
+			} else if(innerRule instanceof Rule_codeRegisterV ||
+					innerRule instanceof Rule_codeRegisterVDst ||
+					innerRule instanceof Rule_codeRegisterP ||
+					innerRule instanceof Rule_codeRegister ||
+					innerRule instanceof Rule_codeRegisterGroup ||
 					innerRule instanceof Rule_smaliFieldRef ||
-					innerRule instanceof Rule_smaliMethodRef)
-			{
+					innerRule instanceof Rule_smaliMethodRef) {
 				command.getArguments().add((SmaliCodeEntity)innerRule.accept(this));
-			}
-			else if(innerRule instanceof Rule_intValue ||
-					innerRule instanceof Rule_strValue)
-			{
+			} else if(innerRule instanceof Rule_intValue ||
+					innerRule instanceof Rule_strValue) {
 				Value innerValue = new Value();
 				innerValue.setName(innerRule.spelling);
 				command.getArguments().add(innerValue);

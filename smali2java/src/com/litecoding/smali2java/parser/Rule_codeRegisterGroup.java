@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_smaliVarGroup.java
+ * Rule_codeRegisterGroup.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_smaliVarGroup extends Rule
+final public class Rule_codeRegisterGroup extends Rule
 {
-  private Rule_smaliVarGroup(String spelling, ArrayList<Rule> rules)
+  private Rule_codeRegisterGroup(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_smaliVarGroup extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_smaliVarGroup parse(ParserContext context)
+  public static Rule_codeRegisterGroup parse(ParserContext context)
   {
-    context.push("smaliVarGroup");
+    context.push("codeRegisterGroup");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -91,7 +91,7 @@ final public class Rule_smaliVarGroup extends Rule
                   int c2 = 0;
                   for (int i2 = 0; i2 < 1 && f2; i2++)
                   {
-                    rule = Rule_smaliParam.parse(context);
+                    rule = Rule_codeRegisterP.parse(context);
                     if ((f2 = rule != null))
                     {
                       e2.add(rule);
@@ -118,7 +118,7 @@ final public class Rule_smaliVarGroup extends Rule
                   int c2 = 0;
                   for (int i2 = 0; i2 < 1 && f2; i2++)
                   {
-                    rule = Rule_smaliVar.parse(context);
+                    rule = Rule_codeRegisterV.parse(context);
                     if ((f2 = rule != null))
                     {
                       e2.add(rule);
@@ -220,7 +220,7 @@ final public class Rule_smaliVarGroup extends Rule
                           int c3 = 0;
                           for (int i3 = 0; i3 < 1 && f3; i3++)
                           {
-                            rule = Rule_smaliParam.parse(context);
+                            rule = Rule_codeRegisterP.parse(context);
                             if ((f3 = rule != null))
                             {
                               e3.add(rule);
@@ -247,7 +247,7 @@ final public class Rule_smaliVarGroup extends Rule
                           int c3 = 0;
                           for (int i3 = 0; i3 < 1 && f3; i3++)
                           {
-                            rule = Rule_smaliVar.parse(context);
+                            rule = Rule_codeRegisterV.parse(context);
                             if ((f3 = rule != null))
                             {
                               e3.add(rule);
@@ -318,13 +318,13 @@ final public class Rule_smaliVarGroup extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_smaliVarGroup(context.text.substring(s0, context.index), e0);
+      rule = new Rule_codeRegisterGroup(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("smaliVarGroup", parsed);
+    context.pop("codeRegisterGroup", parsed);
 
-    return (Rule_smaliVarGroup)rule;
+    return (Rule_codeRegisterGroup)rule;
   }
 }
 

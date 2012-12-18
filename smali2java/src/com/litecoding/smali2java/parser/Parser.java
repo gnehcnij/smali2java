@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -194,39 +194,41 @@ public class Parser
     else if (rulename.equalsIgnoreCase("intValue")) rule = Rule_intValue.parse(context);
     else if (rulename.equalsIgnoreCase("strValue")) rule = Rule_strValue.parse(context);
     else if (rulename.equalsIgnoreCase("value")) rule = Rule_value.parse(context);
-    else if (rulename.equalsIgnoreCase("label")) rule = Rule_label.parse(context);
-    else if (rulename.equalsIgnoreCase("smaliParam")) rule = Rule_smaliParam.parse(context);
-    else if (rulename.equalsIgnoreCase("smaliVar")) rule = Rule_smaliVar.parse(context);
-    else if (rulename.equalsIgnoreCase("smaliVarDst")) rule = Rule_smaliVarDst.parse(context);
-    else if (rulename.equalsIgnoreCase("smaliVarGroup")) rule = Rule_smaliVarGroup.parse(context);
-    else if (rulename.equalsIgnoreCase("endDirective")) rule = Rule_endDirective.parse(context);
-    else if (rulename.equalsIgnoreCase("classDirective")) rule = Rule_classDirective.parse(context);
-    else if (rulename.equalsIgnoreCase("superDirective")) rule = Rule_superDirective.parse(context);
-    else if (rulename.equalsIgnoreCase("sourceDirective")) rule = Rule_sourceDirective.parse(context);
-    else if (rulename.equalsIgnoreCase("implementsDirective")) rule = Rule_implementsDirective.parse(context);
-    else if (rulename.equalsIgnoreCase("fieldDirective")) rule = Rule_fieldDirective.parse(context);
-    else if (rulename.equalsIgnoreCase("methodDirective")) rule = Rule_methodDirective.parse(context);
-    else if (rulename.equalsIgnoreCase("endMethodDirective")) rule = Rule_endMethodDirective.parse(context);
-    else if (rulename.equalsIgnoreCase("registersDirective")) rule = Rule_registersDirective.parse(context);
-    else if (rulename.equalsIgnoreCase("localDirective")) rule = Rule_localDirective.parse(context);
+    else if (rulename.equalsIgnoreCase("codeLabel")) rule = Rule_codeLabel.parse(context);
+    else if (rulename.equalsIgnoreCase("codeRegisterP")) rule = Rule_codeRegisterP.parse(context);
+    else if (rulename.equalsIgnoreCase("codeRegisterV")) rule = Rule_codeRegisterV.parse(context);
+    else if (rulename.equalsIgnoreCase("codeRegisterVDst")) rule = Rule_codeRegisterVDst.parse(context);
+    else if (rulename.equalsIgnoreCase("codeRegister")) rule = Rule_codeRegister.parse(context);
+    else if (rulename.equalsIgnoreCase("codeRegisterGroup")) rule = Rule_codeRegisterGroup.parse(context);
+    else if (rulename.equalsIgnoreCase("dirClass")) rule = Rule_dirClass.parse(context);
+    else if (rulename.equalsIgnoreCase("dirEnd")) rule = Rule_dirEnd.parse(context);
+    else if (rulename.equalsIgnoreCase("dirEndMethod")) rule = Rule_dirEndMethod.parse(context);
+    else if (rulename.equalsIgnoreCase("dirImplements")) rule = Rule_dirImplements.parse(context);
+    else if (rulename.equalsIgnoreCase("dirField")) rule = Rule_dirField.parse(context);
+    else if (rulename.equalsIgnoreCase("dirLocal")) rule = Rule_dirLocal.parse(context);
+    else if (rulename.equalsIgnoreCase("dirMethod")) rule = Rule_dirMethod.parse(context);
+    else if (rulename.equalsIgnoreCase("dirRegisters")) rule = Rule_dirRegisters.parse(context);
+    else if (rulename.equalsIgnoreCase("dirSuper")) rule = Rule_dirSuper.parse(context);
+    else if (rulename.equalsIgnoreCase("dirSource")) rule = Rule_dirSource.parse(context);
     else if (rulename.equalsIgnoreCase("smali")) rule = Rule_smali.parse(context);
     else if (rulename.equalsIgnoreCase("todoStubLine")) rule = Rule_todoStubLine.parse(context);
     else if (rulename.equalsIgnoreCase("classHeader")) rule = Rule_classHeader.parse(context);
-    else if (rulename.equalsIgnoreCase("classDirectiveHeader")) rule = Rule_classDirectiveHeader.parse(context);
-    else if (rulename.equalsIgnoreCase("superDirectiveHeader")) rule = Rule_superDirectiveHeader.parse(context);
-    else if (rulename.equalsIgnoreCase("sourceDirectiveHeader")) rule = Rule_sourceDirectiveHeader.parse(context);
-    else if (rulename.equalsIgnoreCase("implementsDirectiveHeader")) rule = Rule_implementsDirectiveHeader.parse(context);
+    else if (rulename.equalsIgnoreCase("classClass")) rule = Rule_classClass.parse(context);
+    else if (rulename.equalsIgnoreCase("classSuper")) rule = Rule_classSuper.parse(context);
+    else if (rulename.equalsIgnoreCase("classSource")) rule = Rule_classSource.parse(context);
+    else if (rulename.equalsIgnoreCase("classImplements")) rule = Rule_classImplements.parse(context);
+    else if (rulename.equalsIgnoreCase("methodLocals")) rule = Rule_methodLocals.parse(context);
+    else if (rulename.equalsIgnoreCase("methodParam")) rule = Rule_methodParam.parse(context);
+    else if (rulename.equalsIgnoreCase("methodPrologue")) rule = Rule_methodPrologue.parse(context);
+    else if (rulename.equalsIgnoreCase("methodLine")) rule = Rule_methodLine.parse(context);
+    else if (rulename.equalsIgnoreCase("methodRegisters")) rule = Rule_methodRegisters.parse(context);
+    else if (rulename.equalsIgnoreCase("methodLocal")) rule = Rule_methodLocal.parse(context);
     else if (rulename.equalsIgnoreCase("classField")) rule = Rule_classField.parse(context);
     else if (rulename.equalsIgnoreCase("classMethod")) rule = Rule_classMethod.parse(context);
     else if (rulename.equalsIgnoreCase("classConstructorName")) rule = Rule_classConstructorName.parse(context);
     else if (rulename.equalsIgnoreCase("classMethodProto")) rule = Rule_classMethodProto.parse(context);
     else if (rulename.equalsIgnoreCase("methodBody")) rule = Rule_methodBody.parse(context);
-    else if (rulename.equalsIgnoreCase("methodLineLocals")) rule = Rule_methodLineLocals.parse(context);
-    else if (rulename.equalsIgnoreCase("methodLineParam")) rule = Rule_methodLineParam.parse(context);
-    else if (rulename.equalsIgnoreCase("methodLinePrologue")) rule = Rule_methodLinePrologue.parse(context);
-    else if (rulename.equalsIgnoreCase("methodLineNumber")) rule = Rule_methodLineNumber.parse(context);
-    else if (rulename.equalsIgnoreCase("methodLineRegisters")) rule = Rule_methodLineRegisters.parse(context);
-    else if (rulename.equalsIgnoreCase("methodLineLocal")) rule = Rule_methodLineLocal.parse(context);
+    else if (rulename.equalsIgnoreCase("label")) rule = Rule_label.parse(context);
     else if (rulename.equalsIgnoreCase("smaliConstructorName")) rule = Rule_smaliConstructorName.parse(context);
     else if (rulename.equalsIgnoreCase("smaliFieldRef")) rule = Rule_smaliFieldRef.parse(context);
     else if (rulename.equalsIgnoreCase("smaliMethodRef")) rule = Rule_smaliMethodRef.parse(context);
@@ -247,7 +249,6 @@ public class Parser
     else if (rulename.equalsIgnoreCase("cmdIput")) rule = Rule_cmdIput.parse(context);
     else if (rulename.equalsIgnoreCase("cmdIputObject")) rule = Rule_cmdIputObject.parse(context);
     else if (rulename.equalsIgnoreCase("cmdIputWide")) rule = Rule_cmdIputWide.parse(context);
-    else if (rulename.equalsIgnoreCase("cmdLabel")) rule = Rule_cmdLabel.parse(context);
     else if (rulename.equalsIgnoreCase("cmdMove")) rule = Rule_cmdMove.parse(context);
     else if (rulename.equalsIgnoreCase("cmdMoveResultObject")) rule = Rule_cmdMoveResultObject.parse(context);
     else if (rulename.equalsIgnoreCase("cmdNewInstance")) rule = Rule_cmdNewInstance.parse(context);

@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_smaliVarDst.java
+ * Rule_dirClass.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_smaliVarDst extends Rule
+final public class Rule_dirClass extends Rule
 {
-  private Rule_smaliVarDst(String spelling, ArrayList<Rule> rules)
+  private Rule_dirClass(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_smaliVarDst extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_smaliVarDst parse(ParserContext context)
+  public static Rule_dirClass parse(ParserContext context)
   {
-    context.push("smaliVarDst");
+    context.push("dirClass");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -46,7 +46,7 @@ final public class Rule_smaliVarDst extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_smaliVar.parse(context);
+            rule = Terminal_StringValue.parse(context, ".class");
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -64,13 +64,13 @@ final public class Rule_smaliVarDst extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_smaliVarDst(context.text.substring(s0, context.index), e0);
+      rule = new Rule_dirClass(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("smaliVarDst", parsed);
+    context.pop("dirClass", parsed);
 
-    return (Rule_smaliVarDst)rule;
+    return (Rule_dirClass)rule;
   }
 }
 

@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_methodDirective.java
+ * Rule_codeRegister.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_methodDirective extends Rule
+final public class Rule_codeRegister extends Rule
 {
-  private Rule_methodDirective(String spelling, ArrayList<Rule> rules)
+  private Rule_codeRegister(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_methodDirective extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_methodDirective parse(ParserContext context)
+  public static Rule_codeRegister parse(ParserContext context)
   {
-    context.push("methodDirective");
+    context.push("codeRegister");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -46,7 +46,34 @@ final public class Rule_methodDirective extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_StringValue.parse(context, ".method");
+            rule = Rule_codeRegisterP.parse(context);
+            if ((f1 = rule != null))
+            {
+              e1.add(rule);
+              c1++;
+            }
+          }
+          parsed = c1 == 1;
+        }
+        if (parsed)
+          e0.addAll(e1);
+        else
+          context.index = s1;
+      }
+    }
+    if (!parsed)
+    {
+      {
+        ArrayList<Rule> e1 = new ArrayList<Rule>();
+        int s1 = context.index;
+        parsed = true;
+        if (parsed)
+        {
+          boolean f1 = true;
+          int c1 = 0;
+          for (int i1 = 0; i1 < 1 && f1; i1++)
+          {
+            rule = Rule_codeRegisterV.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -64,13 +91,13 @@ final public class Rule_methodDirective extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_methodDirective(context.text.substring(s0, context.index), e0);
+      rule = new Rule_codeRegister(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("methodDirective", parsed);
+    context.pop("codeRegister", parsed);
 
-    return (Rule_methodDirective)rule;
+    return (Rule_codeRegister)rule;
   }
 }
 

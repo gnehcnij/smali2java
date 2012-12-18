@@ -46,30 +46,14 @@ intHexValue = [%x2d] %x30 %x78 1*HEXDIG;
 intValue = intHexValue / intDecValue;
 strValue = QUOT *escSymbol QUOT;
 value = boolValue / intValue / strValue;
-label = COLON qualifier;
-smaliParam = "p" intDecValue;
-smaliVar   = "v" intDecValue;
-smaliVarDst = smaliVar;
-smaliVarGroup = "{" *fmtSeparator (smaliParam / smaliVar) *fmtSeparator *(COMMA *fmtSeparator (smaliParam / smaliVar) *fmtSeparator) "}";
-
-#####NEW COMMON RULES#####
+codeLabel = COLON qualifier;
 codeRegisterP = "p" intDecValue;
 codeRegisterV = "v" intDecValue;
+codeRegisterVDst = codeRegisterV;
+codeRegister = codeRegisterP / codeRegisterV;
 codeRegisterGroup = "{" *fmtSeparator (codeRegisterP / codeRegisterV) *fmtSeparator *(COMMA *fmtSeparator (codeRegisterP / codeRegisterV) *fmtSeparator) "}";
 
-#####SMALI DIRECTIVE RULE#####
-endDirective = ".end";
-classDirective = ".class";
-superDirective = ".super";
-sourceDirective = ".source";
-implementsDirective = ".implements";
-fieldDirective = ".field";
-methodDirective = ".method";
-endMethodDirective = endDirective *fmtSeparator "method";
-registersDirective = ".registers";
-localDirective = ".local";
-
-#####NEW DIRECTIVE RULES#####
+#####SMALI DIRECTIVE RULES#####
 dirClass = ".class";
 dirEnd = ".end";
 dirEndMethod = dirEnd *fmtSeparator "method";
@@ -86,11 +70,7 @@ smali = classHeader *(classField / skipLine) *(classMethod / skipLine);
 todoStubLine = *(VCHAR / fmtSeparator);
 
 #####SMALI HEADER RULES#####
-classHeader = classDirectiveHeader superDirectiveHeader [sourceDirectiveHeader] *implementsDirectiveHeader;
-classDirectiveHeader = *fmtSeparator classDirective *fmtSeparator *(accessMode *fmtSeparator) *fmtSeparator className *fmtSeparator CRLF;
-superDirectiveHeader = *fmtSeparator superDirective *fmtSeparator className *fmtSeparator CRLF;
-sourceDirectiveHeader = *fmtSeparator sourceDirective *fmtSeparator fileName *fmtSeparator CRLF;
-implementsDirectiveHeader = *fmtSeparator implementsDirective *fmtSeparator className *fmtSeparator CRLF;
+classHeader = classClass classSuper [classSource] *classImplements;
 
 #class directive statements
 classClass = *fmtSeparator dirClass *fmtSeparator *(accessMode *fmtSeparator) *fmtSeparator className *fmtSeparator CRLF;
@@ -108,19 +88,15 @@ methodLocal = *fmtSeparator ".local" 1*fmtSeparator todoStubLine CRLF;
 
 
 #####SMALI FIELD RULES#####
-classField = *fmtSeparator fieldDirective 1*fmtSeparator *(accessMode 1*fmtSeparator) qualifier COLON type *fmtSeparator [EQ *fmtSeparator value] *fmtSeparator CRLF;
+classField = *fmtSeparator dirField 1*fmtSeparator *(accessMode 1*fmtSeparator) qualifier COLON type *fmtSeparator [EQ *fmtSeparator value] *fmtSeparator CRLF;
 
 #####SMALI METHOD RULES#####
-classMethod = *(fmtSeparator) methodDirective *(fmtSeparator) *(accessMode 1*fmtSeparator) (classConstructorName / qualifier) *(fmtSeparator) classMethodProto *(fmtSeparator) CRLF methodBody *(fmtSeparator) endMethodDirective *(fmtSeparator) CRLF;
+classMethod = *(fmtSeparator) dirMethod *(fmtSeparator) *(accessMode 1*fmtSeparator) (classConstructorName / qualifier) *(fmtSeparator) classMethodProto *(fmtSeparator) CRLF methodBody *(fmtSeparator) dirEndMethod *(fmtSeparator) CRLF;
 classConstructorName = "constructor" *(fmtSeparator) smaliConstructorName;
 classMethodProto = %x28 *type %x29 type;
-methodBody = [methodLineLocals] [methodLineRegisters] *(methodLineParam / skipLine) methodLinePrologue *(methodLineNumber / methodLineLocal / cmdAny / skipLine);
-methodLineLocals = *fmtSeparator ".locals" 1*fmtSeparator intValue *fmtSeparator CRLF;
-methodLineParam = *fmtSeparator ".parameter" [1*fmtSeparator strValue *fmtSeparator] *fmtSeparator CRLF;
-methodLinePrologue = *fmtSeparator ".prologue" *fmtSeparator CRLF;
-methodLineNumber = *fmtSeparator ".line" 1*fmtSeparator intValue *fmtSeparator CRLF;
-methodLineRegisters = *fmtSeparator ".registers" 1*fmtSeparator intValue *fmtSeparator CRLF;
-methodLineLocal = *fmtSeparator ".local" 1*fmtSeparator todoStubLine CRLF;
+methodBody = [methodLocals] [methodRegisters] *(methodParam / skipLine) methodPrologue *(methodLine / methodLocal / cmdAny / label / skipLine);
+
+label = *fmtSeparator codeLabel *fmtSeparator [commentSequence] CRLF;
 
 smaliConstructorName = ("<init>" / "<clinit>");
 smaliFieldRef = className "->" qualifier COLON type;
@@ -143,7 +119,6 @@ cmdAny =/ cmdInvokeVirtual;
 cmdAny =/ cmdIput;
 cmdAny =/ cmdIputObject;
 cmdAny =/ cmdIputWide;
-cmdAny =/ cmdLabel;
 cmdAny =/ cmdMove;
 cmdAny =/ cmdMoveResultObject;
 cmdAny =/ cmdNewInstance;
@@ -154,29 +129,28 @@ cmdAny =/ cmdReturnVoid;
 cmdAny =/ cmdReturnWide;
 cmdAny =/ cmdSputObject;
 
-cmdConst4           = *fmtSeparator "const/4" 1*fmtSeparator smaliVarDst *fmtSeparator COMMA *fmtSeparator intValue *fmtSeparator [commentSequence] CRLF;
-cmdConstString      = *fmtSeparator "const-string" 1*fmtSeparator smaliVarDst *fmtSeparator COMMA *fmtSeparator strValue *fmtSeparator [commentSequence] CRLF;
-cmdGoto             = *fmtSeparator "goto" 1*fmtSeparator label *fmtSeparator [commentSequence] CRLF;
-cmdIfEq             = *fmtSeparator "if-eq" 1*fmtSeparator (smaliVar / smaliParam) *fmtSeparator COMMA *fmtSeparator (smaliVar / smaliParam) *fmtSeparator COMMA *fmtSeparator label *fmtSeparator [commentSequence] CRLF;
-cmdIfEqz            = *fmtSeparator "if-eqz" 1*fmtSeparator (smaliVar / smaliParam) *fmtSeparator COMMA *fmtSeparator label *fmtSeparator [commentSequence] CRLF;
-cmdIfNe             = *fmtSeparator "if-ne" 1*fmtSeparator (smaliVar / smaliParam) *fmtSeparator COMMA *fmtSeparator (smaliVar / smaliParam) *fmtSeparator COMMA *fmtSeparator label *fmtSeparator [commentSequence] CRLF;
-cmdIfNez            = *fmtSeparator "if-nez" 1*fmtSeparator (smaliVar / smaliParam) *fmtSeparator COMMA *fmtSeparator label *fmtSeparator [commentSequence] CRLF;
-cmdIget             = *fmtSeparator "iget" 1*fmtSeparator smaliVarDst *fmtSeparator COMMA *fmtSeparator (smaliVar / smaliParam) *fmtSeparator COMMA *fmtSeparator smaliFieldRef *fmtSeparator [commentSequence] CRLF;
+cmdConst4           = *fmtSeparator "const/4" 1*fmtSeparator codeRegisterVDst *fmtSeparator COMMA *fmtSeparator intValue *fmtSeparator [commentSequence] CRLF;
+cmdConstString      = *fmtSeparator "const-string" 1*fmtSeparator codeRegisterVDst *fmtSeparator COMMA *fmtSeparator strValue *fmtSeparator [commentSequence] CRLF;
+cmdGoto             = *fmtSeparator "goto" 1*fmtSeparator codeLabel *fmtSeparator [commentSequence] CRLF;
+cmdIfEq             = *fmtSeparator "if-eq" 1*fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeLabel *fmtSeparator [commentSequence] CRLF;
+cmdIfEqz            = *fmtSeparator "if-eqz" 1*fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeLabel *fmtSeparator [commentSequence] CRLF;
+cmdIfNe             = *fmtSeparator "if-ne" 1*fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeLabel *fmtSeparator [commentSequence] CRLF;
+cmdIfNez            = *fmtSeparator "if-nez" 1*fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeLabel *fmtSeparator [commentSequence] CRLF;
+cmdIget             = *fmtSeparator "iget" 1*fmtSeparator codeRegisterVDst *fmtSeparator COMMA *fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator smaliFieldRef *fmtSeparator [commentSequence] CRLF;
 cmdIgetObject       = *fmtSeparator "iget-object" 1*fmtSeparator todoStubLine *fmtSeparator [commentSequence] CRLF;
 cmdIgetWide         = *fmtSeparator "iget-wide" 1*fmtSeparator todoStubLine *fmtSeparator [commentSequence] CRLF;
-cmdInvokeDirect     = *fmtSeparator "invoke-direct" 1*fmtSeparator smaliVarGroup *fmtSeparator COMMA *fmtSeparator smaliMethodRef *fmtSeparator [commentSequence] CRLF;
-cmdInvokeStatic     = *fmtSeparator "invoke-static" 1*fmtSeparator smaliVarGroup *fmtSeparator COMMA *fmtSeparator smaliMethodRef *fmtSeparator [commentSequence] CRLF;
-cmdInvokeVirtual    = *fmtSeparator "invoke-virtual" 1*fmtSeparator smaliVarGroup *fmtSeparator COMMA *fmtSeparator smaliMethodRef *fmtSeparator [commentSequence] CRLF;
-cmdIput             = *fmtSeparator "iput" 1*fmtSeparator (smaliVar / smaliParam) *fmtSeparator COMMA *fmtSeparator (smaliVar / smaliParam) *fmtSeparator COMMA *fmtSeparator smaliFieldRef *fmtSeparator [commentSequence] CRLF;
+cmdInvokeDirect     = *fmtSeparator "invoke-direct" 1*fmtSeparator codeRegisterGroup *fmtSeparator COMMA *fmtSeparator smaliMethodRef *fmtSeparator [commentSequence] CRLF;
+cmdInvokeStatic     = *fmtSeparator "invoke-static" 1*fmtSeparator codeRegisterGroup *fmtSeparator COMMA *fmtSeparator smaliMethodRef *fmtSeparator [commentSequence] CRLF;
+cmdInvokeVirtual    = *fmtSeparator "invoke-virtual" 1*fmtSeparator codeRegisterGroup *fmtSeparator COMMA *fmtSeparator smaliMethodRef *fmtSeparator [commentSequence] CRLF;
+cmdIput             = *fmtSeparator "iput" 1*fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator smaliFieldRef *fmtSeparator [commentSequence] CRLF;
 cmdIputObject       = *fmtSeparator "iput-object" 1*fmtSeparator todoStubLine *fmtSeparator [commentSequence] CRLF;
 cmdIputWide         = *fmtSeparator "iput-wide" 1*fmtSeparator todoStubLine *fmtSeparator [commentSequence] CRLF;
-cmdLabel            = *fmtSeparator label *fmtSeparator [commentSequence] CRLF;
-cmdMove             = *fmtSeparator "move" 1*fmtSeparator smaliVarDst *fmtSeparator COMMA *fmtSeparator (smaliVar / smaliParam) *fmtSeparator [commentSequence] CRLF;
-cmdMoveResultObject = *fmtSeparator "move-result-object" 1*fmtSeparator smaliVarDst *fmtSeparator [commentSequence] CRLF;
+cmdMove             = *fmtSeparator "move" 1*fmtSeparator codeRegisterVDst *fmtSeparator COMMA *fmtSeparator codeRegister *fmtSeparator [commentSequence] CRLF;
+cmdMoveResultObject = *fmtSeparator "move-result-object" 1*fmtSeparator codeRegisterVDst *fmtSeparator [commentSequence] CRLF;
 cmdNewInstance      = *fmtSeparator "new-instance" 1*fmtSeparator todoStubLine *fmtSeparator [commentSequence] CRLF;
 cmdNop              = *fmtSeparator "nop" *fmtSeparator [commentSequence] CRLF;
-cmdReturn           = *fmtSeparator "return" 1*fmtSeparator smaliVar *fmtSeparator [commentSequence] CRLF;
-cmdReturnObject     = *fmtSeparator "return-object" 1*fmtSeparator smaliVar *fmtSeparator [commentSequence] CRLF;
+cmdReturn           = *fmtSeparator "return" 1*fmtSeparator codeRegisterV *fmtSeparator [commentSequence] CRLF;
+cmdReturnObject     = *fmtSeparator "return-object" 1*fmtSeparator codeRegisterV *fmtSeparator [commentSequence] CRLF;
 cmdReturnVoid       = *fmtSeparator "return-void" *fmtSeparator [commentSequence] CRLF;
-cmdReturnWide       = *fmtSeparator "return-wide" 1*fmtSeparator smaliVar *fmtSeparator [commentSequence] CRLF;
+cmdReturnWide       = *fmtSeparator "return-wide" 1*fmtSeparator codeRegisterV *fmtSeparator [commentSequence] CRLF;
 cmdSputObject       = *fmtSeparator "sput-object" 1*fmtSeparator todoStubLine *fmtSeparator [commentSequence] CRLF;

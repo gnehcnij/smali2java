@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_methodLineNumber.java
+ * Rule_classSuper.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_methodLineNumber extends Rule
+final public class Rule_classSuper extends Rule
 {
-  private Rule_methodLineNumber(String spelling, ArrayList<Rule> rules)
+  private Rule_classSuper(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_methodLineNumber extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_methodLineNumber parse(ParserContext context)
+  public static Rule_classSuper parse(ParserContext context)
   {
-    context.push("methodLineNumber");
+    context.push("classSuper");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -62,7 +62,7 @@ final public class Rule_methodLineNumber extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_StringValue.parse(context, ".line");
+            rule = Rule_dirSuper.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -74,16 +74,8 @@ final public class Rule_methodLineNumber extends Rule
         if (parsed)
         {
           boolean f1 = true;
+          @SuppressWarnings("unused")
           int c1 = 0;
-          for (int i1 = 0; i1 < 1 && f1; i1++)
-          {
-            rule = Rule_fmtSeparator.parse(context);
-            if ((f1 = rule != null))
-            {
-              e1.add(rule);
-              c1++;
-            }
-          }
           while (f1)
           {
             rule = Rule_fmtSeparator.parse(context);
@@ -93,7 +85,7 @@ final public class Rule_methodLineNumber extends Rule
               c1++;
             }
           }
-          parsed = c1 >= 1;
+          parsed = true;
         }
         if (parsed)
         {
@@ -101,7 +93,7 @@ final public class Rule_methodLineNumber extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_intValue.parse(context);
+            rule = Rule_className.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -150,13 +142,13 @@ final public class Rule_methodLineNumber extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_methodLineNumber(context.text.substring(s0, context.index), e0);
+      rule = new Rule_classSuper(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("methodLineNumber", parsed);
+    context.pop("classSuper", parsed);
 
-    return (Rule_methodLineNumber)rule;
+    return (Rule_classSuper)rule;
   }
 }
 

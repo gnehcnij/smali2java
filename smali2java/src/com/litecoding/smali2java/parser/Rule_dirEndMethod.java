@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_methodLinePrologue.java
+ * Rule_dirEndMethod.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_methodLinePrologue extends Rule
+final public class Rule_dirEndMethod extends Rule
 {
-  private Rule_methodLinePrologue(String spelling, ArrayList<Rule> rules)
+  private Rule_dirEndMethod(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_methodLinePrologue extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_methodLinePrologue parse(ParserContext context)
+  public static Rule_dirEndMethod parse(ParserContext context)
   {
-    context.push("methodLinePrologue");
+    context.push("dirEndMethod");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -43,26 +43,10 @@ final public class Rule_methodLinePrologue extends Rule
         if (parsed)
         {
           boolean f1 = true;
-          @SuppressWarnings("unused")
-          int c1 = 0;
-          while (f1)
-          {
-            rule = Rule_fmtSeparator.parse(context);
-            if ((f1 = rule != null))
-            {
-              e1.add(rule);
-              c1++;
-            }
-          }
-          parsed = true;
-        }
-        if (parsed)
-        {
-          boolean f1 = true;
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_StringValue.parse(context, ".prologue");
+            rule = Rule_dirEnd.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -93,7 +77,7 @@ final public class Rule_methodLinePrologue extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_CRLF.parse(context);
+            rule = Terminal_StringValue.parse(context, "method");
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -111,13 +95,13 @@ final public class Rule_methodLinePrologue extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_methodLinePrologue(context.text.substring(s0, context.index), e0);
+      rule = new Rule_dirEndMethod(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("methodLinePrologue", parsed);
+    context.pop("dirEndMethod", parsed);
 
-    return (Rule_methodLinePrologue)rule;
+    return (Rule_dirEndMethod)rule;
   }
 }
 

@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_methodLineLocals.java
+ * Rule_methodLocals.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_methodLineLocals extends Rule
+final public class Rule_methodLocals extends Rule
 {
-  private Rule_methodLineLocals(String spelling, ArrayList<Rule> rules)
+  private Rule_methodLocals(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_methodLineLocals extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_methodLineLocals parse(ParserContext context)
+  public static Rule_methodLocals parse(ParserContext context)
   {
-    context.push("methodLineLocals");
+    context.push("methodLocals");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -150,13 +150,13 @@ final public class Rule_methodLineLocals extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_methodLineLocals(context.text.substring(s0, context.index), e0);
+      rule = new Rule_methodLocals(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("methodLineLocals", parsed);
+    context.pop("methodLocals", parsed);
 
-    return (Rule_methodLineLocals)rule;
+    return (Rule_methodLocals)rule;
   }
 }
 

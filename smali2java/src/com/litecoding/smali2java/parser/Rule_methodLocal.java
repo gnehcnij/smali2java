@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_methodLineRegisters.java
+ * Rule_methodLocal.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_methodLineRegisters extends Rule
+final public class Rule_methodLocal extends Rule
 {
-  private Rule_methodLineRegisters(String spelling, ArrayList<Rule> rules)
+  private Rule_methodLocal(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_methodLineRegisters extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_methodLineRegisters parse(ParserContext context)
+  public static Rule_methodLocal parse(ParserContext context)
   {
-    context.push("methodLineRegisters");
+    context.push("methodLocal");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -62,7 +62,7 @@ final public class Rule_methodLineRegisters extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_StringValue.parse(context, ".registers");
+            rule = Terminal_StringValue.parse(context, ".local");
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -101,7 +101,7 @@ final public class Rule_methodLineRegisters extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_intValue.parse(context);
+            rule = Rule_todoStubLine.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -109,22 +109,6 @@ final public class Rule_methodLineRegisters extends Rule
             }
           }
           parsed = c1 == 1;
-        }
-        if (parsed)
-        {
-          boolean f1 = true;
-          @SuppressWarnings("unused")
-          int c1 = 0;
-          while (f1)
-          {
-            rule = Rule_fmtSeparator.parse(context);
-            if ((f1 = rule != null))
-            {
-              e1.add(rule);
-              c1++;
-            }
-          }
-          parsed = true;
         }
         if (parsed)
         {
@@ -150,13 +134,13 @@ final public class Rule_methodLineRegisters extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_methodLineRegisters(context.text.substring(s0, context.index), e0);
+      rule = new Rule_methodLocal(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("methodLineRegisters", parsed);
+    context.pop("methodLocal", parsed);
 
-    return (Rule_methodLineRegisters)rule;
+    return (Rule_methodLocal)rule;
   }
 }
 

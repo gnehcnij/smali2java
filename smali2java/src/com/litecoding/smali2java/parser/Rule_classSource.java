@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_superDirectiveHeader.java
+ * Rule_classSource.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_superDirectiveHeader extends Rule
+final public class Rule_classSource extends Rule
 {
-  private Rule_superDirectiveHeader(String spelling, ArrayList<Rule> rules)
+  private Rule_classSource(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_superDirectiveHeader extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_superDirectiveHeader parse(ParserContext context)
+  public static Rule_classSource parse(ParserContext context)
   {
-    context.push("superDirectiveHeader");
+    context.push("classSource");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -62,7 +62,7 @@ final public class Rule_superDirectiveHeader extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_superDirective.parse(context);
+            rule = Rule_dirSource.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -93,7 +93,7 @@ final public class Rule_superDirectiveHeader extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_className.parse(context);
+            rule = Rule_fileName.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -142,13 +142,13 @@ final public class Rule_superDirectiveHeader extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_superDirectiveHeader(context.text.substring(s0, context.index), e0);
+      rule = new Rule_classSource(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("superDirectiveHeader", parsed);
+    context.pop("classSource", parsed);
 
-    return (Rule_superDirectiveHeader)rule;
+    return (Rule_classSource)rule;
   }
 }
 

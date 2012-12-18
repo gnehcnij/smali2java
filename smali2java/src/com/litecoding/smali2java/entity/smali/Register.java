@@ -1,6 +1,6 @@
 package com.litecoding.smali2java.entity.smali;
 
-public class Variable extends SmaliCodeEntity
+public class Register extends SmaliCodeEntity
 {
 	protected boolean isParameter = false;
 	protected int id = 0;

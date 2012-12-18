@@ -7,7 +7,7 @@ import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
 import com.litecoding.smali2java.entity.smali.FieldRef;
 import com.litecoding.smali2java.entity.smali.Instruction;
 import com.litecoding.smali2java.entity.smali.OpcodeData;
-import com.litecoding.smali2java.entity.smali.Variable;
+import com.litecoding.smali2java.entity.smali.Register;
 
 import dalvik.bytecode.Opcodes;
 
@@ -34,7 +34,7 @@ public class ExpressionChainBuilder
 					case OpcodeData.TYPE_CONST:
 					{
 						currExpr = new ConstExpression();				
-						((ConstExpression)currExpr).setLocalVarIdx(((Variable)inst.getArguments().get(0)).getId());
+						((ConstExpression)currExpr).setLocalVarIdx(((Register)inst.getArguments().get(0)).getId());
 						((ConstExpression)currExpr).setValue(inst.getArguments().get(1).getName());
 						context.setVariable(((ConstExpression)currExpr).getLocalVarIdx(), currExpr);
 						break;
@@ -49,8 +49,8 @@ public class ExpressionChainBuilder
 							if(inst.getArguments().size() >= 3)
 							{
 							//END temporary part
-								Variable toVar = (Variable)inst.getArguments().get(0);
-								Variable objRef = (Variable)inst.getArguments().get(1);
+								Register toVar = (Register)inst.getArguments().get(0);
+								Register objRef = (Register)inst.getArguments().get(1);
 								FieldRef fieldRef = (FieldRef)inst.getArguments().get(2);
 								((FieldRefExpression)currExpr).setClassName(fieldRef.getClassName());
 								((FieldRefExpression)currExpr).setFieldName(fieldRef.getName());
@@ -68,8 +68,8 @@ public class ExpressionChainBuilder
 							if(inst.getArguments().size() >= 3)
 							{
 							//END temporary part
-								Variable fromVar = (Variable)inst.getArguments().get(0);
-								Variable objRef = (Variable)inst.getArguments().get(1);
+								Register fromVar = (Register)inst.getArguments().get(0);
+								Register objRef = (Register)inst.getArguments().get(1);
 								FieldRef fieldRef = (FieldRef)inst.getArguments().get(2);
 								((FieldRefExpression)currExpr).setClassName(fieldRef.getClassName());
 								((FieldRefExpression)currExpr).setFieldName(fieldRef.getName());
@@ -90,7 +90,7 @@ public class ExpressionChainBuilder
 						currExpr = new ReturnExpression();
 						if(inst.getArguments().size() != 0)
 						{
-							int retValId = ((Variable)inst.getArguments().get(0)).getId();
+							int retValId = ((Register)inst.getArguments().get(0)).getId();
 							((ReturnExpression)currExpr).setReturnExpression(context.getVariables().get(retValId));								
 						}
 						chain.expressions.add(currExpr);

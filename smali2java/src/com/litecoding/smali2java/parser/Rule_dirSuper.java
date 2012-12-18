@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_endDirective.java
+ * Rule_dirSuper.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_endDirective extends Rule
+final public class Rule_dirSuper extends Rule
 {
-  private Rule_endDirective(String spelling, ArrayList<Rule> rules)
+  private Rule_dirSuper(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_endDirective extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_endDirective parse(ParserContext context)
+  public static Rule_dirSuper parse(ParserContext context)
   {
-    context.push("endDirective");
+    context.push("dirSuper");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -46,7 +46,7 @@ final public class Rule_endDirective extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_StringValue.parse(context, ".end");
+            rule = Terminal_StringValue.parse(context, ".super");
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -64,13 +64,13 @@ final public class Rule_endDirective extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_endDirective(context.text.substring(s0, context.index), e0);
+      rule = new Rule_dirSuper(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("endDirective", parsed);
+    context.pop("dirSuper", parsed);
 
-    return (Rule_endDirective)rule;
+    return (Rule_dirSuper)rule;
   }
 }
 

@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_implementsDirectiveHeader.java
+ * Rule_methodPrologue.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_implementsDirectiveHeader extends Rule
+final public class Rule_methodPrologue extends Rule
 {
-  private Rule_implementsDirectiveHeader(String spelling, ArrayList<Rule> rules)
+  private Rule_methodPrologue(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_implementsDirectiveHeader extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_implementsDirectiveHeader parse(ParserContext context)
+  public static Rule_methodPrologue parse(ParserContext context)
   {
-    context.push("implementsDirectiveHeader");
+    context.push("methodPrologue");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -62,38 +62,7 @@ final public class Rule_implementsDirectiveHeader extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_implementsDirective.parse(context);
-            if ((f1 = rule != null))
-            {
-              e1.add(rule);
-              c1++;
-            }
-          }
-          parsed = c1 == 1;
-        }
-        if (parsed)
-        {
-          boolean f1 = true;
-          @SuppressWarnings("unused")
-          int c1 = 0;
-          while (f1)
-          {
-            rule = Rule_fmtSeparator.parse(context);
-            if ((f1 = rule != null))
-            {
-              e1.add(rule);
-              c1++;
-            }
-          }
-          parsed = true;
-        }
-        if (parsed)
-        {
-          boolean f1 = true;
-          int c1 = 0;
-          for (int i1 = 0; i1 < 1 && f1; i1++)
-          {
-            rule = Rule_className.parse(context);
+            rule = Terminal_StringValue.parse(context, ".prologue");
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -142,13 +111,13 @@ final public class Rule_implementsDirectiveHeader extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_implementsDirectiveHeader(context.text.substring(s0, context.index), e0);
+      rule = new Rule_methodPrologue(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("implementsDirectiveHeader", parsed);
+    context.pop("methodPrologue", parsed);
 
-    return (Rule_implementsDirectiveHeader)rule;
+    return (Rule_methodPrologue)rule;
   }
 }
 

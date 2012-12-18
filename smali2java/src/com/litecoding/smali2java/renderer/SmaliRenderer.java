@@ -14,7 +14,7 @@ import com.litecoding.smali2java.entity.smali.Param;
 import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
 import com.litecoding.smali2java.entity.smali.SmaliEntity;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
-import com.litecoding.smali2java.entity.smali.Variable;
+import com.litecoding.smali2java.entity.smali.Register;
 import com.litecoding.smali2java.renderer.RegisterTimeline.RegisterInfo;
 
 /**
@@ -376,8 +376,8 @@ public class SmaliRenderer {
 			currSlice = timeline.getSlice(i);
 			
 			for(SmaliCodeEntity entity : instruction.getArguments()) {
-				if(entity instanceof Variable) {
-					Variable var = (Variable) entity;
+				if(entity instanceof Register) {
+					Register var = (Register) entity;
 					if(!var.isParameter())
 						if(var.isDestination()) {
 							currSlice.get(var.getId()).isWritten = true;

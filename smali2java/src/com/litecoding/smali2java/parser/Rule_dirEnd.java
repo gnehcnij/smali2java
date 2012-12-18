@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
- * Rule_endMethodDirective.java
+ * Rule_dirEnd.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_endMethodDirective extends Rule
+final public class Rule_dirEnd extends Rule
 {
-  private Rule_endMethodDirective(String spelling, ArrayList<Rule> rules)
+  private Rule_dirEnd(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_endMethodDirective extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_endMethodDirective parse(ParserContext context)
+  public static Rule_dirEnd parse(ParserContext context)
   {
-    context.push("endMethodDirective");
+    context.push("dirEnd");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -46,38 +46,7 @@ final public class Rule_endMethodDirective extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_endDirective.parse(context);
-            if ((f1 = rule != null))
-            {
-              e1.add(rule);
-              c1++;
-            }
-          }
-          parsed = c1 == 1;
-        }
-        if (parsed)
-        {
-          boolean f1 = true;
-          @SuppressWarnings("unused")
-          int c1 = 0;
-          while (f1)
-          {
-            rule = Rule_fmtSeparator.parse(context);
-            if ((f1 = rule != null))
-            {
-              e1.add(rule);
-              c1++;
-            }
-          }
-          parsed = true;
-        }
-        if (parsed)
-        {
-          boolean f1 = true;
-          int c1 = 0;
-          for (int i1 = 0; i1 < 1 && f1; i1++)
-          {
-            rule = Terminal_StringValue.parse(context, "method");
+            rule = Terminal_StringValue.parse(context, ".end");
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -95,13 +64,13 @@ final public class Rule_endMethodDirective extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_endMethodDirective(context.text.substring(s0, context.index), e0);
+      rule = new Rule_dirEnd(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("endMethodDirective", parsed);
+    context.pop("dirEnd", parsed);
 
-    return (Rule_endMethodDirective)rule;
+    return (Rule_dirEnd)rule;
   }
 }
 

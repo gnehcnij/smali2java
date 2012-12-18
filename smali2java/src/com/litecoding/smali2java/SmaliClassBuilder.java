@@ -29,12 +29,12 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 	}
 
 	@Override
-	public Object visit(Rule_classDirectiveHeader rule)
+	public Object visit(Rule_classClass rule)
 	{
 		//fill .class data
 		for(Rule innerRule : rule.rules)
 		{
-			if(innerRule instanceof Rule_classDirective)
+			if(innerRule instanceof Rule_dirClass)
 				continue;
 			if(innerRule instanceof Rule_fmtSeparator)
 				continue;
@@ -62,12 +62,12 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 	}	
 
 	@Override
-	public Object visit(Rule_superDirectiveHeader rule)
+	public Object visit(Rule_classSuper rule)
 	{
 		//fill .super data
 		for(Rule innerRule : rule.rules)
 		{
-			if(innerRule instanceof Rule_superDirective)
+			if(innerRule instanceof Rule_dirSuper)
 				continue;
 			if(innerRule instanceof Rule_fmtSeparator)
 				continue;
@@ -83,12 +83,12 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 	}
 
 	@Override
-	public Object visit(Rule_sourceDirectiveHeader rule)
+	public Object visit(Rule_classSource rule)
 	{
 		//fill .source data
 		for(Rule innerRule : rule.rules)
 		{
-			if(innerRule instanceof Rule_classDirective)
+			if(innerRule instanceof Rule_dirClass)
 				continue;
 			if(innerRule instanceof Rule_fmtSeparator)
 				continue;
@@ -105,7 +105,7 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 	}
 
 	@Override
-	public Object visit(Rule_implementsDirectiveHeader rule)
+	public Object visit(Rule_classImplements rule)
 	{
 		return rule.spelling;
 	}
@@ -117,7 +117,7 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 		//fill .field data
 		for(Rule innerRule : rule.rules)
 		{
-			if(innerRule instanceof Rule_fieldDirective)
+			if(innerRule instanceof Rule_dirField)
 				continue;
 			if(innerRule instanceof Rule_fmtSeparator)
 				continue;
@@ -162,7 +162,7 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 		//fill .field data
 		for(Rule innerRule : rule.rules)
 		{
-			if(innerRule instanceof Rule_fieldDirective)
+			if(innerRule instanceof Rule_dirField)
 				continue;
 			if(innerRule instanceof Rule_fmtSeparator)
 				continue;
@@ -249,29 +249,24 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 	}	
 
 	@Override
-	public Object visit(Rule_methodBody rule)
-	{
+	public Object visit(Rule_methodBody rule) {
 		int currParamNumber = 0;
-		for(Rule innerRule : rule.rules)
-		{
+		for(Rule innerRule : rule.rules) {
 			if(innerRule instanceof Rule_skipLine)
 				continue;
-			if(innerRule instanceof Rule_methodLinePrologue)
+			if(innerRule instanceof Rule_methodPrologue)
 				continue;
-			if(innerRule instanceof Rule_methodLineNumber)
+			if(innerRule instanceof Rule_methodLine)
 				continue;
 			
-			if(innerRule instanceof Rule_methodLineParam)
-			{ 
+			if(innerRule instanceof Rule_methodParam) { 
 				currentMethod.getParams().get(currParamNumber).setName((String)innerRule.accept(this));
 				currParamNumber++;
-			}
-			else if(innerRule instanceof Rule_methodLineLocals)
-			{ 
+			} else if(innerRule instanceof Rule_methodLocals) { 
 				currentMethod.setLocals((Integer)innerRule.accept(this));
-			}
-			else if(innerRule instanceof Rule_cmdAny)
-			{
+			} else if(innerRule instanceof Rule_cmdAny) {
+				currentMethod.addCommand((SmaliCodeEntity)innerRule.accept(this));
+			} else if(innerRule instanceof Rule_label) {
 				currentMethod.addCommand((SmaliCodeEntity)innerRule.accept(this));
 			}
 		}
@@ -280,7 +275,7 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 	}
 
 	@Override
-	public Object visit(Rule_methodLineLocals rule)
+	public Object visit(Rule_methodLocals rule)
 	{		
 		for(Rule innerRule : rule.rules)
 		{
@@ -291,7 +286,7 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 	}
 
 	@Override
-	public Object visit(Rule_methodLineParam rule)
+	public Object visit(Rule_methodParam rule)
 	{
 		for(Rule innerRule : rule.rules)
 		{
@@ -311,27 +306,27 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 	}
 
 	@Override
-	public Object visit(Rule_methodLinePrologue rule)
+	public Object visit(Rule_methodPrologue rule)
 	{
 		return rule.spelling;
 	}
 
 	@Override
-	public Object visit(Rule_methodLineNumber rule)
+	public Object visit(Rule_methodLine rule)
 	{
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_methodLineRegisters rule)
+	public Object visit(Rule_methodRegisters rule)
 	{
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_methodLineLocal rule)
+	public Object visit(Rule_methodLocal rule)
 	{
 		return rule.spelling;
 	}
-	
+		
 }

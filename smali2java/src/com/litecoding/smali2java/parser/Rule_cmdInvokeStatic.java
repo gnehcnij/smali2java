@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Dec 14 17:07:28 MUT 2012
+ * Produced : Tue Dec 18 10:26:21 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -101,7 +101,7 @@ final public class Rule_cmdInvokeStatic extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_smaliVarGroup.parse(context);
+            rule = Rule_codeRegisterGroup.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
