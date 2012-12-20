@@ -377,38 +377,48 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	@Override
 	public Object visit(Rule_codeRegisterP rule)
 	{
-		Register var = new Register();
-		var.setName(rule.spelling);
-		//map parameter register
-		var.mapRegister(currentMethod);
-		return var;
+		return generateRegisterFromRule(rule);
 	}
 
 	@Override
 	public Object visit(Rule_codeRegisterV rule)
 	{		
-		Register var = new Register();
-		var.setName(rule.spelling);
-		return var;
+		return generateRegisterFromRule(rule);
 	}
 	
 	@Override
 	public Object visit(Rule_codeRegister rule) {
-		Register var = new Register();
-		var.setName(rule.spelling);
-		//map parameter register
-		var.mapRegister(currentMethod);
-		return var;
+		return generateRegisterFromRule(rule);
 	}
 	
 	@Override
 	public Object visit(Rule_codeRegisterVDst rule)
 	{		
-		Register var = new Register();
-		var.setName(rule.spelling);
-		var.setDestination(true);
-		return var;
+		return generateRegisterFromRule(rule);
 	}
+	
+	@Override
+	public Object visit(Rule_codeRegisterP64 rule)
+	{
+		return generateRegisterFromRule(rule);
+	}
+
+	@Override
+	public Object visit(Rule_codeRegisterV64 rule)
+	{		
+		return generateRegisterFromRule(rule);
+	}
+	
+	@Override
+	public Object visit(Rule_codeRegister64 rule) {
+		return generateRegisterFromRule(rule);
+	}
+	
+	@Override
+	public Object visit(Rule_codeRegisterV64Dst rule) {		
+		return generateRegisterFromRule(rule);
+	}
+
 		
 	@Override
 	public Object visit(Rule_smaliFieldRef rule)
@@ -478,6 +488,34 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 		return group;
 	}	
 
+	private Object generateRegisterFromRule(Rule rule) {
+		Rule testRule = rule;
+		Register register = new Register();
+		
+		if(rule instanceof Rule_codeRegister || 
+				rule instanceof Rule_codeRegister64) {
+			testRule = rule.rules.get(0);
+		}
+		
+		if(testRule instanceof Rule_codeRegisterP ||
+				testRule instanceof Rule_codeRegisterP64)
+			register.setParameter(true);
+		
+		if(testRule instanceof Rule_codeRegisterVDst || 
+				testRule instanceof Rule_codeRegisterV64Dst)
+			register.setDestination(true);
+		
+		if(testRule instanceof Rule_codeRegisterP64 ||
+				testRule instanceof Rule_codeRegisterV64 || 
+				testRule instanceof Rule_codeRegisterV64Dst)
+			register.set64bit(true);
+		
+		register.setName(rule.spelling);
+		register.mapRegister(currentMethod);
+		
+		return register;
+	}
+	
 	private Object generateCmdFromRules(ArrayList<Rule> rules) {
 		SmaliCodeEntity command = null;
 		
@@ -498,6 +536,10 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 					innerRule instanceof Rule_codeRegisterVDst ||
 					innerRule instanceof Rule_codeRegisterP ||
 					innerRule instanceof Rule_codeRegister ||
+					innerRule instanceof Rule_codeRegisterV64 ||
+					innerRule instanceof Rule_codeRegisterV64Dst ||
+					innerRule instanceof Rule_codeRegisterP64 ||
+					innerRule instanceof Rule_codeRegister64 ||
 					innerRule instanceof Rule_codeRegisterGroup ||
 					innerRule instanceof Rule_smaliFieldRef ||
 					innerRule instanceof Rule_smaliMethodRef) {

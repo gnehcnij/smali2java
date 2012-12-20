@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Tue Dec 18 16:53:53 MUT 2012
+ * Produced : Wed Dec 19 11:27:34 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -196,9 +196,13 @@ public class Parser
     else if (rulename.equalsIgnoreCase("value")) rule = Rule_value.parse(context);
     else if (rulename.equalsIgnoreCase("codeLabel")) rule = Rule_codeLabel.parse(context);
     else if (rulename.equalsIgnoreCase("codeRegisterP")) rule = Rule_codeRegisterP.parse(context);
+    else if (rulename.equalsIgnoreCase("codeRegisterP64")) rule = Rule_codeRegisterP64.parse(context);
     else if (rulename.equalsIgnoreCase("codeRegisterV")) rule = Rule_codeRegisterV.parse(context);
+    else if (rulename.equalsIgnoreCase("codeRegisterV64")) rule = Rule_codeRegisterV64.parse(context);
     else if (rulename.equalsIgnoreCase("codeRegisterVDst")) rule = Rule_codeRegisterVDst.parse(context);
+    else if (rulename.equalsIgnoreCase("codeRegisterV64Dst")) rule = Rule_codeRegisterV64Dst.parse(context);
     else if (rulename.equalsIgnoreCase("codeRegister")) rule = Rule_codeRegister.parse(context);
+    else if (rulename.equalsIgnoreCase("codeRegister64")) rule = Rule_codeRegister64.parse(context);
     else if (rulename.equalsIgnoreCase("codeRegisterGroup")) rule = Rule_codeRegisterGroup.parse(context);
     else if (rulename.equalsIgnoreCase("dirClass")) rule = Rule_dirClass.parse(context);
     else if (rulename.equalsIgnoreCase("dirEnd")) rule = Rule_dirEnd.parse(context);

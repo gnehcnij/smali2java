@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.litecoding.smali2java.entity.smali.Param;
+import com.litecoding.smali2java.entity.smali.RegisterInfo;
 
 public class RegisterTimeline {
 	private boolean isInitialized = false;
@@ -85,42 +86,4 @@ public class RegisterTimeline {
 		return timeline.get(line).get(register);
 	}
 	
-	public static class RegisterInfo {
-		public boolean isUsedAs64bitRegister = false;
-		public boolean isUsedAs64bitMasterRegister = false;
-		public String type = "";
-		public boolean isRead = false;
-		public boolean isWritten = false; //isRead == false && isWritten == false means "not used"
-		
-		@Override
-		public String toString() {
-			StringBuilder builder = new StringBuilder();
-			
-			if(isRead)
-				builder.append("r");
-			else
-				builder.append("-");
-			
-			if(isWritten)
-				builder.append("w");
-			else
-				builder.append("-");
-			
-			builder.append(" ");
-			
-			if(isUsedAs64bitRegister) {
-				builder.append("64");
-				if(isUsedAs64bitMasterRegister)
-					builder.append("M");
-				else
-					builder.append("S");
-				
-				builder.append(" ");
-			}
-			
-			builder.append(type);
-			
-			return builder.toString();
-		}
-	}
 }

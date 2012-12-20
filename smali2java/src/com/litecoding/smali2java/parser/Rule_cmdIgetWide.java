@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Tue Dec 18 16:53:53 MUT 2012
+ * Produced : Wed Dec 19 11:27:34 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -101,7 +101,7 @@ final public class Rule_cmdIgetWide extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_codeRegisterVDst.parse(context);
+            rule = Rule_codeRegisterV64Dst.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);

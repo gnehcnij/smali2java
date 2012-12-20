@@ -12,11 +12,11 @@ import com.litecoding.smali2java.entity.smali.Label;
 import com.litecoding.smali2java.entity.smali.OpcodeData;
 import com.litecoding.smali2java.entity.smali.Param;
 import com.litecoding.smali2java.entity.smali.RegisterGroup;
+import com.litecoding.smali2java.entity.smali.RegisterInfo;
 import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
 import com.litecoding.smali2java.entity.smali.SmaliEntity;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
 import com.litecoding.smali2java.entity.smali.Register;
-import com.litecoding.smali2java.renderer.RegisterTimeline.RegisterInfo;
 
 /**
  * This class converts smali entities to java entities
@@ -405,8 +405,11 @@ public class SmaliRenderer {
 			//copy type of register in previous slice if it wasn't modified
 			for(int j = 0; j < currSlice.size(); j++) {
 				RegisterInfo registerInfo = currSlice.get(j);
-				if(!registerInfo.isWritten)
+				if(!registerInfo.isWritten) {
 					registerInfo.type = prevSlice.get(j).type;
+					registerInfo.isUsedAs64bitRegister = prevSlice.get(j).isUsedAs64bitRegister;
+					registerInfo.isUsedAs64bitMasterRegister = prevSlice.get(j).isUsedAs64bitMasterRegister;
+				}
 			}
 		}
 	}

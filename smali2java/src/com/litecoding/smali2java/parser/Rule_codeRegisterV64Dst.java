@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
- * Rule_UNDERSCORE.java
+ * Rule_codeRegisterV64Dst.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_UNDERSCORE extends Rule
+final public class Rule_codeRegisterV64Dst extends Rule
 {
-  private Rule_UNDERSCORE(String spelling, ArrayList<Rule> rules)
+  private Rule_codeRegisterV64Dst(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_UNDERSCORE extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_UNDERSCORE parse(ParserContext context)
+  public static Rule_codeRegisterV64Dst parse(ParserContext context)
   {
-    context.push("UNDERSCORE");
+    context.push("codeRegisterV64Dst");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -46,7 +46,22 @@ final public class Rule_UNDERSCORE extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_NumericValue.parse(context, "%x5f", "[\\x5f]", 1);
+            rule = Terminal_StringValue.parse(context, "v");
+            if ((f1 = rule != null))
+            {
+              e1.add(rule);
+              c1++;
+            }
+          }
+          parsed = c1 == 1;
+        }
+        if (parsed)
+        {
+          boolean f1 = true;
+          int c1 = 0;
+          for (int i1 = 0; i1 < 1 && f1; i1++)
+          {
+            rule = Rule_intDecValue.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -64,13 +79,13 @@ final public class Rule_UNDERSCORE extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_UNDERSCORE(context.text.substring(s0, context.index), e0);
+      rule = new Rule_codeRegisterV64Dst(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("UNDERSCORE", parsed);
+    context.pop("codeRegisterV64Dst", parsed);
 
-    return (Rule_UNDERSCORE)rule;
+    return (Rule_codeRegisterV64Dst)rule;
   }
 }
 

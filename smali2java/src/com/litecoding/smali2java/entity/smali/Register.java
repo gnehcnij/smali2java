@@ -13,6 +13,8 @@ public class Register extends SmaliCodeEntity
 	protected int mappedId = 0;
 	protected boolean isDestination = false;
 	protected String type = null;
+	protected boolean is64bit = false;
+	protected boolean isThis = false;
 		
 	@Override
 	public void setName(String name)
@@ -76,9 +78,29 @@ public class Register extends SmaliCodeEntity
 		this.type = type;
 	}
 	
+	public boolean is64bit()
+	{
+		return is64bit;
+	}
+	
+	public boolean isThis()
+	{
+		return isThis;
+	}
+	
+	public void set64bit(boolean is64bit)
+	{
+		this.is64bit = is64bit;
+	}
+	
 	public void mapRegister(SmaliMethod method) {
 		if(!isParameter)
 			return;
+		
+		if(id == 0 && !method.isFlagSet(SmaliEntity.STATIC))
+			isThis = true;
+		else
+			isThis = false;
 		
 		mappedId = method.mapParameterToRegister(id);
 	}
