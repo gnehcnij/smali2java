@@ -12,11 +12,12 @@ import com.litecoding.smali2java.entity.smali.Label;
 import com.litecoding.smali2java.entity.smali.OpcodeData;
 import com.litecoding.smali2java.entity.smali.Param;
 import com.litecoding.smali2java.entity.smali.RegisterGroup;
-import com.litecoding.smali2java.entity.smali.RegisterInfo;
+import com.litecoding.smali2java.entity.smali.Register;
+import com.litecoding.smali2java.entity.smali.Register.RegisterInfo;
 import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
 import com.litecoding.smali2java.entity.smali.SmaliEntity;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
-import com.litecoding.smali2java.entity.smali.Register;
+
 
 /**
  * This class converts smali entities to java entities
@@ -331,10 +332,7 @@ public class SmaliRenderer {
 		
 		//initialize timeline if needed
 		if(!timeline.isInitialized()) {
-			timeline.init(localsCount, 
-					params, 
-					isMethodStatic, 
-					linesCount);
+			timeline.init(method, linesCount);
 		}
 		
 		//map params for the root block
@@ -349,20 +347,20 @@ public class SmaliRenderer {
 			
 			for(int i = 0; i < params.size() ; i++) {
 				Param param = params.get(i);
-				if("J".equals(param.getType()) || "D".equals(param.getType())) {
+				if(param.info.is64bit) {
 					RegisterInfo info = slice.get(localsCount + delta + i); 
-					info.isUsedAs64bitRegister = true;
-					info.isUsedAs64bitMasterRegister = true;
-					info.type = param.getType();
+					info.is64bit = true;
+					info.is64bitMaster = true;
+					info.type = param.info.type;
 					
 					delta++;
 					info = slice.get(localsCount + delta + i); 
-					info.isUsedAs64bitRegister = true;
-					info.isUsedAs64bitMasterRegister = false;
-					info.type = param.getType();
+					info.is64bit = true;
+					info.is64bitMaster = false;
+					info.type = param.info.type;
 				} else {
 					RegisterInfo info = slice.get(localsCount + delta + i);
-					info.type = param.getType();
+					info.type = param.info.type;
 				}
 			}
 		}
@@ -380,12 +378,20 @@ public class SmaliRenderer {
 				if(entity instanceof Register) {
 					Register var = (Register) entity;
 					if(var.isParameter()) {
-						currSlice.get(var.getMappedId()).isRead = true;
+						int idx = var.getMappedId();
+						currSlice.get(idx).isRead = true;
+						if(var.info.is64bit)
+							currSlice.get(idx + 1).isRead = true;
 					} else {
+						int idx = var.getId();
 						if(var.isDestination()) {
-							currSlice.get(var.getId()).isWritten = true;
+							currSlice.get(idx).isWritten = true;
+							if(var.info.is64bit)
+								currSlice.get(idx + 1).isWritten = true;
 						} else {
-							currSlice.get(var.getId()).isRead = true;
+							currSlice.get(idx).isRead = true;
+							if(var.info.is64bit)
+								currSlice.get(idx + 1).isRead = true;
 						}
 					}
 				} else if(entity instanceof RegisterGroup) {
@@ -407,8 +413,8 @@ public class SmaliRenderer {
 				RegisterInfo registerInfo = currSlice.get(j);
 				if(!registerInfo.isWritten) {
 					registerInfo.type = prevSlice.get(j).type;
-					registerInfo.isUsedAs64bitRegister = prevSlice.get(j).isUsedAs64bitRegister;
-					registerInfo.isUsedAs64bitMasterRegister = prevSlice.get(j).isUsedAs64bitMasterRegister;
+					registerInfo.is64bit = prevSlice.get(j).is64bit;
+					registerInfo.is64bitMaster = prevSlice.get(j).is64bitMaster;
 				}
 			}
 		}

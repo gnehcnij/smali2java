@@ -10,7 +10,17 @@ public class SmaliMethod extends SmaliEntity
 	protected boolean isConstructor = false;
 	protected List<Param> params = new LinkedList<Param>(); 
 	protected String returnType = "";
+	
+	/**
+	 * Count of used local (non-parameter) registers
+	 */
 	protected int locals = 0;
+	
+	/**
+	 * Total count of used registers
+	 */
+	protected int registers = 0;
+	
 	protected List<SmaliCodeEntity> commands = new LinkedList<SmaliCodeEntity>();
 	
 	protected ArrayList<Integer> registerMapping = new ArrayList<Integer>();
@@ -63,6 +73,18 @@ public class SmaliMethod extends SmaliEntity
 	public void setLocals(int locals)
 	{
 		this.locals = locals;
+		recalcRegisters();
+	}
+	
+	public int getRegisters()
+	{
+		return registers;
+	}
+
+	public void setRegisters(int registers)
+	{
+		this.registers = registers;
+		recalcLocals();
 	}
 	
 	public List<SmaliCodeEntity> getCommands()
@@ -90,12 +112,49 @@ public class SmaliMethod extends SmaliEntity
 		
 		for(Param param : params) {
 			registerMapping.add(currIdx);
-			if("J".equals(param.getType()) ||
-					"D".equals(param.getType())) {
+			if(param.info.is64bit) {
 				currIdx += 2;
 			} else {
 				currIdx++;
 			}
 		}
+	}
+	
+	private void recalcLocals() {
+		int currIdx = 0;
+		
+		if(!isFlagSet(STATIC)) {
+			registerMapping.add(currIdx);
+			currIdx++;
+		}
+		
+		for(Param param : params) {
+			if(param.info.is64bit) {
+				currIdx += 2;
+			} else {
+				currIdx++;
+			}
+		}
+		
+		locals = registers - currIdx;
+	}
+	
+	private void recalcRegisters() {
+		int currIdx = this.locals;
+		
+		if(!isFlagSet(STATIC)) {
+			registerMapping.add(currIdx);
+			currIdx++;
+		}
+		
+		for(Param param : params) {
+			if(param.info.is64bit) {
+				currIdx += 2;
+			} else {
+				currIdx++;
+			}
+		}
+		
+		registers = currIdx;
 	}
 }

@@ -269,6 +269,10 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 				currentMethod.setLocals((Integer)innerRule.accept(this));
 				//rebuild register mapping
 				currentMethod.buildRegisterMapping();
+			} else if(innerRule instanceof Rule_methodRegisters) { 
+				currentMethod.setRegisters((Integer)innerRule.accept(this));
+				//rebuild register mapping
+				currentMethod.buildRegisterMapping();
 			} else if(innerRule instanceof Rule_cmdAny) {
 				currentMethod.addCommand((SmaliCodeEntity)innerRule.accept(this));
 			} else if(innerRule instanceof Rule_label) {
@@ -325,7 +329,12 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 	@Override
 	public Object visit(Rule_methodRegisters rule)
 	{
-		return rule.spelling;
+		for(Rule innerRule : rule.rules)
+		{
+			if(innerRule instanceof Rule_intValue)
+				return new Integer(innerRule.spelling);
+		}
+		return 0;
 	}
 	
 	@Override

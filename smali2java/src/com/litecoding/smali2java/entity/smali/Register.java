@@ -1,7 +1,6 @@
 package com.litecoding.smali2java.entity.smali;
 
-public class Register extends SmaliCodeEntity
-{
+public class Register extends SmaliCodeEntity {
 	protected boolean isParameter = false;
 	protected int id = 0;
 	
@@ -12,13 +11,10 @@ public class Register extends SmaliCodeEntity
 	 */
 	protected int mappedId = 0;
 	protected boolean isDestination = false;
-	protected String type = null;
-	protected boolean is64bit = false;
-	protected boolean isThis = false;
+	public final RegisterInfo info = new RegisterInfo();
 		
 	@Override
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		super.setName(name);
 		if(name.startsWith("p"))
 			isParameter = true;
@@ -28,69 +24,56 @@ public class Register extends SmaliCodeEntity
 		id = Integer.parseInt(name.substring(1));
 	}
 	
-	public boolean isParameter()
-	{
+	public boolean isParameter() {
 		return isParameter;
 	}
 	
-	public void setParameter(boolean isParameter)
-	{
+	public void setParameter(boolean isParameter) {
 		this.isParameter = isParameter;
 	}
 	
-	public int getId()
-	{
+	public int getId() {
 		return id;
 	}
 	
-	public void setId(int id)
-	{
+	public void setId(int id) {
 		this.id = id;
 	}
 	
-	public int getMappedId()
-	{
+	public int getMappedId() {
 		return mappedId;
 	}
 	
-	public void setMappedId(int mappedId)
-	{
+	public void setMappedId(int mappedId) {
 		this.mappedId = mappedId;
 	}
 		
-	public boolean isDestination()
-	{
+	public boolean isDestination() {
 		return isDestination;
 	}
 	
-	public void setDestination(boolean isDestination)
-	{
+	public void setDestination(boolean isDestination) {
 		this.isDestination = isDestination;
 	}
 	
-	public String getType()
-	{
-		return type;
+	public String getType() {
+		return info.type;
 	}
 	
-	public void setType(String type)
-	{
-		this.type = type;
+	public void setType(String type) {
+		this.info.type = type;
 	}
 	
-	public boolean is64bit()
-	{
-		return is64bit;
+	public boolean is64bit() {
+		return info.is64bit;
 	}
 	
-	public boolean isThis()
-	{
-		return isThis;
+	public boolean isThis() {
+		return info.isThis;
 	}
 	
-	public void set64bit(boolean is64bit)
-	{
-		this.is64bit = is64bit;
+	public void set64bit(boolean is64bit) {
+		this.info.is64bit = is64bit;
 	}
 	
 	public void mapRegister(SmaliMethod method) {
@@ -98,9 +81,9 @@ public class Register extends SmaliCodeEntity
 			return;
 		
 		if(id == 0 && !method.isFlagSet(SmaliEntity.STATIC))
-			isThis = true;
+			info.isThis = true;
 		else
-			isThis = false;
+			info.isThis = false;
 		
 		mappedId = method.mapParameterToRegister(id);
 	}
@@ -108,5 +91,49 @@ public class Register extends SmaliCodeEntity
 	@Override
 	public String toString() {
 		return name;
+	}
+	
+	public static class RegisterInfo {
+		public boolean is64bit = false;
+		public boolean is64bitMaster = false;
+		public String type = "";
+		public boolean isThis = false;
+		public boolean isRead = false;
+		public boolean isWritten = false;
+
+		@Override
+		public String toString() {
+			StringBuilder builder = new StringBuilder();
+			
+			if(isRead)
+				builder.append("r");
+			else
+				builder.append("-");
+			
+			if(isWritten)
+				builder.append("w");
+			else
+				builder.append("-");
+			
+			builder.append(" ");
+			
+			if(is64bit) {
+				builder.append("64");
+				if(is64bitMaster)
+					builder.append("M");
+				else
+					builder.append("S");
+				
+				builder.append(" ");
+			}
+			
+			builder.append(type);
+			
+			if(isThis) {
+				builder.append(" (this)");
+			}
+			
+			return builder.toString();
+		}
 	}
 }

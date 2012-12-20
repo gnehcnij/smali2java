@@ -1,5 +1,7 @@
 package com.litecoding.smali2java.entity.smali;
 
+import com.litecoding.smali2java.entity.smali.Register.RegisterInfo;
+
 /**
  * SmaliMethod parameter class
  * @author Dmitry S. Vorobiev
@@ -7,8 +9,8 @@ package com.litecoding.smali2java.entity.smali;
  */
 public class Param
 {
-	private String type = "";
 	private String name = "";
+	public final RegisterInfo info = new RegisterInfo();
 	
 	public Param()
 	{
@@ -17,23 +19,30 @@ public class Param
 	
 	public Param(String type)
 	{
-		this.type = type;
+		setType(type);
 	}
 	
 	public Param(String type, String name)
 	{
-		this.type = type;
+		this(type);
 		this.name = name;
 	}
 	
 	public String getType()
 	{
-		return type;
+		return info.type;
 	}
 	
 	public void setType(String type)
 	{
-		this.type = type;
+		this.info.type = type;
+		if("J".equals(type) || "D".equals(type)) {
+			info.is64bit = true;
+			info.is64bitMaster = true;
+		} else {
+			info.is64bit = false;
+			info.is64bitMaster = false;
+		}
 	}
 	
 	public String getName()
@@ -53,7 +62,13 @@ public class Param
 			builder.append(name);
 			builder.append(":");
 		}
-		builder.append(type);
+		
+		builder.append(info.type);
+		
+		if(info.is64bit) {
+			builder.append(" (64bit)");
+		}
+		
 		return builder.toString();
 	}
 }
