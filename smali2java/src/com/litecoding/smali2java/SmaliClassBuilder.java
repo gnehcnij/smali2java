@@ -36,7 +36,8 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 		{
 			if(innerRule instanceof Rule_dirClass)
 				continue;
-			if(innerRule instanceof Rule_fmtSeparator)
+			if(innerRule instanceof Rule_padding ||
+				innerRule instanceof Rule_optPadding)
 				continue;
 			
 			if(innerRule instanceof Rule_accessMode)
@@ -69,7 +70,8 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 		{
 			if(innerRule instanceof Rule_dirSuper)
 				continue;
-			if(innerRule instanceof Rule_fmtSeparator)
+			if(innerRule instanceof Rule_padding ||
+				innerRule instanceof Rule_optPadding)
 				continue;
 			
 			if(innerRule instanceof Rule_className)
@@ -90,7 +92,8 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 		{
 			if(innerRule instanceof Rule_dirClass)
 				continue;
-			if(innerRule instanceof Rule_fmtSeparator)
+			if(innerRule instanceof Rule_padding ||
+				innerRule instanceof Rule_optPadding)
 				continue;
 			if(innerRule instanceof Terminal_StringValue)
 				continue;
@@ -119,7 +122,8 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 		{
 			if(innerRule instanceof Rule_dirField)
 				continue;
-			if(innerRule instanceof Rule_fmtSeparator)
+			if(innerRule instanceof Rule_padding ||
+				innerRule instanceof Rule_optPadding)
 				continue;
 
 			if(innerRule instanceof Rule_accessMode)
@@ -164,7 +168,8 @@ public class SmaliClassBuilder extends BasicSmaliBuilder
 		{
 			if(innerRule instanceof Rule_dirField)
 				continue;
-			if(innerRule instanceof Rule_fmtSeparator)
+			if(innerRule instanceof Rule_padding ||
+				innerRule instanceof Rule_optPadding)
 				continue;
 
 			if(innerRule instanceof Rule_accessMode)

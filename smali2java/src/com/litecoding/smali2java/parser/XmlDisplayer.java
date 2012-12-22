@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Wed Dec 19 11:27:34 MUT 2012
+ * Produced : Sat Dec 22 19:59:10 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -220,14 +220,38 @@ public class XmlDisplayer implements Visitor
     return null;
   }
 
-  public Object visit(Rule_fmtSeparator rule)
+  public Object visit(Rule_padding rule)
   {
     if (!terminal) System.out.println();
-    System.out.print("<fmtSeparator>");
+    System.out.print("<padding>");
     terminal = false;
     visitRules(rule.rules);
     if (!terminal) System.out.println();
-    System.out.print("</fmtSeparator>");
+    System.out.print("</padding>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_optPadding rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<optPadding>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</optPadding>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_listSeparator rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<listSeparator>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</listSeparator>");
     terminal = false;
     return null;
   }

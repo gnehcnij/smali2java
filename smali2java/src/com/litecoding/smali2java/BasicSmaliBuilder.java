@@ -27,7 +27,19 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}
 	
 	@Override
-	public Object visit(Rule_fmtSeparator rule)
+	public Object visit(Rule_padding rule)
+	{
+		return rule.spelling;
+	}
+	
+	@Override
+	public Object visit(Rule_optPadding rule)
+	{
+		return rule.spelling;
+	}
+	
+	@Override
+	public Object visit(Rule_listSeparator rule)
 	{
 		return rule.spelling;
 	}
@@ -521,7 +533,8 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 		
 		boolean cmdDetermined = false;
 		for(Rule innerRule : rules) {
-			if(innerRule instanceof Rule_fmtSeparator)
+			if(innerRule instanceof Rule_padding ||
+				innerRule instanceof Rule_optPadding)
 				continue;
 			
 			if(innerRule instanceof Rule_codeLabel) {

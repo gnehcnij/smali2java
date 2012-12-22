@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Wed Dec 19 11:27:34 MUT 2012
+ * Produced : Sat Dec 22 19:59:10 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -43,18 +43,17 @@ final public class Rule_classClass extends Rule
         if (parsed)
         {
           boolean f1 = true;
-          @SuppressWarnings("unused")
           int c1 = 0;
-          while (f1)
+          for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_fmtSeparator.parse(context);
+            rule = Rule_optPadding.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
               c1++;
             }
           }
-          parsed = true;
+          parsed = c1 == 1;
         }
         if (parsed)
         {
@@ -74,18 +73,17 @@ final public class Rule_classClass extends Rule
         if (parsed)
         {
           boolean f1 = true;
-          @SuppressWarnings("unused")
           int c1 = 0;
-          while (f1)
+          for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_fmtSeparator.parse(context);
+            rule = Rule_padding.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
               c1++;
             }
           }
-          parsed = true;
+          parsed = c1 == 1;
         }
         if (parsed)
         {
@@ -120,18 +118,17 @@ final public class Rule_classClass extends Rule
                 if (parsed)
                 {
                   boolean f2 = true;
-                  @SuppressWarnings("unused")
                   int c2 = 0;
-                  while (f2)
+                  for (int i2 = 0; i2 < 1 && f2; i2++)
                   {
-                    rule = Rule_fmtSeparator.parse(context);
+                    rule = Rule_padding.parse(context);
                     if ((f2 = rule != null))
                     {
                       e2.add(rule);
                       c2++;
                     }
                   }
-                  parsed = true;
+                  parsed = c2 == 1;
                 }
                 if (parsed)
                   e1.addAll(e2);
@@ -147,18 +144,17 @@ final public class Rule_classClass extends Rule
         if (parsed)
         {
           boolean f1 = true;
-          @SuppressWarnings("unused")
           int c1 = 0;
-          while (f1)
+          for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_fmtSeparator.parse(context);
+            rule = Rule_optPadding.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
               c1++;
             }
           }
-          parsed = true;
+          parsed = c1 == 1;
         }
         if (parsed)
         {
@@ -178,18 +174,17 @@ final public class Rule_classClass extends Rule
         if (parsed)
         {
           boolean f1 = true;
-          @SuppressWarnings("unused")
           int c1 = 0;
-          while (f1)
+          for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_fmtSeparator.parse(context);
+            rule = Rule_optPadding.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
               c1++;
             }
           }
-          parsed = true;
+          parsed = c1 == 1;
         }
         if (parsed)
         {

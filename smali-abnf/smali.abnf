@@ -29,13 +29,15 @@ HEXDIG = DIGIT / "A" / "B" / "C" / "D" / "E" / "F" ;
 VCHAR = %x21-7e;
 
 #####COMMON RULES#####
-fmtSeparator = SP / HTAB;
+padding = 1*(SP / HTAB);
+optPadding = 0*1(padding);
+listSeparator = *padding COMMA *padding;
 escSymbol = ALPHA / DIGIT / SP / %x21 / %x5c %x22 / %x23-2f / %x3a-40 / %x5b / %x5c %x5c / %x5d-60 / %x7b-7e / %x5c %x72 / %x5c %x6e / %x5c %x74;
 qualifier = (ALPHA / UNDERSCORE) *(ALPHA / DIGIT / UNDERSCORE);
 className = %x4c qualifier *(%x2f qualifier) ["$" qualifier] SEMICOLON;
-commentSequence = %x23 *(fmtSeparator / VCHAR);
-comment = *fmtSeparator commentSequence CRLF;
-emptyLine = *fmtSeparator CRLF;
+commentSequence = %x23 *(padding / VCHAR);
+comment = optPadding commentSequence CRLF;
+emptyLine = optPadding CRLF;
 skipLine = comment / emptyLine;
 fileName = QUOT *(ALPHA / DIGIT) DOT *(ALPHA / DIGIT) QUOT;
 accessMode = "public" / "private" / "protected" / "static" / "final" / "abstract";
@@ -55,12 +57,12 @@ codeRegisterVDst = "v" intDecValue;
 codeRegisterV64Dst = "v" intDecValue;
 codeRegister = codeRegisterP / codeRegisterV;
 codeRegister64 = codeRegisterP64 / codeRegisterV64;
-codeRegisterGroup = "{" *fmtSeparator (codeRegisterP / codeRegisterV) *fmtSeparator *(COMMA *fmtSeparator (codeRegisterP / codeRegisterV) *fmtSeparator) "}";
+codeRegisterGroup = "{" optPadding (codeRegisterP / codeRegisterV) optPadding *(COMMA optPadding (codeRegisterP / codeRegisterV) optPadding) "}";
 
 #####SMALI DIRECTIVE RULES#####
 dirClass = ".class";
 dirEnd = ".end";
-dirEndMethod = dirEnd *fmtSeparator "method";
+dirEndMethod = dirEnd padding "method";
 dirImplements = ".implements";
 dirField = ".field";
 dirLocal = ".local";
@@ -71,36 +73,36 @@ dirSource = ".source";
 
 #####SMALI GENERAL RULES#####
 smali = classHeader *(classField / skipLine) *(classMethod / skipLine);
-todoStubLine = *(VCHAR / fmtSeparator);
+todoStubLine = *(VCHAR / padding);
 
 #####SMALI HEADER RULES#####
 classHeader = classClass classSuper [classSource] *classImplements;
 
 #class directive statements
-classClass = *fmtSeparator dirClass *fmtSeparator *(accessMode *fmtSeparator) *fmtSeparator className *fmtSeparator CRLF;
-classSuper = *fmtSeparator dirSuper *fmtSeparator className *fmtSeparator CRLF;
-classSource = *fmtSeparator dirSource *fmtSeparator fileName *fmtSeparator CRLF;
-classImplements = *fmtSeparator dirImplements *fmtSeparator className *fmtSeparator CRLF;
+classClass = optPadding dirClass padding *(accessMode padding) optPadding className optPadding CRLF;
+classSuper = optPadding dirSuper padding className optPadding CRLF;
+classSource = optPadding dirSource padding fileName optPadding CRLF;
+classImplements = optPadding dirImplements padding className optPadding CRLF;
 
 #method directive statements
-methodLocals = *fmtSeparator ".locals" 1*fmtSeparator intValue *fmtSeparator CRLF;
-methodParam = *fmtSeparator ".parameter" [1*fmtSeparator strValue *fmtSeparator] *fmtSeparator CRLF;
-methodPrologue = *fmtSeparator ".prologue" *fmtSeparator CRLF;
-methodLine = *fmtSeparator ".line" 1*fmtSeparator intValue *fmtSeparator CRLF;
-methodRegisters = *fmtSeparator ".registers" 1*fmtSeparator intValue *fmtSeparator CRLF;
-methodLocal = *fmtSeparator ".local" 1*fmtSeparator todoStubLine CRLF;
+methodLocals = optPadding ".locals" padding intValue optPadding CRLF;
+methodParam = optPadding ".parameter" [padding strValue] optPadding CRLF;
+methodPrologue = optPadding ".prologue" optPadding CRLF;
+methodLine = optPadding ".line" padding intValue optPadding CRLF;
+methodRegisters = optPadding ".registers" padding intValue optPadding CRLF;
+methodLocal = optPadding ".local" padding todoStubLine CRLF;
 
 
 #####SMALI FIELD RULES#####
-classField = *fmtSeparator dirField 1*fmtSeparator *(accessMode 1*fmtSeparator) qualifier COLON type *fmtSeparator [EQ *fmtSeparator value] *fmtSeparator CRLF;
+classField = optPadding dirField padding *(accessMode padding) qualifier COLON type optPadding [EQ optPadding value] optPadding CRLF;
 
 #####SMALI METHOD RULES#####
-classMethod = *(fmtSeparator) dirMethod *(fmtSeparator) *(accessMode 1*fmtSeparator) (classConstructorName / qualifier) *(fmtSeparator) classMethodProto *(fmtSeparator) CRLF methodBody *(fmtSeparator) dirEndMethod *(fmtSeparator) CRLF;
-classConstructorName = "constructor" *(fmtSeparator) smaliConstructorName;
+classMethod = optPadding dirMethod padding *(accessMode padding) (classConstructorName / qualifier) optPadding classMethodProto optPadding CRLF methodBody optPadding dirEndMethod optPadding CRLF;
+classConstructorName = "constructor" padding smaliConstructorName;
 classMethodProto = %x28 *type %x29 type;
 methodBody = [methodLocals] [methodRegisters] *(methodParam / skipLine) methodPrologue *(methodLine / methodLocal / cmdAny / label / skipLine);
 
-label = *fmtSeparator codeLabel *fmtSeparator [commentSequence] CRLF;
+label = optPadding codeLabel optPadding [commentSequence] CRLF;
 
 smaliConstructorName = ("<init>" / "<clinit>");
 smaliFieldRef = className "->" qualifier COLON type;
@@ -133,28 +135,28 @@ cmdAny =/ cmdReturnVoid;
 cmdAny =/ cmdReturnWide;
 cmdAny =/ cmdSputObject;
 
-cmdConst4           = *fmtSeparator "const/4" 1*fmtSeparator codeRegisterVDst *fmtSeparator COMMA *fmtSeparator intValue *fmtSeparator [commentSequence] CRLF;
-cmdConstString      = *fmtSeparator "const-string" 1*fmtSeparator codeRegisterVDst *fmtSeparator COMMA *fmtSeparator strValue *fmtSeparator [commentSequence] CRLF;
-cmdGoto             = *fmtSeparator "goto" 1*fmtSeparator codeLabel *fmtSeparator [commentSequence] CRLF;
-cmdIfEq             = *fmtSeparator "if-eq" 1*fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeLabel *fmtSeparator [commentSequence] CRLF;
-cmdIfEqz            = *fmtSeparator "if-eqz" 1*fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeLabel *fmtSeparator [commentSequence] CRLF;
-cmdIfNe             = *fmtSeparator "if-ne" 1*fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeLabel *fmtSeparator [commentSequence] CRLF;
-cmdIfNez            = *fmtSeparator "if-nez" 1*fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeLabel *fmtSeparator [commentSequence] CRLF;
-cmdIget             = *fmtSeparator "iget" 1*fmtSeparator codeRegisterVDst *fmtSeparator COMMA *fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator smaliFieldRef *fmtSeparator [commentSequence] CRLF;
-cmdIgetObject       = *fmtSeparator "iget-object" 1*fmtSeparator codeRegisterVDst *fmtSeparator COMMA *fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator smaliFieldRef *fmtSeparator [commentSequence] CRLF;
-cmdIgetWide         = *fmtSeparator "iget-wide" 1*fmtSeparator codeRegisterV64Dst *fmtSeparator COMMA *fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator smaliFieldRef *fmtSeparator [commentSequence] CRLF;
-cmdInvokeDirect     = *fmtSeparator "invoke-direct" 1*fmtSeparator codeRegisterGroup *fmtSeparator COMMA *fmtSeparator smaliMethodRef *fmtSeparator [commentSequence] CRLF;
-cmdInvokeStatic     = *fmtSeparator "invoke-static" 1*fmtSeparator codeRegisterGroup *fmtSeparator COMMA *fmtSeparator smaliMethodRef *fmtSeparator [commentSequence] CRLF;
-cmdInvokeVirtual    = *fmtSeparator "invoke-virtual" 1*fmtSeparator codeRegisterGroup *fmtSeparator COMMA *fmtSeparator smaliMethodRef *fmtSeparator [commentSequence] CRLF;
-cmdIput             = *fmtSeparator "iput" 1*fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator smaliFieldRef *fmtSeparator [commentSequence] CRLF;
-cmdIputObject       = *fmtSeparator "iput-object" 1*fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator smaliFieldRef *fmtSeparator [commentSequence] CRLF;
-cmdIputWide         = *fmtSeparator "iput-wide" 1*fmtSeparator codeRegister64 *fmtSeparator COMMA *fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator smaliFieldRef *fmtSeparator [commentSequence] CRLF;
-cmdMove             = *fmtSeparator "move" 1*fmtSeparator codeRegisterVDst *fmtSeparator COMMA *fmtSeparator codeRegister *fmtSeparator [commentSequence] CRLF;
-cmdMoveResultObject = *fmtSeparator "move-result-object" 1*fmtSeparator codeRegisterVDst *fmtSeparator [commentSequence] CRLF;
-cmdNewInstance      = *fmtSeparator "new-instance" 1*fmtSeparator codeRegisterVDst *fmtSeparator COMMA *fmtSeparator className *fmtSeparator [commentSequence] CRLF;
-cmdNop              = *fmtSeparator "nop" *fmtSeparator [commentSequence] CRLF;
-cmdReturn           = *fmtSeparator "return" 1*fmtSeparator codeRegisterV *fmtSeparator [commentSequence] CRLF;
-cmdReturnObject     = *fmtSeparator "return-object" 1*fmtSeparator codeRegisterV *fmtSeparator [commentSequence] CRLF;
-cmdReturnVoid       = *fmtSeparator "return-void" *fmtSeparator [commentSequence] CRLF;
-cmdReturnWide       = *fmtSeparator "return-wide" 1*fmtSeparator codeRegister64 *fmtSeparator [commentSequence] CRLF;
-cmdSputObject       = *fmtSeparator "sput-object" 1*fmtSeparator codeRegister *fmtSeparator COMMA *fmtSeparator smaliFieldRef *fmtSeparator [commentSequence] CRLF;
+cmdConst4           = optPadding "const/4" padding codeRegisterVDst optPadding COMMA optPadding intValue optPadding [commentSequence] CRLF;
+cmdConstString      = optPadding "const-string" padding codeRegisterVDst optPadding COMMA optPadding strValue optPadding [commentSequence] CRLF;
+cmdGoto             = optPadding "goto" padding codeLabel optPadding [commentSequence] CRLF;
+cmdIfEq             = optPadding "if-eq" padding codeRegister optPadding COMMA optPadding codeRegister optPadding COMMA optPadding codeLabel optPadding [commentSequence] CRLF;
+cmdIfEqz            = optPadding "if-eqz" padding codeRegister optPadding COMMA optPadding codeLabel optPadding [commentSequence] CRLF;
+cmdIfNe             = optPadding "if-ne" padding codeRegister optPadding COMMA optPadding codeRegister optPadding COMMA optPadding codeLabel optPadding [commentSequence] CRLF;
+cmdIfNez            = optPadding "if-nez" padding codeRegister optPadding COMMA optPadding codeLabel optPadding [commentSequence] CRLF;
+cmdIget             = optPadding "iget" padding codeRegisterVDst optPadding COMMA optPadding codeRegister optPadding COMMA optPadding smaliFieldRef optPadding [commentSequence] CRLF;
+cmdIgetObject       = optPadding "iget-object" padding codeRegisterVDst optPadding COMMA optPadding codeRegister optPadding COMMA optPadding smaliFieldRef optPadding [commentSequence] CRLF;
+cmdIgetWide         = optPadding "iget-wide" padding codeRegisterV64Dst optPadding COMMA optPadding codeRegister optPadding COMMA optPadding smaliFieldRef optPadding [commentSequence] CRLF;
+cmdInvokeDirect     = optPadding "invoke-direct" padding codeRegisterGroup optPadding COMMA optPadding smaliMethodRef optPadding [commentSequence] CRLF;
+cmdInvokeStatic     = optPadding "invoke-static" padding codeRegisterGroup optPadding COMMA optPadding smaliMethodRef optPadding [commentSequence] CRLF;
+cmdInvokeVirtual    = optPadding "invoke-virtual" padding codeRegisterGroup optPadding COMMA optPadding smaliMethodRef optPadding [commentSequence] CRLF;
+cmdIput             = optPadding "iput" padding codeRegister optPadding COMMA optPadding codeRegister optPadding COMMA optPadding smaliFieldRef optPadding [commentSequence] CRLF;
+cmdIputObject       = optPadding "iput-object" padding codeRegister optPadding COMMA optPadding codeRegister optPadding COMMA optPadding smaliFieldRef optPadding [commentSequence] CRLF;
+cmdIputWide         = optPadding "iput-wide" padding codeRegister64 optPadding COMMA optPadding codeRegister optPadding COMMA optPadding smaliFieldRef optPadding [commentSequence] CRLF;
+cmdMove             = optPadding "move" padding codeRegisterVDst optPadding COMMA optPadding codeRegister optPadding [commentSequence] CRLF;
+cmdMoveResultObject = optPadding "move-result-object" padding codeRegisterVDst optPadding [commentSequence] CRLF;
+cmdNewInstance      = optPadding "new-instance" padding codeRegisterVDst optPadding COMMA optPadding className optPadding [commentSequence] CRLF;
+cmdNop              = optPadding "nop" optPadding [commentSequence] CRLF;
+cmdReturn           = optPadding "return" padding codeRegisterV optPadding [commentSequence] CRLF;
+cmdReturnObject     = optPadding "return-object" padding codeRegisterV optPadding [commentSequence] CRLF;
+cmdReturnVoid       = optPadding "return-void" optPadding [commentSequence] CRLF;
+cmdReturnWide       = optPadding "return-wide" padding codeRegister64 optPadding [commentSequence] CRLF;
+cmdSputObject       = optPadding "sput-object" padding codeRegister optPadding COMMA optPadding smaliFieldRef optPadding [commentSequence] CRLF;

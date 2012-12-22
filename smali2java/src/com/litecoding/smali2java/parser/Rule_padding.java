@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
- * Rule_todoStubLine.java
+ * Rule_padding.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_todoStubLine extends Rule
+final public class Rule_padding extends Rule
 {
-  private Rule_todoStubLine(String spelling, ArrayList<Rule> rules)
+  private Rule_padding(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_todoStubLine extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_todoStubLine parse(ParserContext context)
+  public static Rule_padding parse(ParserContext context)
   {
-    context.push("todoStubLine");
+    context.push("padding");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -43,9 +43,8 @@ final public class Rule_todoStubLine extends Rule
         if (parsed)
         {
           boolean f1 = true;
-          @SuppressWarnings("unused")
           int c1 = 0;
-          while (f1)
+          for (int i1 = 0; i1 < 1 && f1; i1++)
           {
             int g1 = context.index;
             parsed = false;
@@ -61,7 +60,7 @@ final public class Rule_todoStubLine extends Rule
                   int c2 = 0;
                   for (int i2 = 0; i2 < 1 && f2; i2++)
                   {
-                    rule = Rule_VCHAR.parse(context);
+                    rule = Rule_SP.parse(context);
                     if ((f2 = rule != null))
                     {
                       e2.add(rule);
@@ -88,7 +87,7 @@ final public class Rule_todoStubLine extends Rule
                   int c2 = 0;
                   for (int i2 = 0; i2 < 1 && f2; i2++)
                   {
-                    rule = Rule_padding.parse(context);
+                    rule = Rule_HTAB.parse(context);
                     if ((f2 = rule != null))
                     {
                       e2.add(rule);
@@ -106,7 +105,68 @@ final public class Rule_todoStubLine extends Rule
             f1 = context.index > g1;
             if (parsed) c1++;
           }
-          parsed = true;
+          while (f1)
+          {
+            int g1 = context.index;
+            parsed = false;
+            if (!parsed)
+            {
+              {
+                ArrayList<Rule> e2 = new ArrayList<Rule>();
+                int s2 = context.index;
+                parsed = true;
+                if (parsed)
+                {
+                  boolean f2 = true;
+                  int c2 = 0;
+                  for (int i2 = 0; i2 < 1 && f2; i2++)
+                  {
+                    rule = Rule_SP.parse(context);
+                    if ((f2 = rule != null))
+                    {
+                      e2.add(rule);
+                      c2++;
+                    }
+                  }
+                  parsed = c2 == 1;
+                }
+                if (parsed)
+                  e1.addAll(e2);
+                else
+                  context.index = s2;
+              }
+            }
+            if (!parsed)
+            {
+              {
+                ArrayList<Rule> e2 = new ArrayList<Rule>();
+                int s2 = context.index;
+                parsed = true;
+                if (parsed)
+                {
+                  boolean f2 = true;
+                  int c2 = 0;
+                  for (int i2 = 0; i2 < 1 && f2; i2++)
+                  {
+                    rule = Rule_HTAB.parse(context);
+                    if ((f2 = rule != null))
+                    {
+                      e2.add(rule);
+                      c2++;
+                    }
+                  }
+                  parsed = c2 == 1;
+                }
+                if (parsed)
+                  e1.addAll(e2);
+                else
+                  context.index = s2;
+              }
+            }
+            f1 = context.index > g1;
+            if (parsed) c1++;
+          }
+          parsed = c1 >= 1;
         }
         if (parsed)
           e0.addAll(e1);
@@ -117,13 +177,13 @@ final public class Rule_todoStubLine extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_todoStubLine(context.text.substring(s0, context.index), e0);
+      rule = new Rule_padding(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("todoStubLine", parsed);
+    context.pop("padding", parsed);
 
-    return (Rule_todoStubLine)rule;
+    return (Rule_padding)rule;
   }
 }
 

@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Wed Dec 19 11:27:34 MUT 2012
+ * Produced : Sat Dec 22 19:59:10 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -177,7 +177,9 @@ public class Parser
     else if (rulename.equalsIgnoreCase("DIGIT")) rule = Rule_DIGIT.parse(context);
     else if (rulename.equalsIgnoreCase("HEXDIG")) rule = Rule_HEXDIG.parse(context);
     else if (rulename.equalsIgnoreCase("VCHAR")) rule = Rule_VCHAR.parse(context);
-    else if (rulename.equalsIgnoreCase("fmtSeparator")) rule = Rule_fmtSeparator.parse(context);
+    else if (rulename.equalsIgnoreCase("padding")) rule = Rule_padding.parse(context);
+    else if (rulename.equalsIgnoreCase("optPadding")) rule = Rule_optPadding.parse(context);
+    else if (rulename.equalsIgnoreCase("listSeparator")) rule = Rule_listSeparator.parse(context);
     else if (rulename.equalsIgnoreCase("escSymbol")) rule = Rule_escSymbol.parse(context);
     else if (rulename.equalsIgnoreCase("qualifier")) rule = Rule_qualifier.parse(context);
     else if (rulename.equalsIgnoreCase("className")) rule = Rule_className.parse(context);
