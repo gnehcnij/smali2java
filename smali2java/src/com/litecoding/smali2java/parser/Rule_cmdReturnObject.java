@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Sat Dec 22 19:59:10 MUT 2012
+ * Produced : Sat Dec 22 20:45:29 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -130,6 +130,21 @@ final public class Rule_cmdReturnObject extends Rule
                 ArrayList<Rule> e2 = new ArrayList<Rule>();
                 int s2 = context.index;
                 parsed = true;
+                if (parsed)
+                {
+                  boolean f2 = true;
+                  int c2 = 0;
+                  for (int i2 = 0; i2 < 1 && f2; i2++)
+                  {
+                    rule = Rule_padding.parse(context);
+                    if ((f2 = rule != null))
+                    {
+                      e2.add(rule);
+                      c2++;
+                    }
+                  }
+                  parsed = c2 == 1;
+                }
                 if (parsed)
                 {
                   boolean f2 = true;

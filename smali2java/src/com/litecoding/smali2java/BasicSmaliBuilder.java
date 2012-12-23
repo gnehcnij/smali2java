@@ -534,7 +534,8 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 		boolean cmdDetermined = false;
 		for(Rule innerRule : rules) {
 			if(innerRule instanceof Rule_padding ||
-				innerRule instanceof Rule_optPadding)
+				innerRule instanceof Rule_optPadding || 
+				innerRule instanceof Rule_listSeparator)
 				continue;
 			
 			if(innerRule instanceof Rule_codeLabel) {
