@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Sat Dec 22 20:45:29 MUT 2012
+ * Produced : Sun Dec 23 19:00:31 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -102,6 +102,7 @@ public interface Visitor
   public Object visit(Rule_cmdIgetObject rule);
   public Object visit(Rule_cmdIgetWide rule);
   public Object visit(Rule_cmdInvokeDirect rule);
+  public Object visit(Rule_cmdInvokeInterface rule);
   public Object visit(Rule_cmdInvokeStatic rule);
   public Object visit(Rule_cmdInvokeVirtual rule);
   public Object visit(Rule_cmdIput rule);
@@ -115,6 +116,7 @@ public interface Visitor
   public Object visit(Rule_cmdReturnObject rule);
   public Object visit(Rule_cmdReturnVoid rule);
   public Object visit(Rule_cmdReturnWide rule);
+  public Object visit(Rule_cmdSgetObject rule);
   public Object visit(Rule_cmdSputObject rule);
 
   public Object visit(Terminal_StringValue value);

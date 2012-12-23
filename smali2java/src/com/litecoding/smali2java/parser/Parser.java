@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Sat Dec 22 20:45:29 MUT 2012
+ * Produced : Sun Dec 23 19:00:31 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -250,6 +250,7 @@ public class Parser
     else if (rulename.equalsIgnoreCase("cmdIgetObject")) rule = Rule_cmdIgetObject.parse(context);
     else if (rulename.equalsIgnoreCase("cmdIgetWide")) rule = Rule_cmdIgetWide.parse(context);
     else if (rulename.equalsIgnoreCase("cmdInvokeDirect")) rule = Rule_cmdInvokeDirect.parse(context);
+    else if (rulename.equalsIgnoreCase("cmdInvokeInterface")) rule = Rule_cmdInvokeInterface.parse(context);
     else if (rulename.equalsIgnoreCase("cmdInvokeStatic")) rule = Rule_cmdInvokeStatic.parse(context);
     else if (rulename.equalsIgnoreCase("cmdInvokeVirtual")) rule = Rule_cmdInvokeVirtual.parse(context);
     else if (rulename.equalsIgnoreCase("cmdIput")) rule = Rule_cmdIput.parse(context);
@@ -263,6 +264,7 @@ public class Parser
     else if (rulename.equalsIgnoreCase("cmdReturnObject")) rule = Rule_cmdReturnObject.parse(context);
     else if (rulename.equalsIgnoreCase("cmdReturnVoid")) rule = Rule_cmdReturnVoid.parse(context);
     else if (rulename.equalsIgnoreCase("cmdReturnWide")) rule = Rule_cmdReturnWide.parse(context);
+    else if (rulename.equalsIgnoreCase("cmdSgetObject")) rule = Rule_cmdSgetObject.parse(context);
     else if (rulename.equalsIgnoreCase("cmdSputObject")) rule = Rule_cmdSputObject.parse(context);
     else throw new IllegalArgumentException("unknown rule");
 

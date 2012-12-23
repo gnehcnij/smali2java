@@ -311,7 +311,7 @@ public class SmaliRenderer {
 	private static void buildTimeline(Block block, SmaliMethod method) {
 		//get all of this to local vars (shortcuts)
 		List<Param> params = method.getParams();
-		boolean isMethodStatic = method.isFlagSet(SmaliEntity.ABSTRACT);
+		boolean isMethodStatic = method.isFlagSet(SmaliEntity.STATIC);
 		int localsCount = method.getLocals();
 		RegisterTimeline timeline = block.registerTimeline;
 		

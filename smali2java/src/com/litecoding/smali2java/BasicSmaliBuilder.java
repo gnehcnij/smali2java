@@ -345,6 +345,12 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}
 
 	@Override
+	public Object visit(Rule_cmdInvokeInterface rule)
+	{
+		return generateCmdFromRules(rule.rules);
+	}
+	
+	@Override
 	public Object visit(Rule_cmdInvokeStatic rule)
 	{
 		return generateCmdFromRules(rule.rules);
@@ -376,6 +382,12 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 
 	@Override
 	public Object visit(Rule_cmdIputObject rule)
+	{
+		return generateCmdFromRules(rule.rules);
+	}
+	
+	@Override
+	public Object visit(Rule_cmdSgetObject rule)
 	{
 		return generateCmdFromRules(rule.rules);
 	}

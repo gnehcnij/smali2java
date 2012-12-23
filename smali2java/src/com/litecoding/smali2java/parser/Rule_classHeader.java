@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Sat Dec 22 20:45:29 MUT 2012
+ * Produced : Sun Dec 23 19:00:31 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -43,6 +43,22 @@ final public class Rule_classHeader extends Rule
         if (parsed)
         {
           boolean f1 = true;
+          @SuppressWarnings("unused")
+          int c1 = 0;
+          while (f1)
+          {
+            rule = Rule_skipLine.parse(context);
+            if ((f1 = rule != null))
+            {
+              e1.add(rule);
+              c1++;
+            }
+          }
+          parsed = true;
+        }
+        if (parsed)
+        {
+          boolean f1 = true;
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
@@ -58,6 +74,22 @@ final public class Rule_classHeader extends Rule
         if (parsed)
         {
           boolean f1 = true;
+          @SuppressWarnings("unused")
+          int c1 = 0;
+          while (f1)
+          {
+            rule = Rule_skipLine.parse(context);
+            if ((f1 = rule != null))
+            {
+              e1.add(rule);
+              c1++;
+            }
+          }
+          parsed = true;
+        }
+        if (parsed)
+        {
+          boolean f1 = true;
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
@@ -69,6 +101,22 @@ final public class Rule_classHeader extends Rule
             }
           }
           parsed = c1 == 1;
+        }
+        if (parsed)
+        {
+          boolean f1 = true;
+          @SuppressWarnings("unused")
+          int c1 = 0;
+          while (f1)
+          {
+            rule = Rule_skipLine.parse(context);
+            if ((f1 = rule != null))
+            {
+              e1.add(rule);
+              c1++;
+            }
+          }
+          parsed = true;
         }
         if (parsed)
         {
@@ -118,7 +166,39 @@ final public class Rule_classHeader extends Rule
           int c1 = 0;
           while (f1)
           {
+            rule = Rule_skipLine.parse(context);
+            if ((f1 = rule != null))
+            {
+              e1.add(rule);
+              c1++;
+            }
+          }
+          parsed = true;
+        }
+        if (parsed)
+        {
+          boolean f1 = true;
+          @SuppressWarnings("unused")
+          int c1 = 0;
+          while (f1)
+          {
             rule = Rule_classImplements.parse(context);
+            if ((f1 = rule != null))
+            {
+              e1.add(rule);
+              c1++;
+            }
+          }
+          parsed = true;
+        }
+        if (parsed)
+        {
+          boolean f1 = true;
+          @SuppressWarnings("unused")
+          int c1 = 0;
+          while (f1)
+          {
+            rule = Rule_skipLine.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);

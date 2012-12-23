@@ -8,7 +8,7 @@ public class Test {
 	 */
 	public static void main(String[] args) {
 		try {
-			Ecosystem.getInstance().processFile("../smali-example/AppDetails.smali", null);
+			Ecosystem.getInstance().processFile("../smali-example/smali-project/HelloWorld/HelloWorld.smali", null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

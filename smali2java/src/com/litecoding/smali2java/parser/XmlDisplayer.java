@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Sat Dec 22 20:45:29 MUT 2012
+ * Produced : Sun Dec 23 19:00:31 MUT 2012
  *
  * -----------------------------------------------------------------------------
  */
@@ -1096,6 +1096,18 @@ public class XmlDisplayer implements Visitor
     return null;
   }
 
+  public Object visit(Rule_cmdInvokeInterface rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<cmdInvokeInterface>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</cmdInvokeInterface>");
+    terminal = false;
+    return null;
+  }
+
   public Object visit(Rule_cmdInvokeStatic rule)
   {
     if (!terminal) System.out.println();
@@ -1248,6 +1260,18 @@ public class XmlDisplayer implements Visitor
     visitRules(rule.rules);
     if (!terminal) System.out.println();
     System.out.print("</cmdReturnWide>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_cmdSgetObject rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<cmdSgetObject>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</cmdSgetObject>");
     terminal = false;
     return null;
   }
