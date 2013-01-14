@@ -5,9 +5,10 @@ smali 2 java conversion tool
 **Current status**: pre-aplpha (planning & sketching)
 
 Currently smali2java parses *.smali file with parser produced from ABNF grammar 
-(fully parses 25 commands) and builds codeblock sequence.
+(fully parses 27 commands) and builds codeblock sequence.
 
 ## Useful links:
+Some useful info about smali2java status & how it works: http://litecoding.com/tag/smali2java/
 
 Types & DEX format description: http://source.android.com/tech/dalvik/dex-format.html
 
