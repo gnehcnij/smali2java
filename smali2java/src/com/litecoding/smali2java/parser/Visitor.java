@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Sun Dec 23 19:00:31 MUT 2012
+ * Produced : Mon Jan 14 11:17:05 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -12,23 +12,6 @@ package com.litecoding.smali2java.parser;
 
 public interface Visitor
 {
-  public Object visit(Rule_HTAB rule);
-  public Object visit(Rule_CR rule);
-  public Object visit(Rule_LF rule);
-  public Object visit(Rule_SP rule);
-  public Object visit(Rule_CRLF rule);
-  public Object visit(Rule_QUOT rule);
-  public Object visit(Rule_HASH rule);
-  public Object visit(Rule_COMMA rule);
-  public Object visit(Rule_DOT rule);
-  public Object visit(Rule_COLON rule);
-  public Object visit(Rule_SEMICOLON rule);
-  public Object visit(Rule_EQ rule);
-  public Object visit(Rule_UNDERSCORE rule);
-  public Object visit(Rule_ALPHA rule);
-  public Object visit(Rule_DIGIT rule);
-  public Object visit(Rule_HEXDIG rule);
-  public Object visit(Rule_VCHAR rule);
   public Object visit(Rule_padding rule);
   public Object visit(Rule_optPadding rule);
   public Object visit(Rule_listSeparator rule);
@@ -88,8 +71,26 @@ public interface Visitor
   public Object visit(Rule_methodBody rule);
   public Object visit(Rule_label rule);
   public Object visit(Rule_smaliConstructorName rule);
+  public Object visit(Rule_smaliClassRef rule);
   public Object visit(Rule_smaliFieldRef rule);
   public Object visit(Rule_smaliMethodRef rule);
+  public Object visit(Rule_HTAB rule);
+  public Object visit(Rule_CR rule);
+  public Object visit(Rule_LF rule);
+  public Object visit(Rule_SP rule);
+  public Object visit(Rule_CRLF rule);
+  public Object visit(Rule_QUOT rule);
+  public Object visit(Rule_HASH rule);
+  public Object visit(Rule_COMMA rule);
+  public Object visit(Rule_DOT rule);
+  public Object visit(Rule_COLON rule);
+  public Object visit(Rule_SEMICOLON rule);
+  public Object visit(Rule_EQ rule);
+  public Object visit(Rule_UNDERSCORE rule);
+  public Object visit(Rule_ALPHA rule);
+  public Object visit(Rule_DIGIT rule);
+  public Object visit(Rule_HEXDIG rule);
+  public Object visit(Rule_VCHAR rule);
   public Object visit(Rule_cmdAny rule);
   public Object visit(Rule_cmdConst4 rule);
   public Object visit(Rule_cmdConstString rule);

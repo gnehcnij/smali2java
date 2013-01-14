@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Sun Dec 23 19:00:31 MUT 2012
+ * Produced : Mon Jan 14 11:17:05 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -14,91 +14,6 @@ import java.util.ArrayList;
 
 public class Displayer implements Visitor
 {
-
-  public Object visit(Rule_HTAB rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_CR rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_LF rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_SP rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_CRLF rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_QUOT rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_HASH rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_COMMA rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_DOT rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_COLON rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_SEMICOLON rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_EQ rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_UNDERSCORE rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_ALPHA rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_DIGIT rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_HEXDIG rule)
-  {
-    return visitRules(rule.rules);
-  }
-
-  public Object visit(Rule_VCHAR rule)
-  {
-    return visitRules(rule.rules);
-  }
 
   public Object visit(Rule_padding rule)
   {
@@ -395,12 +310,102 @@ public class Displayer implements Visitor
     return visitRules(rule.rules);
   }
 
+  public Object visit(Rule_smaliClassRef rule)
+  {
+    return visitRules(rule.rules);
+  }
+
   public Object visit(Rule_smaliFieldRef rule)
   {
     return visitRules(rule.rules);
   }
 
   public Object visit(Rule_smaliMethodRef rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_HTAB rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_CR rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_LF rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_SP rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_CRLF rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_QUOT rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_HASH rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_COMMA rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_DOT rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_COLON rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_SEMICOLON rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_EQ rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_UNDERSCORE rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_ALPHA rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_DIGIT rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_HEXDIG rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_VCHAR rule)
   {
     return visitRules(rule.rules);
   }

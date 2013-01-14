@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Sun Dec 23 19:00:31 MUT 2012
+ * Produced : Mon Jan 14 11:17:05 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -31,7 +31,7 @@ public class Parser
     if (ok)
     {
       arguments.setProperty("Trace", "Off");
-      arguments.setProperty("Rule", "HTAB");
+      arguments.setProperty("Rule", "padding");
 
       for (int i = 0; i < args.length; i++)
       {
@@ -160,24 +160,7 @@ public class Parser
     ParserContext context = new ParserContext(string, trace);
 
     Rule rule = null;
-    if (rulename.equalsIgnoreCase("HTAB")) rule = Rule_HTAB.parse(context);
-    else if (rulename.equalsIgnoreCase("CR")) rule = Rule_CR.parse(context);
-    else if (rulename.equalsIgnoreCase("LF")) rule = Rule_LF.parse(context);
-    else if (rulename.equalsIgnoreCase("SP")) rule = Rule_SP.parse(context);
-    else if (rulename.equalsIgnoreCase("CRLF")) rule = Rule_CRLF.parse(context);
-    else if (rulename.equalsIgnoreCase("QUOT")) rule = Rule_QUOT.parse(context);
-    else if (rulename.equalsIgnoreCase("HASH")) rule = Rule_HASH.parse(context);
-    else if (rulename.equalsIgnoreCase("COMMA")) rule = Rule_COMMA.parse(context);
-    else if (rulename.equalsIgnoreCase("DOT")) rule = Rule_DOT.parse(context);
-    else if (rulename.equalsIgnoreCase("COLON")) rule = Rule_COLON.parse(context);
-    else if (rulename.equalsIgnoreCase("SEMICOLON")) rule = Rule_SEMICOLON.parse(context);
-    else if (rulename.equalsIgnoreCase("EQ")) rule = Rule_EQ.parse(context);
-    else if (rulename.equalsIgnoreCase("UNDERSCORE")) rule = Rule_UNDERSCORE.parse(context);
-    else if (rulename.equalsIgnoreCase("ALPHA")) rule = Rule_ALPHA.parse(context);
-    else if (rulename.equalsIgnoreCase("DIGIT")) rule = Rule_DIGIT.parse(context);
-    else if (rulename.equalsIgnoreCase("HEXDIG")) rule = Rule_HEXDIG.parse(context);
-    else if (rulename.equalsIgnoreCase("VCHAR")) rule = Rule_VCHAR.parse(context);
-    else if (rulename.equalsIgnoreCase("padding")) rule = Rule_padding.parse(context);
+    if (rulename.equalsIgnoreCase("padding")) rule = Rule_padding.parse(context);
     else if (rulename.equalsIgnoreCase("optPadding")) rule = Rule_optPadding.parse(context);
     else if (rulename.equalsIgnoreCase("listSeparator")) rule = Rule_listSeparator.parse(context);
     else if (rulename.equalsIgnoreCase("escSymbol")) rule = Rule_escSymbol.parse(context);
@@ -236,8 +219,26 @@ public class Parser
     else if (rulename.equalsIgnoreCase("methodBody")) rule = Rule_methodBody.parse(context);
     else if (rulename.equalsIgnoreCase("label")) rule = Rule_label.parse(context);
     else if (rulename.equalsIgnoreCase("smaliConstructorName")) rule = Rule_smaliConstructorName.parse(context);
+    else if (rulename.equalsIgnoreCase("smaliClassRef")) rule = Rule_smaliClassRef.parse(context);
     else if (rulename.equalsIgnoreCase("smaliFieldRef")) rule = Rule_smaliFieldRef.parse(context);
     else if (rulename.equalsIgnoreCase("smaliMethodRef")) rule = Rule_smaliMethodRef.parse(context);
+    else if (rulename.equalsIgnoreCase("HTAB")) rule = Rule_HTAB.parse(context);
+    else if (rulename.equalsIgnoreCase("CR")) rule = Rule_CR.parse(context);
+    else if (rulename.equalsIgnoreCase("LF")) rule = Rule_LF.parse(context);
+    else if (rulename.equalsIgnoreCase("SP")) rule = Rule_SP.parse(context);
+    else if (rulename.equalsIgnoreCase("CRLF")) rule = Rule_CRLF.parse(context);
+    else if (rulename.equalsIgnoreCase("QUOT")) rule = Rule_QUOT.parse(context);
+    else if (rulename.equalsIgnoreCase("HASH")) rule = Rule_HASH.parse(context);
+    else if (rulename.equalsIgnoreCase("COMMA")) rule = Rule_COMMA.parse(context);
+    else if (rulename.equalsIgnoreCase("DOT")) rule = Rule_DOT.parse(context);
+    else if (rulename.equalsIgnoreCase("COLON")) rule = Rule_COLON.parse(context);
+    else if (rulename.equalsIgnoreCase("SEMICOLON")) rule = Rule_SEMICOLON.parse(context);
+    else if (rulename.equalsIgnoreCase("EQ")) rule = Rule_EQ.parse(context);
+    else if (rulename.equalsIgnoreCase("UNDERSCORE")) rule = Rule_UNDERSCORE.parse(context);
+    else if (rulename.equalsIgnoreCase("ALPHA")) rule = Rule_ALPHA.parse(context);
+    else if (rulename.equalsIgnoreCase("DIGIT")) rule = Rule_DIGIT.parse(context);
+    else if (rulename.equalsIgnoreCase("HEXDIG")) rule = Rule_HEXDIG.parse(context);
+    else if (rulename.equalsIgnoreCase("VCHAR")) rule = Rule_VCHAR.parse(context);
     else if (rulename.equalsIgnoreCase("cmdAny")) rule = Rule_cmdAny.parse(context);
     else if (rulename.equalsIgnoreCase("cmdConst4")) rule = Rule_cmdConst4.parse(context);
     else if (rulename.equalsIgnoreCase("cmdConstString")) rule = Rule_cmdConstString.parse(context);

@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Sun Dec 23 19:00:31 MUT 2012
+ * Produced : Mon Jan 14 11:17:05 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -15,210 +15,6 @@ import java.util.ArrayList;
 public class XmlDisplayer implements Visitor
 {
   private boolean terminal = true;
-
-  public Object visit(Rule_HTAB rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<HTAB>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</HTAB>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_CR rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<CR>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</CR>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_LF rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<LF>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</LF>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_SP rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<SP>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</SP>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_CRLF rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<CRLF>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</CRLF>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_QUOT rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<QUOT>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</QUOT>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_HASH rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<HASH>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</HASH>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_COMMA rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<COMMA>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</COMMA>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_DOT rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<DOT>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</DOT>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_COLON rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<COLON>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</COLON>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_SEMICOLON rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<SEMICOLON>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</SEMICOLON>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_EQ rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<EQ>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</EQ>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_UNDERSCORE rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<UNDERSCORE>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</UNDERSCORE>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_ALPHA rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<ALPHA>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</ALPHA>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_DIGIT rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<DIGIT>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</DIGIT>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_HEXDIG rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<HEXDIG>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</HEXDIG>");
-    terminal = false;
-    return null;
-  }
-
-  public Object visit(Rule_VCHAR rule)
-  {
-    if (!terminal) System.out.println();
-    System.out.print("<VCHAR>");
-    terminal = false;
-    visitRules(rule.rules);
-    if (!terminal) System.out.println();
-    System.out.print("</VCHAR>");
-    terminal = false;
-    return null;
-  }
 
   public Object visit(Rule_padding rule)
   {
@@ -928,6 +724,18 @@ public class XmlDisplayer implements Visitor
     return null;
   }
 
+  public Object visit(Rule_smaliClassRef rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<smaliClassRef>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</smaliClassRef>");
+    terminal = false;
+    return null;
+  }
+
   public Object visit(Rule_smaliFieldRef rule)
   {
     if (!terminal) System.out.println();
@@ -948,6 +756,210 @@ public class XmlDisplayer implements Visitor
     visitRules(rule.rules);
     if (!terminal) System.out.println();
     System.out.print("</smaliMethodRef>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_HTAB rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<HTAB>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</HTAB>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_CR rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<CR>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</CR>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_LF rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<LF>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</LF>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_SP rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<SP>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</SP>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_CRLF rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<CRLF>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</CRLF>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_QUOT rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<QUOT>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</QUOT>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_HASH rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<HASH>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</HASH>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_COMMA rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<COMMA>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</COMMA>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_DOT rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<DOT>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</DOT>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_COLON rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<COLON>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</COLON>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_SEMICOLON rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<SEMICOLON>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</SEMICOLON>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_EQ rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<EQ>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</EQ>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_UNDERSCORE rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<UNDERSCORE>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</UNDERSCORE>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_ALPHA rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<ALPHA>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</ALPHA>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_DIGIT rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<DIGIT>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</DIGIT>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_HEXDIG rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<HEXDIG>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</HEXDIG>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_VCHAR rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<VCHAR>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</VCHAR>");
     terminal = false;
     return null;
   }

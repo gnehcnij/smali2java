@@ -3,6 +3,8 @@ package com.litecoding.smali2java;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.litecoding.smali2java.entity.smali.ClassRef;
+import com.litecoding.smali2java.entity.smali.Instruction;
 import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
 import com.litecoding.smali2java.entity.smali.EntityFactory;
 import com.litecoding.smali2java.entity.smali.Label;
@@ -443,10 +445,15 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 		return generateRegisterFromRule(rule);
 	}
 
+	@Override
+	public Object visit(Rule_smaliClassRef rule) {
+		ClassRef classRef = new ClassRef();
+		classRef.setName(rule.rules.get(0).spelling);
+		return classRef;
+	}
 		
 	@Override
-	public Object visit(Rule_smaliFieldRef rule)
-	{		
+	public Object visit(Rule_smaliFieldRef rule) {		
 		String className = "";
 		String name = "";
 		String type = "";
@@ -541,7 +548,7 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}
 	
 	private Object generateCmdFromRules(ArrayList<Rule> rules) {
-		SmaliCodeEntity command = null;
+		Instruction command = null;
 		
 		boolean cmdDetermined = false;
 		for(Rule innerRule : rules) {
@@ -567,6 +574,7 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 					innerRule instanceof Rule_codeRegisterP64 ||
 					innerRule instanceof Rule_codeRegister64 ||
 					innerRule instanceof Rule_codeRegisterGroup ||
+					innerRule instanceof Rule_smaliClassRef ||
 					innerRule instanceof Rule_smaliFieldRef ||
 					innerRule instanceof Rule_smaliMethodRef) {
 				command.getArguments().add((SmaliCodeEntity)innerRule.accept(this));
@@ -579,6 +587,7 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 				System.err.println("Warning: " + command.getName() + " is not fully supported");
 			}
 		}
+				
 		return command;
 	}
 }

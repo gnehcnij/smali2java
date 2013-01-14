@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Sun Dec 23 19:00:31 MUT 2012
+ * Produced : Mon Jan 14 11:17:05 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -121,7 +121,7 @@ final public class Rule_cmdNewInstance extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_className.parse(context);
+            rule = Rule_smaliClassRef.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);

@@ -6,6 +6,8 @@ import java.util.List;
 
 public class SmaliMethod extends SmaliEntity
 {	
+	protected SmaliClass smaliClass;
+	
 	protected String name = "";
 	protected boolean isConstructor = false;
 	protected List<Param> params = new LinkedList<Param>(); 
@@ -24,6 +26,10 @@ public class SmaliMethod extends SmaliEntity
 	protected List<SmaliCodeEntity> commands = new LinkedList<SmaliCodeEntity>();
 	
 	protected ArrayList<Integer> registerMapping = new ArrayList<Integer>();
+	
+	public SmaliClass getSmaliClass() {
+		return smaliClass;
+	}
 	
 	public String getName()
 	{
@@ -118,6 +124,10 @@ public class SmaliMethod extends SmaliEntity
 				currIdx++;
 			}
 		}
+	}
+	
+	protected void registerForClass(SmaliClass smaliClass) {
+		this.smaliClass = smaliClass;
 	}
 	
 	private void recalcLocals() {

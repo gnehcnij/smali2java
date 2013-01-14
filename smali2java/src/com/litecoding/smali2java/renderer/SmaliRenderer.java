@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.litecoding.smali2java.entity.smali.ClassRef;
+import com.litecoding.smali2java.entity.smali.FieldRef;
 import com.litecoding.smali2java.entity.smali.Instruction;
 import com.litecoding.smali2java.entity.smali.Label;
 import com.litecoding.smali2java.entity.smali.OpcodeData;
@@ -17,6 +19,8 @@ import com.litecoding.smali2java.entity.smali.Register.RegisterInfo;
 import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
 import com.litecoding.smali2java.entity.smali.SmaliEntity;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
+
+import dalvik.bytecode.Opcodes;
 
 
 /**
@@ -341,7 +345,8 @@ public class SmaliRenderer {
 			
 			int delta = 0;
 			if(!isMethodStatic) {
-				slice.get(localsCount).type = "this";
+				slice.get(localsCount).isThis = true;
+				slice.get(localsCount).type = method.getSmaliClass().getClassName();
 				delta = 1;
 			}
 			
@@ -374,6 +379,29 @@ public class SmaliRenderer {
 			prevSlice = currSlice;
 			currSlice = timeline.getSlice(i);
 			
+			//filling type of destination register
+			String dstType = "(UNKNOWN)";
+			OpcodeData opcodeData = instruction.getOpcodeData();
+			if(opcodeData.getType() == OpcodeData.TYPE_GET) {
+				//TODO: handle aget*
+				List<SmaliCodeEntity> args = instruction.getArguments();
+				FieldRef srcField = (FieldRef) args.get(args.size() - 1);
+				dstType = srcField.getType();
+			} else if(opcodeData.getType() == OpcodeData.TYPE_CONST) {
+				if(opcodeData.getOpcode() == Opcodes.OP_CONST_STRING)
+					dstType = "Ljava/lang/String;";
+				else 
+					dstType = "(BY CONST)";
+			} else if(opcodeData.getType() == OpcodeData.TYPE_NEW) {
+				if(opcodeData.getOpcode() == Opcodes.OP_NEW_INSTANCE) {
+					List<SmaliCodeEntity> args = instruction.getArguments();
+					ClassRef srcClass = (ClassRef) args.get(args.size() - 1);
+					dstType = srcClass.getName();
+				} else 
+					dstType = "(BY NEW)";
+			}
+
+			
 			for(SmaliCodeEntity entity : instruction.getArguments()) {
 				if(entity instanceof Register) {
 					Register var = (Register) entity;
@@ -385,9 +413,14 @@ public class SmaliRenderer {
 					} else {
 						int idx = var.getId();
 						if(var.isDestination()) {
+							//There are one or none destination registers.
+							//So, fill the type by dstType value
 							currSlice.get(idx).isWritten = true;
-							if(var.info.is64bit)
+							currSlice.get(idx).type = dstType;
+							if(var.info.is64bit) {
 								currSlice.get(idx + 1).isWritten = true;
+								currSlice.get(idx + 1).type = dstType;
+							}
 						} else {
 							currSlice.get(idx).isRead = true;
 							if(var.info.is64bit)
@@ -412,6 +445,7 @@ public class SmaliRenderer {
 			for(int j = 0; j < currSlice.size(); j++) {
 				RegisterInfo registerInfo = currSlice.get(j);
 				if(!registerInfo.isWritten) {
+					registerInfo.isThis = prevSlice.get(j).isThis;
 					registerInfo.type = prevSlice.get(j).type;
 					registerInfo.is64bit = prevSlice.get(j).is64bit;
 					registerInfo.is64bitMaster = prevSlice.get(j).is64bitMaster;

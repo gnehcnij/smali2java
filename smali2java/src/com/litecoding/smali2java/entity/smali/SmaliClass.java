@@ -72,6 +72,7 @@ public class SmaliClass extends SmaliEntity
 	public void addMethod(SmaliMethod method)
 	{
 		methods.add(method);
+		method.registerForClass(this);
 	}
 	
 	public List<SmaliMethod> getMethods()
