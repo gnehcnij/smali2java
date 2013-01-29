@@ -13,60 +13,48 @@ import com.litecoding.smali2java.expression.FieldRefExpression;
 import com.litecoding.smali2java.expression.ReturnExpression;
 
 
-public class MethodRenderer
-{
+public class MethodRenderer {
 	private boolean isEgyptianBraces = false;
 	
-	public static String renderObject(SmaliMethod smaliMethod)
-	{
+	public static String renderObject(SmaliMethod smaliMethod) {
 		return (new MethodRenderer()).render(smaliMethod);
 	}
 	
-	public String render(SmaliMethod smaliMethod)
-	{
+	public String render(SmaliMethod smaliMethod) {
 		StringBuilder builder = new StringBuilder();
-		switch(smaliMethod.getFlagValue(SmaliEntity.MASK_ACCESSIBILITY))
-		{
-			case SmaliEntity.PUBLIC:
-			{
+		switch(smaliMethod.getFlagValue(SmaliEntity.MASK_ACCESSIBILITY)) {
+			case SmaliEntity.PUBLIC: {
 				builder.append("public ");
 				break;
 			}
-			case SmaliEntity.PROTECTED:
-			{
+			case SmaliEntity.PROTECTED: {
 				builder.append("protected ");
 				break;
 			}
-			case SmaliEntity.PRIVATE:
-			{
+			case SmaliEntity.PRIVATE: {
 				builder.append("private ");
 				break;
 			}
-			default:
-			{
+			default: {
 				break;
 			}
 		}
 		
-		if(smaliMethod.isFlagSet(SmaliEntity.STATIC))
-		{
+		if(smaliMethod.isFlagSet(SmaliEntity.STATIC)) {
 			builder.append("static ");
 		}
 		
-		if(smaliMethod.isFlagSet(SmaliEntity.FINAL))
-		{
+		if(smaliMethod.isFlagSet(SmaliEntity.FINAL)) {
 			builder.append("final ");
 		}
 		
-		if(smaliMethod.isFlagSet(SmaliEntity.ABSTRACT))
-		{
+		if(smaliMethod.isFlagSet(SmaliEntity.ABSTRACT)) {
 			builder.append("abstract ");
 		}
 		
 		if(smaliMethod.isConstructor())
 			builder.append(JavaRenderUtils.renderShortJavaClassName(smaliMethod.getName()));
-		else
-		{
+		else {
 			builder.append(JavaRenderUtils.renderShortComplexTypeDeclaration(smaliMethod.getReturnType()));
 			builder.append(" ");
 			builder.append(smaliMethod.getName());
@@ -84,12 +72,10 @@ public class MethodRenderer
 		return builder.toString();
 	}
 
-	private String renderMethodProto(List<Param> params)
-	{
+	private String renderMethodProto(List<Param> params) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("(");
-		for(int i = 0; i < params.size(); i++)
-		{
+		for(int i = 0; i < params.size(); i++) {
 			if(i > 0)
 				builder.append(", ");
 			
@@ -110,8 +96,7 @@ public class MethodRenderer
 	 * @param type
 	 * @return
 	 */
-	private String generateParamName(int i, String type)
-	{
+	private String generateParamName(int i, String type) {
 		String tmp = JavaRenderUtils.renderShortComplexTypeDeclaration(type).replaceAll("\\[\\]", "Arr"); 
 		StringBuilder builder = new StringBuilder();
 		builder.append("a");
@@ -127,8 +112,7 @@ public class MethodRenderer
 	 * @param type
 	 * @return
 	 */
-	private String generateVarName(int i, String type)
-	{
+	private String generateVarName(int i, String type) {
 		String tmp = JavaRenderUtils.renderShortComplexTypeDeclaration(type).replaceAll("\\[\\]", "Arr"); 
 		StringBuilder builder = new StringBuilder();
 		builder.append("v");
@@ -138,22 +122,17 @@ public class MethodRenderer
 		return builder.toString();
 	}
 
-	private String renderExpressionChain(ExpressionChain chain)
-	{	
+	private String renderExpressionChain(ExpressionChain chain) {	
 		StringBuilder builder = new StringBuilder();
-		for(Expression expression : chain.expressions)
-		{
-			if(expression instanceof ReturnExpression)
-			{
+		for(Expression expression : chain.expressions) {
+			if(expression instanceof ReturnExpression) {
 				builder.append("return");
 				Expression returnExpression = ((ReturnExpression)expression).getReturnExpression(); 
-				if(returnExpression != null)
-				{
+				if(returnExpression != null) {
 					builder.append(" ");
 					if(returnExpression instanceof ConstExpression)
 						builder.append(((ConstExpression)returnExpression).getValue());
-					else if(returnExpression instanceof FieldRefExpression)
-					{
+					else if(returnExpression instanceof FieldRefExpression) {
 						FieldRefExpression fldRefExpr = (FieldRefExpression)returnExpression;
 						if(fldRefExpr.getObject() == null)
 							builder.append("this.");
