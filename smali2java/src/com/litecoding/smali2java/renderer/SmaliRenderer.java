@@ -12,12 +12,10 @@ import com.litecoding.smali2java.entity.smali.FieldRef;
 import com.litecoding.smali2java.entity.smali.Instruction;
 import com.litecoding.smali2java.entity.smali.Label;
 import com.litecoding.smali2java.entity.smali.OpcodeData;
-import com.litecoding.smali2java.entity.smali.Param;
-import com.litecoding.smali2java.entity.smali.RegisterGroup;
 import com.litecoding.smali2java.entity.smali.Register;
 import com.litecoding.smali2java.entity.smali.Register.RegisterInfo;
+import com.litecoding.smali2java.entity.smali.RegisterGroup;
 import com.litecoding.smali2java.entity.smali.SmaliCodeEntity;
-import com.litecoding.smali2java.entity.smali.SmaliEntity;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
 
 import dalvik.bytecode.Opcodes;
@@ -171,6 +169,13 @@ public class SmaliRenderer {
 		}
 	}
 	
+	/**
+	 * Produces list with blocks of code for the selected method. 
+	 * Root block should be placed first.
+	 * @param smaliMethod
+	 * @return list with blocks of code
+	 * @throws UnknownLabelException
+	 */
 	public static Block generateBlocks(SmaliMethod smaliMethod) throws UnknownLabelException {
 		Map<String, Block> labeledBlocks = new HashMap<String, Block>();
 		List<Block> allBlocks = new LinkedList<Block>();
@@ -283,15 +288,17 @@ public class SmaliRenderer {
 		}
 		
 		//build timeline
-		for(Block currBlock : allBlocks) {
-			buildTimeline(currBlock, smaliMethod);
-		}
+		buildTimeline(allBlocks, smaliMethod);
 		
 		allBlocks.clear();
 		labeledBlocks.clear();
 		return rootBlock;
 	}
 	
+	/**
+	 * Method for debugging. Prints to System.out block chain content and timeline
+	 * @param rootBlock
+	 */
 	public static void printBlockChain(Block rootBlock) {
 		List<Block> printed = new LinkedList<Block>();
 		List<Block> scheduled = new LinkedList<Block>();
@@ -312,16 +319,51 @@ public class SmaliRenderer {
 		}
 	}
 		
-	private static void buildTimeline(Block block, SmaliMethod method) {
-		//get all of this to local vars (shortcuts)
-		List<Param> params = method.getParams();
-		boolean isMethodStatic = method.isFlagSet(SmaliEntity.STATIC);
-		int localsCount = method.getLocals();
+	/**
+	 * Builds scheme of register usage (timeline) for each block of code
+	 * @param block
+	 * @param method
+	 */
+	private static void buildTimeline(List<Block> blockList, SmaliMethod method) {
+		Block block = null;
+		RegisterTimeline timeline = null;
+		
+		ArrayList<Instruction> lines = new ArrayList<Instruction>(128);
+		
+		for(int i = 0; i < blockList.size(); i++) {
+			block = blockList.get(i);
+			initTimeline(block, method, lines);
+			
+			timeline = block.registerTimeline;
+			
+			if(block.referencedBy.size() == 1) {
+				//copy data from the end of previous block
+				Block refBlock = block.referencedBy.get(0);
+				RegisterTimeline refTimeline = refBlock.registerTimeline; 
+				int lastLineIdx = refTimeline.getLinesCount() - 1;
+				List<RegisterInfo> prevSlice = refTimeline.getSlice(lastLineIdx);
+				RegisterTimeline.copySliceTypeData(prevSlice, timeline.getSlice(0));
+			}
+			
+			buildBlockTimelineForward(lines, timeline);
+			
+			lines.clear();
+		}
+		
+		//buildBlockTimelineForward(lines, timeline);
+		//buildBlockTimelineBackward(lines, timeline);
+	}
+	
+	/**
+	 * Initializes scheme of register usage (timeline) and maps method parameters, if needed. 
+	 * @param block
+	 * @param method
+	 * @param lines
+	 */
+	private static void initTimeline(Block block, 
+			SmaliMethod method, 
+			ArrayList<Instruction> lines) {
 		RegisterTimeline timeline = block.registerTimeline;
-		
-		int linesCount = block.instructions.size() + 1;
-		
-		ArrayList<Instruction> lines = new ArrayList<Instruction>(linesCount);
 		lines.addAll(block.instructions);
 		
 		//add last line that can change registers
@@ -330,45 +372,25 @@ public class SmaliRenderer {
 		} else if(block.isEndsByReturn) {
 			lines.add(block.returnInstruction);
 		} else {
-			linesCount--;
 			lines.trimToSize();
 		}
 		
+		int linesCount = lines.size();
+		
 		//initialize timeline if needed
 		if(!timeline.isInitialized()) {
-			timeline.init(method, linesCount);
+			timeline.init(method, linesCount, block.isRootBlock);
 		}
-		
-		//map params for the root block
-		if(block.isRootBlock) {
-			List<RegisterInfo> slice = timeline.getSlice(0);
-			
-			int delta = 0;
-			if(!isMethodStatic) {
-				slice.get(localsCount).isThis = true;
-				slice.get(localsCount).type = method.getSmaliClass().getClassName();
-				delta = 1;
-			}
-			
-			for(int i = 0; i < params.size() ; i++) {
-				Param param = params.get(i);
-				if(param.info.is64bit) {
-					RegisterInfo info = slice.get(localsCount + delta + i); 
-					info.is64bit = true;
-					info.is64bitMaster = true;
-					info.type = param.info.type;
-					
-					delta++;
-					info = slice.get(localsCount + delta + i); 
-					info.is64bit = true;
-					info.is64bitMaster = false;
-					info.type = param.info.type;
-				} else {
-					RegisterInfo info = slice.get(localsCount + delta + i);
-					info.type = param.info.type;
-				}
-			}
-		}
+	}
+	
+	/**
+	 * Builds scheme of register usage (timeline) for the current block by parameter mapping and
+	 * const definition recognizing. This method scans the block forward from its head.
+	 * @param lines
+	 */
+	private static void buildBlockTimelineForward(ArrayList<Instruction> lines, 
+			RegisterTimeline timeline) {
+		int linesCount = lines.size();
 		
 		//processing all instructions
 		Instruction instruction = null;
@@ -445,12 +467,14 @@ public class SmaliRenderer {
 			for(int j = 0; j < currSlice.size(); j++) {
 				RegisterInfo registerInfo = currSlice.get(j);
 				if(!registerInfo.isWritten) {
-					registerInfo.isThis = prevSlice.get(j).isThis;
-					registerInfo.type = prevSlice.get(j).type;
-					registerInfo.is64bit = prevSlice.get(j).is64bit;
-					registerInfo.is64bitMaster = prevSlice.get(j).is64bitMaster;
+					registerInfo.copyTypeDataFrom(prevSlice.get(j));
 				}
 			}
 		}
+	}
+	
+	private static void buildBlockTimelineBackward(ArrayList<Instruction> lines,
+			RegisterTimeline timeline) {
+		
 	}
 }

@@ -101,6 +101,13 @@ public class Register extends SmaliCodeEntity {
 		public boolean isRead = false;
 		public boolean isWritten = false;
 
+		public void copyTypeDataFrom(RegisterInfo inInfo) {
+			isThis = inInfo.isThis;
+			type = inInfo.type;
+			is64bit = inInfo.is64bit;
+			is64bitMaster = inInfo.is64bitMaster;
+		}
+		
 		@Override
 		public String toString() {
 			StringBuilder builder = new StringBuilder();
