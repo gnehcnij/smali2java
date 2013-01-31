@@ -358,6 +358,11 @@ public class SmaliRenderer {
 		}
 	}
 	
+	/**
+	 * Build timeline by forward scanning
+	 * @param blockList
+	 * @param method
+	 */
 	private static void buildTimelineForward(List<Block> blockList, SmaliMethod method) {
 		Block block = null;
 		RegisterTimeline timeline = null;
@@ -386,6 +391,11 @@ public class SmaliRenderer {
 		
 	}
 	
+	/**
+	 * Build timeline by backward scanning
+	 * @param blockList
+	 * @param method
+	 */
 	private static void buildTimelineBackward(List<Block> blockList, SmaliMethod method) {
 		//TODO: implement backward timeline scanning
 		
@@ -498,6 +508,6 @@ public class SmaliRenderer {
 	
 	private static void buildBlockTimelineBackward(ArrayList<Instruction> lines,
 			RegisterTimeline timeline) {
-		
+		//TODO: implement this
 	}
 }

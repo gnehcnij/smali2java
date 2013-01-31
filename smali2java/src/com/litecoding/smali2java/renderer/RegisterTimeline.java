@@ -34,6 +34,8 @@ public class RegisterTimeline {
 		if(isInitialized)
 			return;
 		
+		isInitialized = true;
+		
 		this.linesCount = linesCount;
 		
 		this.sliceLength = method.getRegisters();
