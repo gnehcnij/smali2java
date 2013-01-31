@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
- * Rule_intValue.java
+ * Rule_codeRegisterRet.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_intValue extends Rule
+final public class Rule_codeRegisterRet extends Rule
 {
-  private Rule_intValue(String spelling, ArrayList<Rule> rules)
+  private Rule_codeRegisterRet(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_intValue extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_intValue parse(ParserContext context)
+  public static Rule_codeRegisterRet parse(ParserContext context)
   {
-    context.push("intValue");
+    context.push("codeRegisterRet");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -46,7 +46,7 @@ final public class Rule_intValue extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_intHexValue.parse(context);
+            rule = Rule_codeRegisterP.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -73,7 +73,7 @@ final public class Rule_intValue extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_intDecValue.parse(context);
+            rule = Rule_codeRegisterV.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -91,13 +91,13 @@ final public class Rule_intValue extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_intValue(context.text.substring(s0, context.index), e0);
+      rule = new Rule_codeRegisterRet(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("intValue", parsed);
+    context.pop("codeRegisterRet", parsed);
 
-    return (Rule_intValue)rule;
+    return (Rule_codeRegisterRet)rule;
   }
 }
 

@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Mon Jan 14 11:17:05 MUT 2013
+ * Produced : Thu Jan 31 12:22:48 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -188,6 +188,8 @@ public class Parser
     else if (rulename.equalsIgnoreCase("codeRegisterV64Dst")) rule = Rule_codeRegisterV64Dst.parse(context);
     else if (rulename.equalsIgnoreCase("codeRegister")) rule = Rule_codeRegister.parse(context);
     else if (rulename.equalsIgnoreCase("codeRegister64")) rule = Rule_codeRegister64.parse(context);
+    else if (rulename.equalsIgnoreCase("codeRegisterRet")) rule = Rule_codeRegisterRet.parse(context);
+    else if (rulename.equalsIgnoreCase("codeRegisterRet64")) rule = Rule_codeRegisterRet64.parse(context);
     else if (rulename.equalsIgnoreCase("codeRegisterGroup")) rule = Rule_codeRegisterGroup.parse(context);
     else if (rulename.equalsIgnoreCase("dirClass")) rule = Rule_dirClass.parse(context);
     else if (rulename.equalsIgnoreCase("dirEnd")) rule = Rule_dirEnd.parse(context);

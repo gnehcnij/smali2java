@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Mon Jan 14 11:17:05 MUT 2013
+ * Produced : Thu Jan 31 12:22:48 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -40,6 +40,8 @@ public interface Visitor
   public Object visit(Rule_codeRegisterV64Dst rule);
   public Object visit(Rule_codeRegister rule);
   public Object visit(Rule_codeRegister64 rule);
+  public Object visit(Rule_codeRegisterRet rule);
+  public Object visit(Rule_codeRegisterRet64 rule);
   public Object visit(Rule_codeRegisterGroup rule);
   public Object visit(Rule_dirClass rule);
   public Object visit(Rule_dirEnd rule);

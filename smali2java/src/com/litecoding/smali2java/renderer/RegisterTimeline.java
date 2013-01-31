@@ -8,6 +8,8 @@ import com.litecoding.smali2java.entity.smali.Param;
 import com.litecoding.smali2java.entity.smali.SmaliEntity;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
 
+import static com.litecoding.smali2java.Consts.*;
+
 /**
  * RegisterTimeline is a scheme of register usage
  * @author Dmitry Vorobiev
@@ -116,6 +118,27 @@ public class RegisterTimeline {
 			RegisterInfo fromInfo = from.get(i);
 			RegisterInfo toInfo = to.get(i);
 			toInfo.copyTypeDataFrom(fromInfo);
+		}
+	}
+	
+	public static void setRegisterRWFlags(List<RegisterInfo> slice, 
+			int startIdx, byte isRead, byte isWritten, boolean is64bit) {
+		RegisterInfo currInfo = slice.get(startIdx);
+		
+		if(isRead != BOOL_KEEP)
+			currInfo.isRead = (isRead == BOOL_TRUE ? true : false);
+		
+		if(isWritten != BOOL_KEEP)
+			currInfo.isWritten = (isWritten == BOOL_TRUE ? true : false);
+		
+		if(is64bit) {
+			currInfo = slice.get(startIdx + 1);
+			
+			if(isRead != BOOL_KEEP)
+				currInfo.isRead = (isRead == BOOL_TRUE ? true : false);
+			
+			if(isWritten != BOOL_KEEP)
+				currInfo.isWritten = (isWritten == BOOL_TRUE ? true : false);
 		}
 	}
 }

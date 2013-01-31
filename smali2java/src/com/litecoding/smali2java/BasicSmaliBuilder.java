@@ -444,6 +444,16 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	public Object visit(Rule_codeRegisterV64Dst rule) {		
 		return generateRegisterFromRule(rule);
 	}
+	
+	@Override
+	public Object visit(Rule_codeRegisterRet rule) {
+		return generateRegisterFromRule(rule);
+	}
+	
+	@Override
+	public Object visit(Rule_codeRegisterRet64 rule) {
+		return generateRegisterFromRule(rule);
+	}
 
 	@Override
 	public Object visit(Rule_smaliClassRef rule) {
@@ -528,6 +538,13 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 			testRule = rule.rules.get(0);
 		}
 		
+		if(rule instanceof Rule_codeRegisterRet || 
+				rule instanceof Rule_codeRegisterRet64) {
+			testRule = rule.rules.get(0);
+			register.setType(currentMethod.getReturnType());
+			register.info.isFinallyDefined = true;
+		}
+		
 		if(testRule instanceof Rule_codeRegisterP ||
 				testRule instanceof Rule_codeRegisterP64)
 			register.setParameter(true);
@@ -573,6 +590,8 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 					innerRule instanceof Rule_codeRegisterV64Dst ||
 					innerRule instanceof Rule_codeRegisterP64 ||
 					innerRule instanceof Rule_codeRegister64 ||
+					innerRule instanceof Rule_codeRegisterRet ||
+					innerRule instanceof Rule_codeRegisterRet64 ||
 					innerRule instanceof Rule_codeRegisterGroup ||
 					innerRule instanceof Rule_smaliClassRef ||
 					innerRule instanceof Rule_smaliFieldRef ||

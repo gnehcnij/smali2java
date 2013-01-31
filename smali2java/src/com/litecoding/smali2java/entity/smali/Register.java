@@ -100,12 +100,15 @@ public class Register extends SmaliCodeEntity {
 		public boolean isThis = false;
 		public boolean isRead = false;
 		public boolean isWritten = false;
+		
+		public boolean isFinallyDefined = false;
 
 		public void copyTypeDataFrom(RegisterInfo inInfo) {
 			isThis = inInfo.isThis;
 			type = inInfo.type;
 			is64bit = inInfo.is64bit;
 			is64bitMaster = inInfo.is64bitMaster;
+			isFinallyDefined = inInfo.isFinallyDefined;
 		}
 		
 		@Override

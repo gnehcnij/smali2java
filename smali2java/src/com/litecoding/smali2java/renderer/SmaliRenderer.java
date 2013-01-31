@@ -20,6 +20,7 @@ import com.litecoding.smali2java.entity.smali.SmaliMethod;
 
 import dalvik.bytecode.Opcodes;
 
+import static com.litecoding.smali2java.Consts.*;
 
 /**
  * This class converts smali entities to java entities
@@ -398,14 +399,32 @@ public class SmaliRenderer {
 	 */
 	private static void buildTimelineBackward(List<Block> blockList, SmaliMethod method) {
 		//TODO: implement backward timeline scanning
-		
 		Block block = null;
 		RegisterTimeline timeline = null;
 		
+		List<Block> sortedList = new LinkedList<Block>();
+		List<Block> tmpList = new LinkedList<Block>();
+		tmpList.addAll(blockList);
+		
+		while(tmpList.size() > 0) {
+			block = tmpList.remove(0);
+			if(block.isEndsByReturn) {
+				sortedList.add(block);
+			} else if(block.isEndsByCondition && 
+					sortedList.contains(block.nextBlockIfTrue) && 
+					sortedList.contains(block.nextBlockIfFalse)) {
+				sortedList.add(block);
+			} else if(block.nextBlockIfTrue != null && sortedList.contains(block.nextBlockIfTrue)) {
+				sortedList.add(block);
+			} else {
+				tmpList.add(block);
+			}
+		}
+		
 		ArrayList<Instruction> lines = new ArrayList<Instruction>(128);
 		
-		for(int i = 0; i < blockList.size(); i++) {
-			block = blockList.get(i);
+		for(int i = 0; i < sortedList.size(); i++) {
+			block = sortedList.get(i);
 			initTimeline(block, method, lines);
 			
 			timeline = block.registerTimeline;
@@ -460,35 +479,51 @@ public class SmaliRenderer {
 			for(SmaliCodeEntity entity : instruction.getArguments()) {
 				if(entity instanceof Register) {
 					Register var = (Register) entity;
+					boolean is64bit = var.info.is64bit;
 					if(var.isParameter()) {
 						int idx = var.getMappedId();
-						currSlice.get(idx).isRead = true;
-						if(var.info.is64bit)
-							currSlice.get(idx + 1).isRead = true;
+						RegisterTimeline.setRegisterRWFlags(currSlice, 
+								idx, 
+								BOOL_TRUE, 
+								BOOL_KEEP, 
+								is64bit);
 					} else {
 						int idx = var.getId();
 						if(var.isDestination()) {
 							//There are one or none destination registers.
 							//So, fill the type by dstType value
-							currSlice.get(idx).isWritten = true;
+							RegisterTimeline.setRegisterRWFlags(currSlice, 
+									idx, 
+									BOOL_KEEP, 
+									BOOL_TRUE, 
+									is64bit);
 							currSlice.get(idx).type = dstType;
-							if(var.info.is64bit) {
-								currSlice.get(idx + 1).isWritten = true;
+							if(is64bit) {
 								currSlice.get(idx + 1).type = dstType;
 							}
 						} else {
-							currSlice.get(idx).isRead = true;
-							if(var.info.is64bit)
-								currSlice.get(idx + 1).isRead = true;
+							RegisterTimeline.setRegisterRWFlags(currSlice, 
+									idx, 
+									BOOL_TRUE, 
+									BOOL_KEEP, 
+									is64bit);
 						}
 					}
 				} else if(entity instanceof RegisterGroup) {
+					//TODO: Check 64bit registers here
 					for(SmaliCodeEntity subEntity : entity.getArguments()) {
 						Register var = (Register) subEntity;
+						int idx = -1;
 						if(var.isParameter())
-							currSlice.get(var.getMappedId()).isRead = true;
+							idx = var.getMappedId();
 						else
-							currSlice.get(var.getId()).isRead = true;
+							idx = var.getId();
+							
+						RegisterTimeline.setRegisterRWFlags(currSlice, 
+								idx, 
+								BOOL_TRUE, 
+								BOOL_KEEP, 
+								false);
 					}
 				}
 			}
@@ -499,7 +534,7 @@ public class SmaliRenderer {
 			//copy type of register in previous slice if it wasn't modified
 			for(int j = 0; j < currSlice.size(); j++) {
 				RegisterInfo registerInfo = currSlice.get(j);
-				if(!registerInfo.isWritten) {
+				if(!registerInfo.isWritten && !registerInfo.isFinallyDefined) {
 					registerInfo.copyTypeDataFrom(prevSlice.get(j));
 				}
 			}
