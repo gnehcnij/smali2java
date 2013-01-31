@@ -8,6 +8,11 @@ import com.litecoding.smali2java.entity.smali.Param;
 import com.litecoding.smali2java.entity.smali.SmaliEntity;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
 
+/**
+ * RegisterTimeline is a scheme of register usage
+ * @author Dmitry Vorobiev
+ *
+ */
 public class RegisterTimeline {
 	private boolean isInitialized = false;
 	

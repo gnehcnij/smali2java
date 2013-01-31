@@ -325,33 +325,8 @@ public class SmaliRenderer {
 	 * @param method
 	 */
 	private static void buildTimeline(List<Block> blockList, SmaliMethod method) {
-		Block block = null;
-		RegisterTimeline timeline = null;
-		
-		ArrayList<Instruction> lines = new ArrayList<Instruction>(128);
-		
-		for(int i = 0; i < blockList.size(); i++) {
-			block = blockList.get(i);
-			initTimeline(block, method, lines);
-			
-			timeline = block.registerTimeline;
-			
-			if(block.referencedBy.size() == 1) {
-				//copy data from the end of previous block
-				Block refBlock = block.referencedBy.get(0);
-				RegisterTimeline refTimeline = refBlock.registerTimeline; 
-				int lastLineIdx = refTimeline.getLinesCount() - 1;
-				List<RegisterInfo> prevSlice = refTimeline.getSlice(lastLineIdx);
-				RegisterTimeline.copySliceTypeData(prevSlice, timeline.getSlice(0));
-			}
-			
-			buildBlockTimelineForward(lines, timeline);
-			
-			lines.clear();
-		}
-		
-		//buildBlockTimelineForward(lines, timeline);
-		//buildBlockTimelineBackward(lines, timeline);
+		buildTimelineForward(blockList, method);
+		buildTimelineBackward(blockList, method);
 	}
 	
 	/**
@@ -380,6 +355,54 @@ public class SmaliRenderer {
 		//initialize timeline if needed
 		if(!timeline.isInitialized()) {
 			timeline.init(method, linesCount, block.isRootBlock);
+		}
+	}
+	
+	private static void buildTimelineForward(List<Block> blockList, SmaliMethod method) {
+		Block block = null;
+		RegisterTimeline timeline = null;
+		
+		ArrayList<Instruction> lines = new ArrayList<Instruction>(128);
+		
+		for(int i = 0; i < blockList.size(); i++) {
+			block = blockList.get(i);
+			initTimeline(block, method, lines);
+			
+			timeline = block.registerTimeline;
+			
+			if(block.referencedBy.size() == 1) {
+				//copy data from the end of previous block
+				Block refBlock = block.referencedBy.get(0);
+				RegisterTimeline refTimeline = refBlock.registerTimeline; 
+				int lastLineIdx = refTimeline.getLinesCount() - 1;
+				List<RegisterInfo> prevSlice = refTimeline.getSlice(lastLineIdx);
+				RegisterTimeline.copySliceTypeData(prevSlice, timeline.getSlice(0));
+			}
+			
+			buildBlockTimelineForward(lines, timeline);
+			
+			lines.clear();
+		}
+		
+	}
+	
+	private static void buildTimelineBackward(List<Block> blockList, SmaliMethod method) {
+		//TODO: implement backward timeline scanning
+		
+		Block block = null;
+		RegisterTimeline timeline = null;
+		
+		ArrayList<Instruction> lines = new ArrayList<Instruction>(128);
+		
+		for(int i = 0; i < blockList.size(); i++) {
+			block = blockList.get(i);
+			initTimeline(block, method, lines);
+			
+			timeline = block.registerTimeline;
+			
+			buildBlockTimelineBackward(lines, timeline);
+			
+			lines.clear();
 		}
 	}
 	
