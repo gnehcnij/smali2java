@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Thu Jan 31 12:22:48 MUT 2013
+ * Produced : Fri Feb 01 13:28:45 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -425,12 +425,47 @@ public class Displayer implements Visitor
     return visitRules(rule.rules);
   }
 
+  public Object visit(Rule_cmdConst rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_cmdConst16 rule)
+  {
+    return visitRules(rule.rules);
+  }
+
   public Object visit(Rule_cmdConst4 rule)
   {
     return visitRules(rule.rules);
   }
 
+  public Object visit(Rule_cmdConstHigh16 rule)
+  {
+    return visitRules(rule.rules);
+  }
+
   public Object visit(Rule_cmdConstString rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_cmdConstWide rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_cmdConstWide16 rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_cmdConstWide32 rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_cmdConstWideHigh16 rule)
   {
     return visitRules(rule.rules);
   }

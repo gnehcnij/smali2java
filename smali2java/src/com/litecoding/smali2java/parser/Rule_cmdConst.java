@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
- * Rule_cmdNewInstance.java
+ * Rule_cmdConst.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_cmdNewInstance extends Rule
+final public class Rule_cmdConst extends Rule
 {
-  private Rule_cmdNewInstance(String spelling, ArrayList<Rule> rules)
+  private Rule_cmdConst(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_cmdNewInstance extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_cmdNewInstance parse(ParserContext context)
+  public static Rule_cmdConst parse(ParserContext context)
   {
-    context.push("cmdNewInstance");
+    context.push("cmdConst");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -61,7 +61,7 @@ final public class Rule_cmdNewInstance extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_StringValue.parse(context, "new-instance");
+            rule = Terminal_StringValue.parse(context, "const");
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -121,7 +121,7 @@ final public class Rule_cmdNewInstance extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Rule_smaliClassRef.parse(context);
+            rule = Rule_intValue.parse(context);
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -225,13 +225,13 @@ final public class Rule_cmdNewInstance extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_cmdNewInstance(context.text.substring(s0, context.index), e0);
+      rule = new Rule_cmdConst(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("cmdNewInstance", parsed);
+    context.pop("cmdConst", parsed);
 
-    return (Rule_cmdNewInstance)rule;
+    return (Rule_cmdConst)rule;
   }
 }
 

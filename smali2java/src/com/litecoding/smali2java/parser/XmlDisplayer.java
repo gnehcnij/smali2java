@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Thu Jan 31 12:22:48 MUT 2013
+ * Produced : Fri Feb 01 13:28:45 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -1000,6 +1000,30 @@ public class XmlDisplayer implements Visitor
     return null;
   }
 
+  public Object visit(Rule_cmdConst rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<cmdConst>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</cmdConst>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_cmdConst16 rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<cmdConst16>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</cmdConst16>");
+    terminal = false;
+    return null;
+  }
+
   public Object visit(Rule_cmdConst4 rule)
   {
     if (!terminal) System.out.println();
@@ -1012,6 +1036,18 @@ public class XmlDisplayer implements Visitor
     return null;
   }
 
+  public Object visit(Rule_cmdConstHigh16 rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<cmdConstHigh16>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</cmdConstHigh16>");
+    terminal = false;
+    return null;
+  }
+
   public Object visit(Rule_cmdConstString rule)
   {
     if (!terminal) System.out.println();
@@ -1020,6 +1056,54 @@ public class XmlDisplayer implements Visitor
     visitRules(rule.rules);
     if (!terminal) System.out.println();
     System.out.print("</cmdConstString>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_cmdConstWide rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<cmdConstWide>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</cmdConstWide>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_cmdConstWide16 rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<cmdConstWide16>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</cmdConstWide16>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_cmdConstWide32 rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<cmdConstWide32>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</cmdConstWide32>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_cmdConstWideHigh16 rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<cmdConstWideHigh16>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</cmdConstWideHigh16>");
     terminal = false;
     return null;
   }

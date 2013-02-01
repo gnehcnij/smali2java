@@ -101,6 +101,8 @@ public class Register extends SmaliCodeEntity {
 		public boolean isRead = false;
 		public boolean isWritten = false;
 		
+		public boolean isByConst4 = false;
+		
 		public boolean isFinallyDefined = false;
 
 		public void copyTypeDataFrom(RegisterInfo inInfo) {

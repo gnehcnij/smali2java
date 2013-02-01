@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Thu Jan 31 12:22:48 MUT 2013
+ * Produced : Fri Feb 01 13:28:45 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -242,8 +242,15 @@ public class Parser
     else if (rulename.equalsIgnoreCase("HEXDIG")) rule = Rule_HEXDIG.parse(context);
     else if (rulename.equalsIgnoreCase("VCHAR")) rule = Rule_VCHAR.parse(context);
     else if (rulename.equalsIgnoreCase("cmdAny")) rule = Rule_cmdAny.parse(context);
+    else if (rulename.equalsIgnoreCase("cmdConst")) rule = Rule_cmdConst.parse(context);
+    else if (rulename.equalsIgnoreCase("cmdConst16")) rule = Rule_cmdConst16.parse(context);
     else if (rulename.equalsIgnoreCase("cmdConst4")) rule = Rule_cmdConst4.parse(context);
+    else if (rulename.equalsIgnoreCase("cmdConstHigh16")) rule = Rule_cmdConstHigh16.parse(context);
     else if (rulename.equalsIgnoreCase("cmdConstString")) rule = Rule_cmdConstString.parse(context);
+    else if (rulename.equalsIgnoreCase("cmdConstWide")) rule = Rule_cmdConstWide.parse(context);
+    else if (rulename.equalsIgnoreCase("cmdConstWide16")) rule = Rule_cmdConstWide16.parse(context);
+    else if (rulename.equalsIgnoreCase("cmdConstWide32")) rule = Rule_cmdConstWide32.parse(context);
+    else if (rulename.equalsIgnoreCase("cmdConstWideHigh16")) rule = Rule_cmdConstWideHigh16.parse(context);
     else if (rulename.equalsIgnoreCase("cmdGoto")) rule = Rule_cmdGoto.parse(context);
     else if (rulename.equalsIgnoreCase("cmdIfEq")) rule = Rule_cmdIfEq.parse(context);
     else if (rulename.equalsIgnoreCase("cmdIfEqz")) rule = Rule_cmdIfEqz.parse(context);

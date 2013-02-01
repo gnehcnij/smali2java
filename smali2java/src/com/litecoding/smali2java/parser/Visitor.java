@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Thu Jan 31 12:22:48 MUT 2013
+ * Produced : Fri Feb 01 13:28:45 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -94,8 +94,15 @@ public interface Visitor
   public Object visit(Rule_HEXDIG rule);
   public Object visit(Rule_VCHAR rule);
   public Object visit(Rule_cmdAny rule);
+  public Object visit(Rule_cmdConst rule);
+  public Object visit(Rule_cmdConst16 rule);
   public Object visit(Rule_cmdConst4 rule);
+  public Object visit(Rule_cmdConstHigh16 rule);
   public Object visit(Rule_cmdConstString rule);
+  public Object visit(Rule_cmdConstWide rule);
+  public Object visit(Rule_cmdConstWide16 rule);
+  public Object visit(Rule_cmdConstWide32 rule);
+  public Object visit(Rule_cmdConstWideHigh16 rule);
   public Object visit(Rule_cmdGoto rule);
   public Object visit(Rule_cmdIfEq rule);
   public Object visit(Rule_cmdIfEqz rule);

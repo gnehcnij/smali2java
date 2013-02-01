@@ -1,6 +1,13 @@
 #####SMALI COMMANDS RULES#####
-cmdAny =  cmdConst4;
+cmdAny =  cmdConst;
+cmdAny =/ cmdConst16;
+cmdAny =/ cmdConst4;
+cmdAny =/ cmdConstHigh16;
 cmdAny =/ cmdConstString;
+cmdAny =/ cmdConstWide;
+cmdAny =/ cmdConstWide16;
+cmdAny =/ cmdConstWide32;
+cmdAny =/ cmdConstWideHigh16;
 cmdAny =/ cmdGoto;
 cmdAny =/ cmdIfEq;
 cmdAny =/ cmdIfEqz;
@@ -27,8 +34,15 @@ cmdAny =/ cmdReturnWide;
 cmdAny =/ cmdSgetObject;
 cmdAny =/ cmdSputObject;
 
+cmdConst            = optPadding "const" padding codeRegisterVDst listSeparator intValue optPadding [padding commentSequence] CRLF;
+cmdConst16          = optPadding "const/16" padding codeRegisterVDst listSeparator intValue optPadding [padding commentSequence] CRLF;
 cmdConst4           = optPadding "const/4" padding codeRegisterVDst listSeparator intValue optPadding [padding commentSequence] CRLF;
+cmdConstHigh16      = optPadding "const/high16" padding codeRegisterVDst listSeparator intValue optPadding [padding commentSequence] CRLF;
 cmdConstString      = optPadding "const-string" padding codeRegisterVDst listSeparator strValue optPadding [padding commentSequence] CRLF;
+cmdConstWide        = optPadding "const-wide" padding codeRegisterV64Dst listSeparator intValue optPadding [padding commentSequence] CRLF;
+cmdConstWide16      = optPadding "const-wide/16" padding codeRegisterV64Dst listSeparator intValue optPadding [padding commentSequence] CRLF;
+cmdConstWide32      = optPadding "const-wide/32" padding codeRegisterV64Dst listSeparator intValue optPadding [padding commentSequence] CRLF;
+cmdConstWideHigh16  = optPadding "const-wide/high16" padding codeRegisterV64Dst listSeparator intValue optPadding [padding commentSequence] CRLF;
 cmdGoto             = optPadding "goto" padding codeLabel optPadding [padding commentSequence] CRLF;
 cmdIfEq             = optPadding "if-eq" padding codeRegister listSeparator codeRegister listSeparator codeLabel optPadding [padding commentSequence] CRLF;
 cmdIfEqz            = optPadding "if-eqz" padding codeRegister listSeparator codeLabel optPadding [padding commentSequence] CRLF;

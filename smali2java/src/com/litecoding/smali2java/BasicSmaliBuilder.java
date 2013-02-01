@@ -283,7 +283,49 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}
 
 	@Override
+	public Object visit(Rule_cmdConst rule)
+	{
+		return generateCmdFromRules(rule.rules);
+	}
+	
+	@Override
+	public Object visit(Rule_cmdConst16 rule)
+	{
+		return generateCmdFromRules(rule.rules);
+	}
+	
+	@Override
 	public Object visit(Rule_cmdConst4 rule)
+	{
+		return generateCmdFromRules(rule.rules);
+	}
+	
+	@Override
+	public Object visit(Rule_cmdConstHigh16 rule)
+	{
+		return generateCmdFromRules(rule.rules);
+	}
+	
+	@Override
+	public Object visit(Rule_cmdConstWide rule)
+	{
+		return generateCmdFromRules(rule.rules);
+	}
+	
+	@Override
+	public Object visit(Rule_cmdConstWide16 rule)
+	{
+		return generateCmdFromRules(rule.rules);
+	}
+	
+	@Override
+	public Object visit(Rule_cmdConstWide32 rule)
+	{
+		return generateCmdFromRules(rule.rules);
+	}
+	
+	@Override
+	public Object visit(Rule_cmdConstWideHigh16 rule)
 	{
 		return generateCmdFromRules(rule.rules);
 	}
