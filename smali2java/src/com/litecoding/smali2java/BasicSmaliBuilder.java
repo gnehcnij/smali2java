@@ -41,6 +41,12 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}
 	
 	@Override
+	public Object visit(Rule_widePadding rule)
+	{
+		return rule.spelling;
+	}
+	
+	@Override
 	public Object visit(Rule_listSeparator rule)
 	{
 		return rule.spelling;
@@ -119,7 +125,31 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}
 
 	@Override
+	public Object visit(Rule_dirAnnotation rule)
+	{
+		return rule.spelling;
+	}
+	
+	@Override
+	public Object visit(Rule_dirEndAnnotation rule)
+	{
+		return rule.spelling;
+	}
+	
+	@Override
+	public Object visit(Rule_dirEndSubannotation rule)
+	{
+		return rule.spelling;
+	}
+	
+	@Override
 	public Object visit(Rule_dirField rule)
+	{
+		return rule.spelling;
+	}
+	
+	@Override
+	public Object visit(Rule_dirEndField rule)
 	{
 		return rule.spelling;
 	}
@@ -128,7 +158,31 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	public Object visit(Rule_dirMethod rule)
 	{
 		return rule.spelling;
-	}	
+	}
+	
+	@Override
+	public Object visit(Rule_dirSubannotation rule)
+	{
+		return rule.spelling;
+	}
+	
+	@Override
+	public Object visit(Rule_annotation rule)
+	{
+		return rule.spelling;
+	}
+	
+	@Override
+	public Object visit(Rule_annotationVisibility rule)
+	{
+		return rule.spelling;
+	}
+	
+	@Override
+	public Object visit(Rule_annotationBody rule)
+	{
+		return rule.spelling;
+	}
 
 	@Override
 	public Object visit(Rule_type rule)

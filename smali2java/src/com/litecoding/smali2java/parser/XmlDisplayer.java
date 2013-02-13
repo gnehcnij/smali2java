@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Feb 01 13:28:45 MUT 2013
+ * Produced : Wed Feb 13 16:37:24 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -36,6 +36,18 @@ public class XmlDisplayer implements Visitor
     visitRules(rule.rules);
     if (!terminal) System.out.println();
     System.out.print("</optPadding>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_widePadding rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<widePadding>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</widePadding>");
     terminal = false;
     return null;
   }
@@ -388,6 +400,18 @@ public class XmlDisplayer implements Visitor
     return null;
   }
 
+  public Object visit(Rule_dirAnnotation rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<dirAnnotation>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</dirAnnotation>");
+    terminal = false;
+    return null;
+  }
+
   public Object visit(Rule_dirClass rule)
   {
     if (!terminal) System.out.println();
@@ -412,6 +436,30 @@ public class XmlDisplayer implements Visitor
     return null;
   }
 
+  public Object visit(Rule_dirEndAnnotation rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<dirEndAnnotation>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</dirEndAnnotation>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_dirEndField rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<dirEndField>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</dirEndField>");
+    terminal = false;
+    return null;
+  }
+
   public Object visit(Rule_dirEndMethod rule)
   {
     if (!terminal) System.out.println();
@@ -420,6 +468,18 @@ public class XmlDisplayer implements Visitor
     visitRules(rule.rules);
     if (!terminal) System.out.println();
     System.out.print("</dirEndMethod>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_dirEndSubannotation rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<dirEndSubannotation>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</dirEndSubannotation>");
     terminal = false;
     return null;
   }
@@ -480,6 +540,18 @@ public class XmlDisplayer implements Visitor
     visitRules(rule.rules);
     if (!terminal) System.out.println();
     System.out.print("</dirRegisters>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_dirSubannotation rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<dirSubannotation>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</dirSubannotation>");
     terminal = false;
     return null;
   }
@@ -660,6 +732,42 @@ public class XmlDisplayer implements Visitor
     visitRules(rule.rules);
     if (!terminal) System.out.println();
     System.out.print("</methodLocal>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_annotation rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<annotation>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</annotation>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_annotationVisibility rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<annotationVisibility>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</annotationVisibility>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_annotationBody rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<annotationBody>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</annotationBody>");
     terminal = false;
     return null;
   }

@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Feb 01 13:28:45 MUT 2013
+ * Produced : Wed Feb 13 16:37:24 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -21,6 +21,11 @@ public class Displayer implements Visitor
   }
 
   public Object visit(Rule_optPadding rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_widePadding rule)
   {
     return visitRules(rule.rules);
   }
@@ -170,6 +175,11 @@ public class Displayer implements Visitor
     return visitRules(rule.rules);
   }
 
+  public Object visit(Rule_dirAnnotation rule)
+  {
+    return visitRules(rule.rules);
+  }
+
   public Object visit(Rule_dirClass rule)
   {
     return visitRules(rule.rules);
@@ -180,7 +190,22 @@ public class Displayer implements Visitor
     return visitRules(rule.rules);
   }
 
+  public Object visit(Rule_dirEndAnnotation rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_dirEndField rule)
+  {
+    return visitRules(rule.rules);
+  }
+
   public Object visit(Rule_dirEndMethod rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_dirEndSubannotation rule)
   {
     return visitRules(rule.rules);
   }
@@ -206,6 +231,11 @@ public class Displayer implements Visitor
   }
 
   public Object visit(Rule_dirRegisters rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_dirSubannotation rule)
   {
     return visitRules(rule.rules);
   }
@@ -281,6 +311,21 @@ public class Displayer implements Visitor
   }
 
   public Object visit(Rule_methodLocal rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_annotation rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_annotationVisibility rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_annotationBody rule)
   {
     return visitRules(rule.rules);
   }

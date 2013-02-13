@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Feb 01 13:28:45 MUT 2013
+ * Produced : Wed Feb 13 16:37:24 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -14,6 +14,7 @@ public interface Visitor
 {
   public Object visit(Rule_padding rule);
   public Object visit(Rule_optPadding rule);
+  public Object visit(Rule_widePadding rule);
   public Object visit(Rule_listSeparator rule);
   public Object visit(Rule_escSymbol rule);
   public Object visit(Rule_qualifier rule);
@@ -43,14 +44,19 @@ public interface Visitor
   public Object visit(Rule_codeRegisterRet rule);
   public Object visit(Rule_codeRegisterRet64 rule);
   public Object visit(Rule_codeRegisterGroup rule);
+  public Object visit(Rule_dirAnnotation rule);
   public Object visit(Rule_dirClass rule);
   public Object visit(Rule_dirEnd rule);
+  public Object visit(Rule_dirEndAnnotation rule);
+  public Object visit(Rule_dirEndField rule);
   public Object visit(Rule_dirEndMethod rule);
+  public Object visit(Rule_dirEndSubannotation rule);
   public Object visit(Rule_dirImplements rule);
   public Object visit(Rule_dirField rule);
   public Object visit(Rule_dirLocal rule);
   public Object visit(Rule_dirMethod rule);
   public Object visit(Rule_dirRegisters rule);
+  public Object visit(Rule_dirSubannotation rule);
   public Object visit(Rule_dirSuper rule);
   public Object visit(Rule_dirSource rule);
   public Object visit(Rule_smali rule);
@@ -66,6 +72,9 @@ public interface Visitor
   public Object visit(Rule_methodLine rule);
   public Object visit(Rule_methodRegisters rule);
   public Object visit(Rule_methodLocal rule);
+  public Object visit(Rule_annotation rule);
+  public Object visit(Rule_annotationVisibility rule);
+  public Object visit(Rule_annotationBody rule);
   public Object visit(Rule_classField rule);
   public Object visit(Rule_classMethod rule);
   public Object visit(Rule_classConstructorName rule);

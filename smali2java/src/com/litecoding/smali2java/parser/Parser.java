@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Fri Feb 01 13:28:45 MUT 2013
+ * Produced : Wed Feb 13 16:37:24 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -162,6 +162,7 @@ public class Parser
     Rule rule = null;
     if (rulename.equalsIgnoreCase("padding")) rule = Rule_padding.parse(context);
     else if (rulename.equalsIgnoreCase("optPadding")) rule = Rule_optPadding.parse(context);
+    else if (rulename.equalsIgnoreCase("widePadding")) rule = Rule_widePadding.parse(context);
     else if (rulename.equalsIgnoreCase("listSeparator")) rule = Rule_listSeparator.parse(context);
     else if (rulename.equalsIgnoreCase("escSymbol")) rule = Rule_escSymbol.parse(context);
     else if (rulename.equalsIgnoreCase("qualifier")) rule = Rule_qualifier.parse(context);
@@ -191,14 +192,19 @@ public class Parser
     else if (rulename.equalsIgnoreCase("codeRegisterRet")) rule = Rule_codeRegisterRet.parse(context);
     else if (rulename.equalsIgnoreCase("codeRegisterRet64")) rule = Rule_codeRegisterRet64.parse(context);
     else if (rulename.equalsIgnoreCase("codeRegisterGroup")) rule = Rule_codeRegisterGroup.parse(context);
+    else if (rulename.equalsIgnoreCase("dirAnnotation")) rule = Rule_dirAnnotation.parse(context);
     else if (rulename.equalsIgnoreCase("dirClass")) rule = Rule_dirClass.parse(context);
     else if (rulename.equalsIgnoreCase("dirEnd")) rule = Rule_dirEnd.parse(context);
+    else if (rulename.equalsIgnoreCase("dirEndAnnotation")) rule = Rule_dirEndAnnotation.parse(context);
+    else if (rulename.equalsIgnoreCase("dirEndField")) rule = Rule_dirEndField.parse(context);
     else if (rulename.equalsIgnoreCase("dirEndMethod")) rule = Rule_dirEndMethod.parse(context);
+    else if (rulename.equalsIgnoreCase("dirEndSubannotation")) rule = Rule_dirEndSubannotation.parse(context);
     else if (rulename.equalsIgnoreCase("dirImplements")) rule = Rule_dirImplements.parse(context);
     else if (rulename.equalsIgnoreCase("dirField")) rule = Rule_dirField.parse(context);
     else if (rulename.equalsIgnoreCase("dirLocal")) rule = Rule_dirLocal.parse(context);
     else if (rulename.equalsIgnoreCase("dirMethod")) rule = Rule_dirMethod.parse(context);
     else if (rulename.equalsIgnoreCase("dirRegisters")) rule = Rule_dirRegisters.parse(context);
+    else if (rulename.equalsIgnoreCase("dirSubannotation")) rule = Rule_dirSubannotation.parse(context);
     else if (rulename.equalsIgnoreCase("dirSuper")) rule = Rule_dirSuper.parse(context);
     else if (rulename.equalsIgnoreCase("dirSource")) rule = Rule_dirSource.parse(context);
     else if (rulename.equalsIgnoreCase("smali")) rule = Rule_smali.parse(context);
@@ -214,6 +220,9 @@ public class Parser
     else if (rulename.equalsIgnoreCase("methodLine")) rule = Rule_methodLine.parse(context);
     else if (rulename.equalsIgnoreCase("methodRegisters")) rule = Rule_methodRegisters.parse(context);
     else if (rulename.equalsIgnoreCase("methodLocal")) rule = Rule_methodLocal.parse(context);
+    else if (rulename.equalsIgnoreCase("annotation")) rule = Rule_annotation.parse(context);
+    else if (rulename.equalsIgnoreCase("annotationVisibility")) rule = Rule_annotationVisibility.parse(context);
+    else if (rulename.equalsIgnoreCase("annotationBody")) rule = Rule_annotationBody.parse(context);
     else if (rulename.equalsIgnoreCase("classField")) rule = Rule_classField.parse(context);
     else if (rulename.equalsIgnoreCase("classMethod")) rule = Rule_classMethod.parse(context);
     else if (rulename.equalsIgnoreCase("classConstructorName")) rule = Rule_classConstructorName.parse(context);
