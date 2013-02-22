@@ -25,7 +25,7 @@ public class SmaliMethod extends SmaliEntity
 	
 	protected List<SmaliCodeEntity> commands = new LinkedList<SmaliCodeEntity>();
 	
-	protected ArrayList<Integer> registerMapping = new ArrayList<Integer>();
+	protected ArrayList<Integer> param2registerMapping = new ArrayList<Integer>();
 	
 	public SmaliClass getSmaliClass() {
 		return smaliClass;
@@ -103,21 +103,40 @@ public class SmaliMethod extends SmaliEntity
 		this.commands.add(command);
 	}
 	
+	/**
+	 * 
+	 * @param paramId
+	 * @return vXX for pYY or -1 if error ocurred
+	 */
 	public int mapParameterToRegister(int paramId) {
-		return registerMapping.get(paramId);
+		if(paramId < 0 || paramId >= param2registerMapping.size())
+			return -1;
+		return param2registerMapping.get(paramId);
+	}
+	
+	/**
+	 * 
+	 * @param regId
+	 * @return pXX for vYY or -1 if error ocurred
+	 */
+	public int mapRegisterToParameter(int regId) {
+		for(int i = 0; i < param2registerMapping.size(); i++)
+			if(regId == param2registerMapping.get(i))
+				return i;
+		return -1;
 	}
 	
 	public void buildRegisterMapping() {
-		registerMapping.clear();
+		param2registerMapping.clear();
 		int currIdx = this.locals;
 		
 		if(!isFlagSet(STATIC)) {
-			registerMapping.add(currIdx);
+			param2registerMapping.add(currIdx);
 			currIdx++;
 		}
 		
 		for(Param param : params) {
-			registerMapping.add(currIdx);
+			param2registerMapping.add(currIdx);
 			if(param.info.is64bit) {
 				currIdx += 2;
 			} else {
@@ -134,7 +153,7 @@ public class SmaliMethod extends SmaliEntity
 		int currIdx = 0;
 		
 		if(!isFlagSet(STATIC)) {
-			registerMapping.add(currIdx);
+			param2registerMapping.add(currIdx);
 			currIdx++;
 		}
 		
@@ -153,7 +172,7 @@ public class SmaliMethod extends SmaliEntity
 		int currIdx = this.locals;
 		
 		if(!isFlagSet(STATIC)) {
-			registerMapping.add(currIdx);
+			param2registerMapping.add(currIdx);
 			currIdx++;
 		}
 		

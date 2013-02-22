@@ -9,7 +9,7 @@ public class Register extends SmaliCodeEntity {
 	 * Used when isParameter == true only.
 	 * Read more: {@link http://code.google.com/p/smali/wiki/Registers}
 	 */
-	protected int mappedId = 0;
+	protected int mappedId = -1;
 	protected boolean isDestination = false;
 	public final RegisterInfo info = new RegisterInfo();
 		

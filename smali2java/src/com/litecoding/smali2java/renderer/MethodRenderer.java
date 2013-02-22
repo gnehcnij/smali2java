@@ -2,6 +2,7 @@ package com.litecoding.smali2java.renderer;
 
 import java.util.List;
 
+import com.litecoding.smali2java.entity.java.Renderable;
 import com.litecoding.smali2java.entity.smali.Param;
 import com.litecoding.smali2java.entity.smali.SmaliEntity;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
@@ -11,6 +12,7 @@ import com.litecoding.smali2java.expression.ExpressionChain;
 import com.litecoding.smali2java.expression.ExpressionChainBuilder;
 import com.litecoding.smali2java.expression.FieldRefExpression;
 import com.litecoding.smali2java.expression.ReturnExpression;
+import com.litecoding.smali2java.renderer.SmaliRenderer.SmaliBlock;
 
 
 public class MethodRenderer {
@@ -21,6 +23,8 @@ public class MethodRenderer {
 	}
 	
 	public String render(SmaliMethod smaliMethod) {
+		
+		//TODO: improve the following
 		StringBuilder builder = new StringBuilder();
 		switch(smaliMethod.getFlagValue(SmaliEntity.MASK_ACCESSIBILITY)) {
 			case SmaliEntity.PUBLIC: {
@@ -66,7 +70,12 @@ public class MethodRenderer {
 			builder.append("\n");
 		builder.append("{\n");
 		
-		builder.append(renderExpressionChain(ExpressionChainBuilder.buildExpressionChain(smaliMethod.getCommands())));
+		//builder.append(renderExpressionChain(ExpressionChainBuilder.buildExpressionChain(smaliMethod.getCommands())));
+		List<Renderable> javaEntities = JavaRenderer.generateJavaEntities(smaliMethod);
+		for(Renderable entity : javaEntities) {
+			builder.append(entity.render());
+			builder.append("\n");
+		}
 		
 		builder.append("}\n\n");
 		return builder.toString();

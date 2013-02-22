@@ -28,7 +28,7 @@ import static com.litecoding.smali2java.Consts.*;
  *
  */
 public class SmaliRenderer {
-	public static class Block {
+	public static class SmaliBlock {
 		public static final AtomicInteger ID = new AtomicInteger();
 		
 		/**
@@ -39,7 +39,7 @@ public class SmaliRenderer {
 		/**
 		 * List of blocks that redirect execution flow to this block. 
 		 */
-		public final List<Block> referencedBy = new LinkedList<Block>();
+		public final List<SmaliBlock> referencedBy = new LinkedList<SmaliBlock>();
 		
 		/**
 		 * Timeline for method registers used in the current block
@@ -77,12 +77,12 @@ public class SmaliRenderer {
 		/**
 		 * Link to next block in cases of true condition, goto or simple redirect.
 		 */
-		public Block nextBlockIfTrue = null;
+		public SmaliBlock nextBlockIfTrue = null;
 		
 		/**
 		 * Link to next block in case of false condition.
 		 */
-		public Block nextBlockIfFalse = null;
+		public SmaliBlock nextBlockIfFalse = null;
 		
 		
 		/*
@@ -95,8 +95,12 @@ public class SmaliRenderer {
 		public boolean internalIsEmpty = true;
 		public Label internalNextLabelIfTrue = null;
 		
-		public Block() {
+		public SmaliBlock() {
 			this.id = ID.incrementAndGet();
+		}
+		
+		public boolean isPlain() {
+			return isRootBlock && isEndsByReturn;
 		}
 		
 		@Override
@@ -113,7 +117,7 @@ public class SmaliRenderer {
 				builder.append("This is the first block\n");
 			} else {
 				builder.append("referenced by: ");
-				for(Block block : referencedBy) {
+				for(SmaliBlock block : referencedBy) {
 					builder.append(block.id);
 					builder.append(" ");
 				}
@@ -177,15 +181,15 @@ public class SmaliRenderer {
 	 * @return list with blocks of code
 	 * @throws UnknownLabelException
 	 */
-	public static Block generateBlocks(SmaliMethod smaliMethod) throws UnknownLabelException {
-		Map<String, Block> labeledBlocks = new HashMap<String, Block>();
-		List<Block> allBlocks = new LinkedList<Block>();
+	public static SmaliBlock generateBlocks(SmaliMethod smaliMethod) throws UnknownLabelException {
+		Map<String, SmaliBlock> labeledBlocks = new HashMap<String, SmaliBlock>();
+		List<SmaliBlock> allBlocks = new LinkedList<SmaliBlock>();
 		
 		//generate root block
-		Block rootBlock = new Block();
+		SmaliBlock rootBlock = new SmaliBlock();
 		rootBlock.isRootBlock = true;
 		
-		Block block = rootBlock;
+		SmaliBlock block = rootBlock;
 		
 		for(SmaliCodeEntity codeEntity : smaliMethod.getCommands()) {
 			//label for outer breaking
@@ -204,7 +208,7 @@ public class SmaliRenderer {
 						labeledBlocks.put(block.smaliLabel.getName(), block);
 					allBlocks.add(block);
 					
-					block = new Block();
+					block = new SmaliBlock();
 					break mainLoop;
 				}
 				case OpcodeData.TYPE_CONDITION: {
@@ -220,8 +224,8 @@ public class SmaliRenderer {
 					allBlocks.add(block);
 					
 					//now we should create a block that follows the current if condition is false
-					Block prevBlock = block;
-					block = new Block();
+					SmaliBlock prevBlock = block;
+					block = new SmaliBlock();
 					prevBlock.nextBlockIfFalse = block;
 					
 					break mainLoop;
@@ -236,7 +240,7 @@ public class SmaliRenderer {
 						labeledBlocks.put(block.smaliLabel.getName(), block);
 					allBlocks.add(block);
 					
-					block = new Block();
+					block = new SmaliBlock();
 					break mainLoop;
 				}
 				default: {
@@ -260,7 +264,7 @@ public class SmaliRenderer {
 						labeledBlocks.put(block.smaliLabel.getName(), block);
 					allBlocks.add(block);
 					
-					block = new Block();
+					block = new SmaliBlock();
 				}
 				
 				//here we have a brand-new block
@@ -271,7 +275,7 @@ public class SmaliRenderer {
 		}
 		
 		//resolve labels
-		for(Block currBlock : allBlocks) {
+		for(SmaliBlock currBlock : allBlocks) {
 			if(currBlock.internalNextLabelIfTrue != null) {
 				String labelName = currBlock.internalNextLabelIfTrue.getName();
 				if(!labeledBlocks.containsKey(labelName)) {
@@ -300,13 +304,13 @@ public class SmaliRenderer {
 	 * Method for debugging. Prints to System.out block chain content and timeline
 	 * @param rootBlock
 	 */
-	public static void printBlockChain(Block rootBlock) {
-		List<Block> printed = new LinkedList<Block>();
-		List<Block> scheduled = new LinkedList<Block>();
+	public static void printBlockChain(SmaliBlock rootBlock) {
+		List<SmaliBlock> printed = new LinkedList<SmaliBlock>();
+		List<SmaliBlock> scheduled = new LinkedList<SmaliBlock>();
 		scheduled.add(rootBlock);
 		
 		while(!scheduled.isEmpty()) {
-			Block currBlock = scheduled.remove(0);
+			SmaliBlock currBlock = scheduled.remove(0);
 			if(!printed.contains(currBlock)) {
 				System.out.println(currBlock);
 				printed.add(currBlock);
@@ -325,7 +329,7 @@ public class SmaliRenderer {
 	 * @param block
 	 * @param method
 	 */
-	private static void buildTimeline(List<Block> blockList, SmaliMethod method) {
+	private static void buildTimeline(List<SmaliBlock> blockList, SmaliMethod method) {
 		buildTimelineForward(blockList, method);
 		buildTimelineBackward(blockList, method);
 	}
@@ -336,7 +340,7 @@ public class SmaliRenderer {
 	 * @param method
 	 * @param lines
 	 */
-	private static void initTimeline(Block block, 
+	private static void initTimeline(SmaliBlock block, 
 			SmaliMethod method, 
 			ArrayList<Instruction> lines) {
 		RegisterTimeline timeline = block.registerTimeline;
@@ -364,8 +368,8 @@ public class SmaliRenderer {
 	 * @param blockList
 	 * @param method
 	 */
-	private static void buildTimelineForward(List<Block> blockList, SmaliMethod method) {
-		Block block = null;
+	private static void buildTimelineForward(List<SmaliBlock> blockList, SmaliMethod method) {
+		SmaliBlock block = null;
 		RegisterTimeline timeline = null;
 		
 		ArrayList<Instruction> lines = new ArrayList<Instruction>(128);
@@ -378,7 +382,7 @@ public class SmaliRenderer {
 			
 			if(block.referencedBy.size() == 1) {
 				//copy data from the end of previous block
-				Block refBlock = block.referencedBy.get(0);
+				SmaliBlock refBlock = block.referencedBy.get(0);
 				RegisterTimeline refTimeline = refBlock.registerTimeline; 
 				int lastLineIdx = refTimeline.getLinesCount() - 1;
 				List<RegisterInfo> prevSlice = refTimeline.getSlice(lastLineIdx);
@@ -397,13 +401,13 @@ public class SmaliRenderer {
 	 * @param blockList
 	 * @param method
 	 */
-	private static void buildTimelineBackward(List<Block> blockList, SmaliMethod method) {
+	private static void buildTimelineBackward(List<SmaliBlock> blockList, SmaliMethod method) {
 		//TODO: implement backward timeline scanning
-		Block block = null;
+		SmaliBlock block = null;
 		RegisterTimeline timeline = null;
 		
-		List<Block> sortedList = new LinkedList<Block>();
-		List<Block> tmpList = new LinkedList<Block>();
+		List<SmaliBlock> sortedList = new LinkedList<SmaliBlock>();
+		List<SmaliBlock> tmpList = new LinkedList<SmaliBlock>();
 		tmpList.addAll(blockList);
 		
 		while(tmpList.size() > 0) {
