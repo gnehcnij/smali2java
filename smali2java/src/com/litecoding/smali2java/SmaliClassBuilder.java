@@ -11,7 +11,7 @@ import com.litecoding.smali2java.entity.smali.SmaliField;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
 import com.litecoding.smali2java.parser.*;
 
-public class SmaliClassBuilder extends BasicSmaliBuilder
+public class SmaliClassBuilder extends BasicCommandsBuilder
 {
 	@Override
 	public Object visit(Rule_smali rule)

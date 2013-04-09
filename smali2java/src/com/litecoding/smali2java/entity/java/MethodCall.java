@@ -120,7 +120,7 @@ public class MethodCall extends JavaEntity {
 			builder.append(param.render());
 			builder.append(", ");
 		}
-		builder.append(")");
+		builder.append(");");
 		
 		return builder.toString();
 	}
