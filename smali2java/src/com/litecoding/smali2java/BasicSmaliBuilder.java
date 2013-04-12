@@ -13,261 +13,227 @@ import com.litecoding.smali2java.entity.smali.Register;
 import com.litecoding.smali2java.entity.smali.RegisterGroup;
 import com.litecoding.smali2java.parser.*;
 
-public abstract class BasicSmaliBuilder extends BasicTextBuilder
-{
+public abstract class BasicSmaliBuilder extends BasicTextBuilder {
 	protected SmaliClass smaliClass = null;
 	protected SmaliMethod currentMethod = null;
 
 	@Override
-	public Object visit(Rule_todoStubLine rule)
-	{
+	public Object visit(Rule_todoStubLine rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_padding rule)
-	{
+	public Object visit(Rule_padding rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_optPadding rule)
-	{
+	public Object visit(Rule_optPadding rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_widePadding rule)
-	{
+	public Object visit(Rule_widePadding rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_listSeparator rule)
-	{
-		return rule.spelling;
-	}
-
-	@Override
-	public Object visit(Rule_qualifier rule)
-	{
-		return rule.spelling;
-	}
-
-	@Override
-	public Object visit(Rule_className rule)
-	{
-		return rule.spelling;
-	}
-
-	@Override
-	public Object visit(Rule_commentSequence rule)
-	{
+	public Object visit(Rule_optWidePadding rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_comment rule)
-	{
+	public Object visit(Rule_listSeparator rule) {
 		return rule.spelling;
 	}
 
 	@Override
-	public Object visit(Rule_emptyLine rule)
-	{
+	public Object visit(Rule_qualifier rule) {
 		return rule.spelling;
 	}
 
 	@Override
-	public Object visit(Rule_skipLine rule)
-	{
+	public Object visit(Rule_className rule) {
 		return rule.spelling;
 	}
 
 	@Override
-	public Object visit(Rule_fileName rule)
-	{
-		return rule.spelling;
-	}
-
-	@Override
-	public Object visit(Rule_accessMode rule)
-	{
+	public Object visit(Rule_commentSequence rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_dirClass rule)
-	{
-		return rule.spelling;
-	}
-	
-	@Override
-	public Object visit(Rule_dirSuper rule)
-	{
-		return rule.spelling;
-	}
-	
-	@Override
-	public Object visit(Rule_dirSource rule)
-	{
+	public Object visit(Rule_comment rule) {
 		return rule.spelling;
 	}
 
 	@Override
-	public Object visit(Rule_dirImplements rule)
-	{
+	public Object visit(Rule_emptyLine rule) {
 		return rule.spelling;
 	}
 
 	@Override
-	public Object visit(Rule_dirAnnotation rule)
-	{
+	public Object visit(Rule_skipLine rule) {
+		return rule.spelling;
+	}
+
+	@Override
+	public Object visit(Rule_fileName rule) {
+		return rule.spelling;
+	}
+
+	@Override
+	public Object visit(Rule_accessMode rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_dirEndAnnotation rule)
-	{
+	public Object visit(Rule_interfaceMode rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_dirEndSubannotation rule)
-	{
+	public Object visit(Rule_dirClass rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_dirField rule)
-	{
+	public Object visit(Rule_dirSuper rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_dirEndField rule)
-	{
+	public Object visit(Rule_dirSource rule) {
 		return rule.spelling;
 	}
 
 	@Override
-	public Object visit(Rule_dirMethod rule)
-	{
+	public Object visit(Rule_dirImplements rule) {
+		return rule.spelling;
+	}
+
+	@Override
+	public Object visit(Rule_dirAnnotation rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_dirSubannotation rule)
-	{
+	public Object visit(Rule_dirEndAnnotation rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_annotation rule)
-	{
+	public Object visit(Rule_dirEndSubannotation rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_annotationVisibility rule)
-	{
+	public Object visit(Rule_dirField rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_annotationBody rule)
-	{
+	public Object visit(Rule_dirEndField rule) {
 		return rule.spelling;
 	}
 
 	@Override
-	public Object visit(Rule_type rule)
-	{
-		return rule.spelling;
-	}
-
-	@Override
-	public Object visit(Rule_boolValue rule)
-	{
-		return rule.spelling;
-	}
-
-	@Override
-	public Object visit(Rule_intValue rule)
-	{
+	public Object visit(Rule_dirMethod rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_intDecValue rule)
-	{
-		return rule.spelling;
-	}
-
-	@Override
-	public Object visit(Rule_intHexValue rule)
-	{
-		return rule.spelling;
-	}
-
-
-	@Override
-	public Object visit(Rule_strValue rule)
-	{
-		return rule.spelling;
-	}
-
-	@Override
-	public Object visit(Rule_value rule)
-	{
-		return rule.spelling;
-	}
-
-	@Override
-	public Object visit(Rule_dirEnd rule)
-	{
-		return rule.spelling;
-	}
-
-	@Override
-	public Object visit(Rule_dirEndMethod rule)
-	{
+	public Object visit(Rule_dirSubannotation rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_dirRegisters rule)
-	{
+	public Object visit(Rule_annotation rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_dirLocal rule)
-	{
+	public Object visit(Rule_annotationVisibility rule) {
+		return rule.spelling;
+	}
+	
+	@Override
+	public Object visit(Rule_annotationBody rule) {
 		return rule.spelling;
 	}
 
 	@Override
-	public Object visit(Rule_escSymbol rule)
-	{
+	public Object visit(Rule_type rule) {
+		return rule.spelling;
+	}
+
+	@Override
+	public Object visit(Rule_boolValue rule) {
+		return rule.spelling;
+	}
+
+	@Override
+	public Object visit(Rule_intValue rule) {
+		return rule.spelling;
+	}
+	
+	@Override
+	public Object visit(Rule_intDecValue rule) {
+		return rule.spelling;
+	}
+
+	@Override
+	public Object visit(Rule_intHexValue rule) {
+		return rule.spelling;
+	}
+
+	@Override
+	public Object visit(Rule_strValue rule) {
+		return rule.spelling;
+	}
+
+	@Override
+	public Object visit(Rule_value rule) {
+		return rule.spelling;
+	}
+
+	@Override
+	public Object visit(Rule_dirEnd rule) {
+		return rule.spelling;
+	}
+
+	@Override
+	public Object visit(Rule_dirEndMethod rule) {
+		return rule.spelling;
+	}
+	
+	@Override
+	public Object visit(Rule_dirRegisters rule) {
+		return rule.spelling;
+	}
+	
+	@Override
+	public Object visit(Rule_dirLocal rule) {
+		return rule.spelling;
+	}
+
+	@Override
+	public Object visit(Rule_escSymbol rule) {
 		return rule.spelling;
 	}		
 
 	@Override
-	public Object visit(Rule_smaliConstructorName rule)
-	{
+	public Object visit(Rule_smaliConstructorName rule) {
 		return rule.spelling;
 	}
 	
 	@Override
-	public Object visit(Rule_classConstructorName rule)
-	{
+	public Object visit(Rule_classConstructorName rule) {
 		return rule.spelling;
 	}
 
 	@Override
-	public Object visit(Rule_label rule)
-	{
+	public Object visit(Rule_label rule) {
 		for(Rule innerRule : rule.rules) {
 			if(innerRule instanceof Rule_codeLabel)
 				return EntityFactory.createLabel(innerRule.rules.get(1).spelling);
@@ -276,14 +242,12 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}
 
 	@Override
-	public Object visit(Rule_codeRegisterP rule)
-	{
+	public Object visit(Rule_codeRegisterP rule) {
 		return generateRegisterFromRule(rule);
 	}
 
 	@Override
-	public Object visit(Rule_codeRegisterV rule)
-	{		
+	public Object visit(Rule_codeRegisterV rule) {		
 		return generateRegisterFromRule(rule);
 	}
 	
@@ -293,20 +257,17 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}
 	
 	@Override
-	public Object visit(Rule_codeRegisterVDst rule)
-	{		
+	public Object visit(Rule_codeRegisterVDst rule) {		
 		return generateRegisterFromRule(rule);
 	}
 	
 	@Override
-	public Object visit(Rule_codeRegisterP64 rule)
-	{
+	public Object visit(Rule_codeRegisterP64 rule) {
 		return generateRegisterFromRule(rule);
 	}
 
 	@Override
-	public Object visit(Rule_codeRegisterV64 rule)
-	{		
+	public Object visit(Rule_codeRegisterV64 rule) {		
 		return generateRegisterFromRule(rule);
 	}
 	
@@ -343,14 +304,12 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 		String name = "";
 		String type = "";
 		
-		for(Rule innerRule : rule.rules)
-		{
+		for(Rule innerRule : rule.rules) {
 			if(innerRule instanceof Rule_className)
 				className = innerRule.spelling;
 			else if(innerRule instanceof Rule_qualifier)
 				name = innerRule.spelling;
-			else if(innerRule instanceof Rule_type)
-			{
+			else if(innerRule instanceof Rule_type) {
 				type = innerRule.spelling;
 				smaliClass.addImport(type);
 			}
@@ -360,27 +319,21 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object visit(Rule_smaliMethodRef rule)
-	{
+	public Object visit(Rule_smaliMethodRef rule) {
 		MethodRef ref = EntityFactory.createCommonMethodRef();
-		for(Rule innerRule : rule.rules)
-		{
+		for(Rule innerRule : rule.rules) {
 			if(innerRule instanceof Rule_className)
 				ref.setClassName(innerRule.spelling);
 			else if(innerRule instanceof Rule_qualifier)
 				ref.setName(innerRule.spelling);
-			else if(innerRule instanceof Rule_smaliConstructorName)
-			{
+			else if(innerRule instanceof Rule_smaliConstructorName) {
 				ref.setName(innerRule.spelling);
 				ref.setConstructor(true);
-			}
-			else if(innerRule instanceof Rule_classMethodProto)
-			{
+			} else if(innerRule instanceof Rule_classMethodProto) {
 				List<Param> protoParams = (List<Param>)innerRule.accept(this);
 				ref.setReturnType(protoParams.remove(0).getType());
 				smaliClass.addImport(ref.getReturnType());
-				for(Param param : protoParams)
-				{
+				for(Param param : protoParams) {
 					ref.addParam(param);
 					smaliClass.addImport(param.getType());
 				}
@@ -390,14 +343,11 @@ public abstract class BasicSmaliBuilder extends BasicTextBuilder
 	}	
 	
 	@Override
-	public Object visit(Rule_codeRegisterGroup rule)
-	{
+	public Object visit(Rule_codeRegisterGroup rule) {
 		RegisterGroup group = new RegisterGroup();
-		for(Rule innerRule : rule.rules)
-		{
+		for(Rule innerRule : rule.rules) {
 			if(innerRule instanceof Rule_codeRegisterV ||
-			   innerRule instanceof Rule_codeRegisterP)
-			{
+			   innerRule instanceof Rule_codeRegisterP) {
 				group.addArgument((SmaliCodeEntity)innerRule.accept(this));
 			}
 		}

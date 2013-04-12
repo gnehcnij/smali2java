@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
- * Rule_SEMICOLON.java
+ * Rule_interfaceMode.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_SEMICOLON extends Rule
+final public class Rule_interfaceMode extends Rule
 {
-  private Rule_SEMICOLON(String spelling, ArrayList<Rule> rules)
+  private Rule_interfaceMode(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_SEMICOLON extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_SEMICOLON parse(ParserContext context)
+  public static Rule_interfaceMode parse(ParserContext context)
   {
-    context.push("SEMICOLON");
+    context.push("interfaceMode");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -46,7 +46,7 @@ final public class Rule_SEMICOLON extends Rule
           int c1 = 0;
           for (int i1 = 0; i1 < 1 && f1; i1++)
           {
-            rule = Terminal_NumericValue.parse(context, "%x3b", "[\\x3b]", 1);
+            rule = Terminal_StringValue.parse(context, "interface");
             if ((f1 = rule != null))
             {
               e1.add(rule);
@@ -64,13 +64,13 @@ final public class Rule_SEMICOLON extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_SEMICOLON(context.text.substring(s0, context.index), e0);
+      rule = new Rule_interfaceMode(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("SEMICOLON", parsed);
+    context.pop("interfaceMode", parsed);
 
-    return (Rule_SEMICOLON)rule;
+    return (Rule_interfaceMode)rule;
   }
 }
 

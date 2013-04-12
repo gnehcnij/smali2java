@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Tue Feb 19 14:42:37 MUT 2013
+ * Produced : Fri Apr 12 10:40:21 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -48,6 +48,18 @@ public class XmlDisplayer implements Visitor
     visitRules(rule.rules);
     if (!terminal) System.out.println();
     System.out.print("</widePadding>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_optWidePadding rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<optWidePadding>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</optWidePadding>");
     terminal = false;
     return null;
   }
@@ -168,6 +180,18 @@ public class XmlDisplayer implements Visitor
     visitRules(rule.rules);
     if (!terminal) System.out.println();
     System.out.print("</accessMode>");
+    terminal = false;
+    return null;
+  }
+
+  public Object visit(Rule_interfaceMode rule)
+  {
+    if (!terminal) System.out.println();
+    System.out.print("<interfaceMode>");
+    terminal = false;
+    visitRules(rule.rules);
+    if (!terminal) System.out.println();
+    System.out.print("</interfaceMode>");
     terminal = false;
     return null;
   }

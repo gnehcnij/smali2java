@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Tue Feb 19 14:42:37 MUT 2013
+ * Produced : Fri Apr 12 10:40:21 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -163,6 +163,7 @@ public class Parser
     if (rulename.equalsIgnoreCase("padding")) rule = Rule_padding.parse(context);
     else if (rulename.equalsIgnoreCase("optPadding")) rule = Rule_optPadding.parse(context);
     else if (rulename.equalsIgnoreCase("widePadding")) rule = Rule_widePadding.parse(context);
+    else if (rulename.equalsIgnoreCase("optWidePadding")) rule = Rule_optWidePadding.parse(context);
     else if (rulename.equalsIgnoreCase("listSeparator")) rule = Rule_listSeparator.parse(context);
     else if (rulename.equalsIgnoreCase("escSymbol")) rule = Rule_escSymbol.parse(context);
     else if (rulename.equalsIgnoreCase("qualifier")) rule = Rule_qualifier.parse(context);
@@ -173,6 +174,7 @@ public class Parser
     else if (rulename.equalsIgnoreCase("skipLine")) rule = Rule_skipLine.parse(context);
     else if (rulename.equalsIgnoreCase("fileName")) rule = Rule_fileName.parse(context);
     else if (rulename.equalsIgnoreCase("accessMode")) rule = Rule_accessMode.parse(context);
+    else if (rulename.equalsIgnoreCase("interfaceMode")) rule = Rule_interfaceMode.parse(context);
     else if (rulename.equalsIgnoreCase("type")) rule = Rule_type.parse(context);
     else if (rulename.equalsIgnoreCase("boolValue")) rule = Rule_boolValue.parse(context);
     else if (rulename.equalsIgnoreCase("intDecValue")) rule = Rule_intDecValue.parse(context);

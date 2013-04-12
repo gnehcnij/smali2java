@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Tue Feb 19 14:42:37 MUT 2013
+ * Produced : Fri Apr 12 10:40:21 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -15,6 +15,7 @@ public interface Visitor
   public Object visit(Rule_padding rule);
   public Object visit(Rule_optPadding rule);
   public Object visit(Rule_widePadding rule);
+  public Object visit(Rule_optWidePadding rule);
   public Object visit(Rule_listSeparator rule);
   public Object visit(Rule_escSymbol rule);
   public Object visit(Rule_qualifier rule);
@@ -25,6 +26,7 @@ public interface Visitor
   public Object visit(Rule_skipLine rule);
   public Object visit(Rule_fileName rule);
   public Object visit(Rule_accessMode rule);
+  public Object visit(Rule_interfaceMode rule);
   public Object visit(Rule_type rule);
   public Object visit(Rule_boolValue rule);
   public Object visit(Rule_intDecValue rule);

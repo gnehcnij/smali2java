@@ -68,7 +68,13 @@ public class ClassRenderer
 			builder.append("abstract ");
 		}
 		
-		builder.append("class ");
+		if(smaliClass.isFlagSet(SmaliEntity.INTERFACE)) {
+			builder.append("interface ");
+		} else {
+			builder.append("class ");
+		}
+		
+		
 		builder.append(JavaRenderUtils.renderShortJavaClassName(smaliClass.getClassName()));
 		if(!isEgyptianBraces)
 			builder.append("\n");

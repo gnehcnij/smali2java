@@ -3,7 +3,7 @@
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
- * Produced : Tue Feb 19 14:42:37 MUT 2013
+ * Produced : Fri Apr 12 10:40:21 MUT 2013
  *
  * -----------------------------------------------------------------------------
  */
@@ -26,6 +26,11 @@ public class Displayer implements Visitor
   }
 
   public Object visit(Rule_widePadding rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_optWidePadding rule)
   {
     return visitRules(rule.rules);
   }
@@ -76,6 +81,11 @@ public class Displayer implements Visitor
   }
 
   public Object visit(Rule_accessMode rule)
+  {
+    return visitRules(rule.rules);
+  }
+
+  public Object visit(Rule_interfaceMode rule)
   {
     return visitRules(rule.rules);
   }

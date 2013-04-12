@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
- * Rule_intHexValue.java
+ * Rule_optWidePadding.java
  * -----------------------------------------------------------------------------
  *
  * Producer : com.parse2.aparse.Parser 2.3
@@ -12,9 +12,9 @@ package com.litecoding.smali2java.parser;
 
 import java.util.ArrayList;
 
-final public class Rule_intHexValue extends Rule
+final public class Rule_optWidePadding extends Rule
 {
-  private Rule_intHexValue(String spelling, ArrayList<Rule> rules)
+  private Rule_optWidePadding(String spelling, ArrayList<Rule> rules)
   {
     super(spelling, rules);
   }
@@ -24,9 +24,9 @@ final public class Rule_intHexValue extends Rule
     return visitor.visit(this);
   }
 
-  public static Rule_intHexValue parse(ParserContext context)
+  public static Rule_optWidePadding parse(ParserContext context)
   {
-    context.push("intHexValue");
+    context.push("optWidePadding");
 
     boolean parsed = true;
     int s0 = context.index;
@@ -61,7 +61,7 @@ final public class Rule_intHexValue extends Rule
                   int c2 = 0;
                   for (int i2 = 0; i2 < 1 && f2; i2++)
                   {
-                    rule = Terminal_NumericValue.parse(context, "%x2d", "[\\x2d]", 1);
+                    rule = Rule_widePadding.parse(context);
                     if ((f2 = rule != null))
                     {
                       e2.add(rule);
@@ -82,60 +82,6 @@ final public class Rule_intHexValue extends Rule
           parsed = true;
         }
         if (parsed)
-        {
-          boolean f1 = true;
-          int c1 = 0;
-          for (int i1 = 0; i1 < 1 && f1; i1++)
-          {
-            rule = Terminal_NumericValue.parse(context, "%x30", "[\\x30]", 1);
-            if ((f1 = rule != null))
-            {
-              e1.add(rule);
-              c1++;
-            }
-          }
-          parsed = c1 == 1;
-        }
-        if (parsed)
-        {
-          boolean f1 = true;
-          int c1 = 0;
-          for (int i1 = 0; i1 < 1 && f1; i1++)
-          {
-            rule = Terminal_NumericValue.parse(context, "%x78", "[\\x78]", 1);
-            if ((f1 = rule != null))
-            {
-              e1.add(rule);
-              c1++;
-            }
-          }
-          parsed = c1 == 1;
-        }
-        if (parsed)
-        {
-          boolean f1 = true;
-          int c1 = 0;
-          for (int i1 = 0; i1 < 1 && f1; i1++)
-          {
-            rule = Rule_HEXDIG.parse(context);
-            if ((f1 = rule != null))
-            {
-              e1.add(rule);
-              c1++;
-            }
-          }
-          while (f1)
-          {
-            rule = Rule_HEXDIG.parse(context);
-            if ((f1 = rule != null))
-            {
-              e1.add(rule);
-              c1++;
-            }
-          }
-          parsed = c1 >= 1;
-        }
-        if (parsed)
           e0.addAll(e1);
         else
           context.index = s1;
@@ -144,13 +90,13 @@ final public class Rule_intHexValue extends Rule
 
     rule = null;
     if (parsed)
-      rule = new Rule_intHexValue(context.text.substring(s0, context.index), e0);
+      rule = new Rule_optWidePadding(context.text.substring(s0, context.index), e0);
     else
       context.index = s0;
 
-    context.pop("intHexValue", parsed);
+    context.pop("optWidePadding", parsed);
 
-    return (Rule_intHexValue)rule;
+    return (Rule_optWidePadding)rule;
   }
 }
 

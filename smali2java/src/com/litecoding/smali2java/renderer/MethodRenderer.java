@@ -9,10 +9,8 @@ import com.litecoding.smali2java.entity.smali.SmaliMethod;
 import com.litecoding.smali2java.expression.ConstExpression;
 import com.litecoding.smali2java.expression.Expression;
 import com.litecoding.smali2java.expression.ExpressionChain;
-import com.litecoding.smali2java.expression.ExpressionChainBuilder;
 import com.litecoding.smali2java.expression.FieldRefExpression;
 import com.litecoding.smali2java.expression.ReturnExpression;
-import com.litecoding.smali2java.renderer.SmaliRenderer.SmaliBlock;
 
 
 public class MethodRenderer {
@@ -65,19 +63,24 @@ public class MethodRenderer {
 		}
 		
 		builder.append(renderMethodProto(smaliMethod.getParams()));
+		
+		if(smaliMethod.getSmaliClass().isFlagSet(SmaliEntity.INTERFACE) && 
+				smaliMethod.getCommands().size() == 0) {
+			builder.append(";\n");
+		} else {
+			if(!isEgyptianBraces)
+				builder.append("\n");
+			builder.append("{\n");
 			
-		if(!isEgyptianBraces)
-			builder.append("\n");
-		builder.append("{\n");
-		
-		//builder.append(renderExpressionChain(ExpressionChainBuilder.buildExpressionChain(smaliMethod.getCommands())));
-		List<Renderable> javaEntities = JavaRenderer.generateJavaEntities(smaliMethod);
-		for(Renderable entity : javaEntities) {
-			builder.append(entity.render());
-			builder.append("\n");
+			//builder.append(renderExpressionChain(ExpressionChainBuilder.buildExpressionChain(smaliMethod.getCommands())));
+			List<Renderable> javaEntities = JavaRenderer.generateJavaEntities(smaliMethod);
+			for(Renderable entity : javaEntities) {
+				builder.append(entity.render());
+				builder.append("\n");
+			}
+			
+			builder.append("}\n\n");
 		}
-		
-		builder.append("}\n\n");
 		return builder.toString();
 	}
 
