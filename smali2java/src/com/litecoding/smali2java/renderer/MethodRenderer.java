@@ -6,11 +6,6 @@ import com.litecoding.smali2java.entity.java.Renderable;
 import com.litecoding.smali2java.entity.smali.Param;
 import com.litecoding.smali2java.entity.smali.SmaliEntity;
 import com.litecoding.smali2java.entity.smali.SmaliMethod;
-import com.litecoding.smali2java.expression.ConstExpression;
-import com.litecoding.smali2java.expression.Expression;
-import com.litecoding.smali2java.expression.ExpressionChain;
-import com.litecoding.smali2java.expression.FieldRefExpression;
-import com.litecoding.smali2java.expression.ReturnExpression;
 
 
 public class MethodRenderer {
@@ -72,7 +67,6 @@ public class MethodRenderer {
 				builder.append("\n");
 			builder.append("{\n");
 			
-			//builder.append(renderExpressionChain(ExpressionChainBuilder.buildExpressionChain(smaliMethod.getCommands())));
 			List<Renderable> javaEntities = JavaRenderer.generateJavaEntities(smaliMethod);
 			for(Renderable entity : javaEntities) {
 				builder.append(entity.render());
@@ -131,29 +125,6 @@ public class MethodRenderer {
 		builder.append(tmp.substring(0, 1).toUpperCase());
 		builder.append(tmp.substring(1));
 		builder.append(i);
-		return builder.toString();
-	}
-
-	private String renderExpressionChain(ExpressionChain chain) {	
-		StringBuilder builder = new StringBuilder();
-		for(Expression expression : chain.expressions) {
-			if(expression instanceof ReturnExpression) {
-				builder.append("return");
-				Expression returnExpression = ((ReturnExpression)expression).getReturnExpression(); 
-				if(returnExpression != null) {
-					builder.append(" ");
-					if(returnExpression instanceof ConstExpression)
-						builder.append(((ConstExpression)returnExpression).getValue());
-					else if(returnExpression instanceof FieldRefExpression) {
-						FieldRefExpression fldRefExpr = (FieldRefExpression)returnExpression;
-						if(fldRefExpr.getObject() == null)
-							builder.append("this.");
-						builder.append(fldRefExpr.getFieldName());
-					}
-				}
-				builder.append(";\n");
-			}
-		}
 		return builder.toString();
 	}
 
