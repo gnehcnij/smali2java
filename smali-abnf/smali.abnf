@@ -35,6 +35,14 @@ intValue = intHexValue / intDecValue;
 strValue = QUOT *escSymbol QUOT;
 value = boolValue / intValue / strValue;
 codeLabel = COLON qualifier;
+
+#HINT: What is codeRegisterXXX?
+#The naming convention for codeRegister is [P/V]([Ret][64] / [64][Dst]). TODO: rename Ret64 to 64Ret.
+# [_] P is stands for parameter register
+# [_] V is stands for variable register
+# [_] 64 is stands for 64-bit addressing (sets special flag in smali entity, useful for type detection)
+# [_] Dst is stands for destination register (sets special flag in smali entity, useful for type detection)
+# [_] Ret is used in return statements only (sets special flag in smali entity, useful for type detection)
 codeRegisterP = "p" intDecValue;
 codeRegisterP64 = "p" intDecValue;
 codeRegisterV = "v" intDecValue;
@@ -45,7 +53,7 @@ codeRegister = codeRegisterP / codeRegisterV;
 codeRegister64 = codeRegisterP64 / codeRegisterV64;
 codeRegisterRet = codeRegisterP / codeRegisterV;
 codeRegisterRet64 = codeRegisterP64 / codeRegisterV64;
-codeRegisterGroup = "{" optPadding (codeRegisterP / codeRegisterV) optPadding *(COMMA optPadding (codeRegisterP / codeRegisterV) optPadding) "}";
+codeRegisterGroup = "{" [optPadding (codeRegisterP / codeRegisterV) optPadding *(COMMA optPadding (codeRegisterP / codeRegisterV) optPadding)] "}";
 
 #####SMALI DIRECTIVE RULES#####
 dirAnnotation = ".annotation";
@@ -91,13 +99,13 @@ annotationBody = optPadding "value" optPadding "=" optWidePadding "{" [optWidePa
 
 
 #####SMALI FIELD RULES#####
-classField = optPadding dirField padding *(accessMode padding) qualifier COLON type optPadding [EQ optPadding value] optPadding CRLF [dirEndField optPadding CRLF];
+classField = optPadding dirField padding *(accessMode padding) qualifier COLON type optPadding [EQ optPadding value] optPadding CRLF [optWidePadding annotation widePadding dirEndField optPadding CRLF];
 
 #####SMALI METHOD RULES#####
 classMethod = optPadding dirMethod padding *(accessMode padding) (classConstructorName / qualifier) optPadding classMethodProto optPadding CRLF methodBody optPadding dirEndMethod optPadding CRLF;
 classConstructorName = "constructor" padding smaliConstructorName;
 classMethodProto = %x28 *type %x29 type;
-methodBody = *skipLine [methodLocals] *skipLine [methodRegisters] *(methodParam / annotation / skipLine) [methodPrologue] *(methodLine / methodLocal / cmdAny / label / skipLine);
+methodBody = *skipLine [methodLocals] *skipLine [methodRegisters] *(methodParam / annotation / skipLine) [methodPrologue] *(methodLine / methodLocal / annotation / cmdAny / label / skipLine);
 
 label = optPadding codeLabel optPadding [commentSequence] CRLF;
 
