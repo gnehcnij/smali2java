@@ -5,25 +5,25 @@ import java.util.List;
 
 /**
  * Simple plain code block
- * @author Dmitry Vorobiev
  *
+ * @author Dmitry Vorobiev
  */
 public class PlainCodeBlock extends CodeBlock {
-	
-	protected List<Renderable> mItems = new LinkedList<Renderable>();
 
-	public List<Renderable> getItems() {
-		return mItems;
-	}
-	
-	@Override
-	public String render() {
-		StringBuilder builder = new StringBuilder();
-		
-		for(Renderable line : mItems)
-			builder.append(line.render());
-		
-		return builder.toString();
-	}
+    protected List<Renderable> mItems = new LinkedList<Renderable>();
+
+    public List<Renderable> getItems() {
+        return mItems;
+    }
+
+    @Override
+    public String render() {
+        StringBuilder builder = new StringBuilder();
+
+        for (Renderable line : mItems)
+            builder.append(line.render());
+
+        return builder.toString();
+    }
 
 }

@@ -11,3 +11,8 @@
 
 /.metadata
 /smali2java/bin
+
+/smali2java/.gradle
+/smali2java/.idea
+/smali2java/build
+/smali2java/smali
